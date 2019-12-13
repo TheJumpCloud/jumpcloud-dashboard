@@ -1,21 +1,24 @@
 Function Start-JCDashboard
 {
     Param(
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = 'Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.')]
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, HelpMessage = 'Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.')]
         [ValidateNotNullOrEmpty()]
         [ValidateLength(40, 40)]
         [System.String]
         $JumpCloudApiKey
     )
-    ## Install PreReqs
-    # Install-Module JumpCloud
-    # Import-Module JumpCloud
-    # Install-Module UniversalDashboard.Community -AcceptLicense
-    # Import-Module UniversalDashboard
-    # Get-Command -Module UniversalDashboard.Community
 
-    ## Authenticate
-    Connect-JCOnline -JumpCloudApiKey:($JumpCloudApiKey)
+
+    ## Authentication
+    if ($JumpCloudApiKey)
+    {
+        Connect-JCOnline -JumpCloudApiKey:($JumpCloudApiKey) -force
+    }
+    else
+    {
+        if ($JCAPIKEY.length -ne 40) { Connect-JConline }
+    }
+    
     ## Stop existing dashboards
     Get-UDDashboard | Stop-UDDashboard
     ## Declare container variables for dashboard items
@@ -23,13 +26,14 @@ Function Start-JCDashboard
     $UDSideNavItems = @()
     $Scripts = @()
     $Stylesheets = @()
-    $PublishedFolder = Publish-UDFolder -Path:($PSScriptRoot + '/Images') -RequestPath "/Images"
+
     ## Get files from "Content-Pages" folder
-    $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Content-Pages/*.ps1') -Recurse
+    $PublishedFolder = Publish-UDFolder -Path:($PSScriptRoot + '/Private/' + '/Images') -RequestPath "/Images"
+    $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Private/' + '/Content-Pages/*.ps1') -Recurse
     ## Call functions to build dashboard
     ##############################################################################################################
-    $Theme = Invoke-Expression -Command:($PSScriptRoot + '/Theme/Theme.ps1')
-    $NavBarLinks = Invoke-Expression -Command:($PSScriptRoot + '/Navigation/NavBarLinks.ps1')
+    $Theme = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Theme/Theme.ps1')
+    $NavBarLinks = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Navigation/NavBarLinks.ps1')
     ##############################################################################################################
     $ContentPagesFiles | ForEach-Object {
         ## Load functions from "Content-Pages" folder
@@ -58,7 +62,7 @@ Function Start-JCDashboard
     ## Start the dashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:(8000) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
     ## Opens the dashboard
-    #Start-Process -FilePath 'http://127.0.0.1:8000'
+    Start-Process -FilePath 'http://127.0.0.1:8000'
 
 
     # New-UDDashboard
