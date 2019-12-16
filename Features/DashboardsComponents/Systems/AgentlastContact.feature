@@ -10,8 +10,6 @@ Feature: System Dashboard Agent Last Contact Component
         When the user looks at the Agent Last Contact graph
         Then the agent last contact graph shows an accurate reflection of the last contact date of systems grouped into date ranges
 
-
-
     Scenario: Agent Last Contact Table Loads
 
         Given the Systems Dashboard Loads
