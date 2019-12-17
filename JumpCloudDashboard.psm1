@@ -1,6 +1,8 @@
 $Public = @( Get-ChildItem -Path "$PSScriptRoot/*.ps1")
 
-$Private = @( Get-ChildItem -Path "$PSScriptRoot/*/*.ps1" -Recurse)
+$Private = @( Get-ChildItem -Path "$PSScriptRoot/Private/*.ps1" -Recurse)
+
+
 
 Foreach ($Function In @($Public + $Private))
 {
