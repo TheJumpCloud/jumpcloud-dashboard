@@ -16,11 +16,19 @@ Function Start-JCDashboard
     }
     else
     {
-        if ($JCAPIKEY.length -ne 40) { Connect-JConline }
+        if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
     }
-    
+
+    ## Gather org name
+    ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
+    $OrgName = $JCSettings.SETTINGS.name
+
     ## Stop existing dashboards
     Get-UDDashboard | Stop-UDDashboard
+
+    # ## Import Settings File
+    $DashboardSettings = Get-Content -Raw -Path:($PSScriptRoot + '/' + 'DashboardSettings.json') | ConvertFrom-Json
+
     ## Declare container variables for dashboard items
     $UDPages = @()
     $UDSideNavItems = @()
@@ -38,8 +46,25 @@ Function Start-JCDashboard
     $ContentPagesFiles | ForEach-Object {
         ## Load functions from "Content-Pages" folder
         .($_.FullName)
-        ## Run function
-        $CommandResults = Invoke-Expression -Command:($_.BaseName)
+
+        Write-Verbose "Loading $($_.BaseName)"
+        ## Load the Page Settings
+        $PageSettings = $($DashboardSettings."$($_.BaseName)".'Settings')
+
+        Write-Debug $PageSettings
+
+        ## Compile the parameters
+        $commandParams = ''
+
+        $($PageSettings).PSObject.Properties | ForEach-Object {
+            $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
+        }
+
+        Write-Debug $commandParams
+
+        ## Run function to load the page
+        $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"
+
         ## Add the output to the container variable
         $UDPages += $CommandResults.UDPage
         $UDSideNavItems += $CommandResults.UDSideNavItem
@@ -48,7 +73,7 @@ Function Start-JCDashboard
     $Navigation = New-UDSideNav -Content { $UDSideNavItems }
     $Pages = $UDPages
     $Dashboard = New-UDDashboard `
-        -Title:('JumpCloud Directory Dashboard') `
+        -Title:("$($OrgName) Dashboard") `
         -Theme:($Theme) `
         -Pages:($Pages) `
         -Navigation:($Navigation) `
