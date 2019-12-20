@@ -51,8 +51,6 @@ Function Start-JCDashboard
         ## Load the Page Settings
         $PageSettings = $($DashboardSettings."$($_.BaseName)".'Settings')
 
-        Write-Debug $PageSettings
-
         ## Compile the parameters
         $commandParams = ''
 
@@ -86,32 +84,8 @@ Function Start-JCDashboard
 
     ## Start the dashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:(8000) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
+
     ## Opens the dashboard
     Start-Process -FilePath 'http://127.0.0.1:8000'
 
-
-    # New-UDDashboard
-    # -Content <scriptblock>                   OR             -Pages <Page[]>
-    # -Navigation <SideNav>
-    # -Scripts <string[]>
-    # -Stylesheets <string[]>
-    # -Footer <Footer>
-
-    # -Title <string>
-    # -CyclePages
-    # -CyclePagesInterval <int>
-    # -NavBarColor <DashboardColor>
-    # -NavBarFontColor <DashboardColor>
-    # -NavbarLinks <hashtable[]>
-    # -NavBarLogo <Element>
-    # -BackgroundColor <DashboardColor>
-    # -FontColor <DashboardColor>
-    # -Theme <Theme>
-    # -EndpointInitialization <initialsessionstate>
-    # -GeoLocation
-    # -IdleTimeout <timespan>
-
-
-
-    # $systeminsights22.UDPage.components
 }
