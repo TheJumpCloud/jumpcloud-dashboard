@@ -5,7 +5,9 @@ Function Start-JCDashboard
         [ValidateNotNullOrEmpty()]
         [ValidateLength(40, 40)]
         [System.String]
-        $JumpCloudApiKey
+        $JumpCloudApiKey,
+
+        [Switch]$Beta
     )
 
 
@@ -37,7 +39,16 @@ Function Start-JCDashboard
 
     ## Get files from "Content-Pages" folder
     $PublishedFolder = Publish-UDFolder -Path:($PSScriptRoot + '/Private/' + '/Images') -RequestPath "/Images"
-    $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Private/' + '/Content-Pages/*.ps1') -Recurse
+
+    if ($Beta)
+    {
+        # If Beta Selected Then Load All Content-Pages
+        $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Private/' + '/Content-Pages/*.ps1') -Recurse
+    }
+    else
+    {
+        $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Private/' + '/Content-Pages/Default/*.ps1') -Recurse
+    }
     ## Call functions to build dashboard
     ##############################################################################################################
     $Theme = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Theme/Theme.ps1')
