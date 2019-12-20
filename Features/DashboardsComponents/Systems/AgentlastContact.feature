@@ -4,6 +4,10 @@ Feature: System Dashboard Agent Last Contact Component
 
     Note the dashboard will not load unless there are JumpCloud systems.
 
+    Scenario: Organization has JumpCloud systems but systems do not have a lastContact date
+
+
+
     Scenario: Agent Last Contact Graph Loads
 
         Given the Systems Dashboard loads

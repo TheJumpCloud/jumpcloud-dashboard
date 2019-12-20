@@ -6,4 +6,4 @@ Feature: System Dashboard New Systems Component
 
         Given the System Dashboard loads
         When the user looks at the new systems table
-        Then then the table loads an sorted list of systems added in the last 7 days
+        Then then the table loads an sorted list of newly registered systems.

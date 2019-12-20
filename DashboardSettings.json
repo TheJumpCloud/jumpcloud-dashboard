@@ -1,0 +1,12 @@
+[
+    {
+        "1Get-UDSystemUsers": {
+            "Settings": {}
+        },
+        "2Get-UDSystems": {
+            "Settings": {
+                "lastContactDays": 30
+            }
+        }
+    }
+]
