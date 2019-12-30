@@ -32,7 +32,7 @@ Function 2Get-UDSystems ()
                     New-UDChart -Title "Operating Systems $lastContactDays" -Type Doughnut -RefreshInterval 60  -Endpoint {
                         try
                         {
-                            Get-JCSystem | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
                         }
                         catch
                         {
@@ -48,7 +48,7 @@ Function 2Get-UDSystems ()
                     New-UDChart -Title "MFA Enabled Systems" -Type pie -RefreshInterval 60  -Endpoint {
                         try
                         {
-                            Get-JCSystem | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
                         }
                         catch
                         {
@@ -62,7 +62,7 @@ Function 2Get-UDSystems ()
                     New-UDChart -Title "System Insights Status" -Type pie -RefreshInterval 60  -Endpoint {
                         try
                         {
-                            Get-JCSystem | Select-Object _id, @{Name = 'SystemInsightsState'; Expression = { $_.systemInsights.state } } | Group-Object SystemInsightsState | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object _id, @{Name = 'SystemInsightsState'; Expression = { $_.systemInsights.state } } | Group-Object SystemInsightsState | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
                         }
                         catch
                         {
@@ -74,13 +74,30 @@ Function 2Get-UDSystems ()
             }
 
             New-UDRow {
+
                 New-UDColumn -Size 4 -Content {
                     $LegendOptions = New-UDChartLegendOptions -Hide
                     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
                     New-UDChart -Title "Agent Version" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                         try
                         {
-                            Get-JCSystem | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                        }
+                        catch
+                        {
+                            0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                        }
+
+                    } -Options $Options
+                }
+                
+                New-UDColumn -Size 4 -Content {
+                    $LegendOptions = New-UDChartLegendOptions -Hide
+                    $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
+                    New-UDChart -Title "OS Version" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
+                        try
+                        {
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                         }
                         catch
                         {
@@ -90,6 +107,21 @@ Function 2Get-UDSystems ()
                     } -Options $Options
                 }
 
+                New-UDColumn -Size 4 -Content {
+                    $LegendOptions = New-UDChartLegendOptions -Hide
+                    $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
+                    New-UDChart -Title "Last Contact Days" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
+                        try
+                        {
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -ExpandProperty lastContact | Select-Object @{Name = "Date"; expression = { $_ } }, @{Name = "TimeSpan"; expression = { (New-TimeSpan -Start $_ -End $(Get-Date)).Days } } | Group-object -Property TimeSpan | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                        }
+                        catch
+                        {
+                            0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                        }
+
+                    } -Options $Options
+                }
 
             }
 
