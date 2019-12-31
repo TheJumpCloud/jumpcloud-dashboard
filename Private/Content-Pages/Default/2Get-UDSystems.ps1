@@ -25,27 +25,6 @@ Function 2Get-UDSystems ()
         else
         {
             New-UDRow {
-                New-UDColumn -Size 4 -Content {
-                    #SA-778 - Systems created in the last 7 days
-                    New-UDGrid -Title "New Systems (Created in the last 7 days)" -Properties @("Hostname", "OS", "Created") -Endpoint {
-                        Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7) | Sort-Object created -Descending | ForEach-Object {
-                            [PSCustomObject]@{
-                                Created  = $_.created;
-                                Hostname = (New-UDLink -Text $_.hostname -Url "https://console.jumpcloud.com/#/systems/$($_._id)/details" -OpenInNewWindow);
-                                OS    = $_.os + " " + $_.version;
-                            }
-                        } | Out-UDGridData
-                    }
-                }
-                New-UDColumn -Size 4 -Content {
-
-                }
-                New-UDColumn -Size 4 -Content {
-
-                }
-            }
-            <#
-            New-UDRow {
 
                 New-UDColumn -Size 4 -Content {
                     $LegendOptions = New-UDChartLegendOptions -Position bottom
@@ -143,9 +122,23 @@ Function 2Get-UDSystems ()
 
                     } -Options $Options
                 }
-
             }
-            #>
+            New-UDRow {
+                New-UDColumn -Size 4 -Content {
+                    #SA-778 - Systems created in the last 7 days
+                    New-UDGrid -Title "New Systems (Created in the last 7 days)" -Properties @("Hostname", "OS", "Created") -Endpoint {
+                        Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7) | Sort-Object created -Descending | ForEach-Object {
+                            [PSCustomObject]@{
+                                Created  = $_.created;
+                                Hostname = (New-UDLink -Text $_.hostname -Url "https://console.jumpcloud.com/#/systems/$($_._id)/details" -OpenInNewWindow);
+                                OS    = $_.os + " " + $_.version;
+                            }
+                        } | Out-UDGridData
+                    }
+                }
+                New-UDColumn -Size 4 -Content {}
+                New-UDColumn -Size 4 -Content {}
+            }
         }
     }
 
