@@ -17,7 +17,12 @@ Function 1Get-UDSystemUsers ()
         if ($HasUsers.Count -eq 0)
         {
             New-UDRow {
-                New-UDCard -Title "No Users Registered" -Text "To load the users dashboard create some users in your JumpCloud Administrator Console." -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-users1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Users")
+                New-UDUnDraw -Name "team-spirit"
+            }
+            New-UDRow {
+                New-UDColumn -Size 12 {
+                    New-UDCard -Title "No Users Registered" -Text "To load the users dashboard create some users in your JumpCloud Administrator Console." -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-users1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Users")
+                }
             }
         }
         else
@@ -41,7 +46,7 @@ Function 1Get-UDSystemUsers ()
                     New-UDGrid -Title "User State Information" -Properties @("Username", "Email", "State") -Endpoint {
                         Get-JCUser | Where-Object {$_.account_locked -or $_.suspended -or $_.password_expired} | ForEach-Object {
                             [PSCustomObject]@{
-                                Username = $_.username;
+                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                 Email = $_.email;
                                 State = $(if ($_.suspended){"Suspended"} elseif ($_.password_expired) {"Password Expired"} elseif ($_.account_locked){"Account Locked"} else {""});
                             }
@@ -49,11 +54,22 @@ Function 1Get-UDSystemUsers ()
                     }
                 }
                 New-UDColumn -Size 4 -Content {
-                    
+                    #SA-799 - Privileged User Info
+                    New-UDGrid -Title "Privileged Users" -Headers @("Username", "Email", "Global Admin", "LDAP Bind User") -Properties @("Username", "Email", "GlobalAdmin", "LDAPBindUser") -Endpoint {
+                        Get-JCUser | Where-Object {$_.sudo -or $_.ldap_binding_user} | ForEach-Object {
+                            [PSCustomObject]@{
+                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                Email = $_.email;
+                                GlobalAdmin = $_.sudo;
+                                LDAPBindUser = $_.ldap_binding_user;
+                            }
+                        } | Out-UDGridData
+                    }
                 }
             }
+            New-UDRow {
 
-           
+            }           
         }
     }
     $UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
