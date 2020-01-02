@@ -24,12 +24,13 @@ Function 2Get-UDSystems ()
         }
         else
         {
+
             New-UDRow {
 
                 New-UDColumn -Size 4 -Content {
                     $LegendOptions = New-UDChartLegendOptions -Position bottom
                     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
-                    New-UDChart -Title "Operating Systems $lastContactDays" -Type Doughnut -RefreshInterval 60  -Endpoint {
+                    New-UDChart -Title "Operating System" -Type Doughnut -RefreshInterval 60  -Endpoint {
                         try
                         {
                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
@@ -110,7 +111,7 @@ Function 2Get-UDSystems ()
                 New-UDColumn -Size 4 -Content {
                     $LegendOptions = New-UDChartLegendOptions -Hide
                     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
-                    New-UDChart -Title "Last Contact Days" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
+                    New-UDChart -Title "Days Since Last Contact" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                         try
                         {
                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -ExpandProperty lastContact | Select-Object @{Name = "Date"; expression = { $_ } }, @{Name = "TimeSpan"; expression = { (New-TimeSpan -Start $_ -End $(Get-Date)).Days } } | Group-object -Property TimeSpan | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
@@ -124,7 +125,14 @@ Function 2Get-UDSystems ()
                 }
 
             }
+            New-UDRow {
 
+                $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
+                $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
+
+                New-UDCard -Title "Displaying information from systems that have checked in within the last $lastContactDays days" -Text "Displaying $ShowingSystems of $TotalSystems systems" 
+
+            }
         }
     }
 

@@ -7,7 +7,8 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
-        [Switch]$Beta
+        [Switch]$Beta,
+        [Int]$Days
     )
 
 
@@ -19,6 +20,14 @@ Function Start-JCDashboard
     else
     {
         if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
+    }
+
+    if ($Days)
+    {
+        $pathToJson = $PSScriptRoot + '/' + "DashboardSettings.json"
+        $jsonContent = Get-Content $pathToJson | ConvertFrom-Json
+        $jsonContent.'2Get-UDSystems'.settings.lastContactDays = "$Days"
+        $jsonContent | ConvertTo-Json | set-content $pathToJson
     }
 
     ## Gather org name

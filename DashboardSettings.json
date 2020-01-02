@@ -1,12 +1,10 @@
-[
-    {
-        "1Get-UDSystemUsers": {
-            "Settings": {}
-        },
-        "2Get-UDSystems": {
-            "Settings": {
-                "lastContactDays": 365
-            }
+{
+    "1Get-UDSystemUsers": {
+        "Settings": {}
+    },
+    "2Get-UDSystems": {
+        "Settings": {
+            "lastContactDays": "90"
         }
     }
-]
+}
