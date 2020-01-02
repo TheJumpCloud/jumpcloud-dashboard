@@ -1,6 +1,5 @@
 Return New-UDTheme -Name "Theme" -Definition @{
     '.sidenav'            = @{
-#        'position'         = "absolute"
         'background-color' = "#202e38"
         'color'            = "#ffffff"
         'margin-top'       = "75px"
@@ -33,6 +32,9 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".pagination li.active" = @{
         'background-color' = "#26a69a"
     }
+    ".card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating)" = @{
+        'color' = "#039be5"
+    }
     UDNavBar              = @{
         BackgroundColor = "#202e38"
         FontColor       = "#ffffff"
@@ -49,14 +51,13 @@ Return New-UDTheme -Name "Theme" -Definition @{
         BackgroundColor = "#f9fafb"
         FontColor       = "#545454"
     }
-    UDCard                = @{
-        BackgroundColor = "#ffffff"
-        FontColor       = "#000000"
-    }
     ".ud-card"            = @{
-        'border-radius' = "8px"
         'background-color' = "#202e38"
+        'border-radius' = "8px"
         'color' = "#ffffff"
+    }
+    ".ud-card p" = @{
+        'color' = "#ffffff !important"
     }
     UDChart               = @{
         BackgroundColor = "#202e38"
