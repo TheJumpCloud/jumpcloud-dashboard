@@ -130,7 +130,14 @@ Function 2Get-UDSystems ()
                 $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
                 $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
 
-                New-UDCard -Title "Displaying information from systems that have checked in within the last $lastContactDays days" -Text "Displaying $ShowingSystems of $TotalSystems systems" 
+                New-UDCard -Title "Displaying information from systems that have checked in within the last $lastContactDays days" -Text "Displaying $ShowingSystems of $TotalSystems systems"
+
+                New-UDButton -Icon 'cloud_download' -Text "Download All System Information" -OnClick {
+                    $DesktopPath = '~' + '\' + 'Desktop'
+                    Set-Location $DesktopPath
+                    Get-JCBackup -Systems
+                    Show-UDToast -Message "System Information Downloaded To CSV On Desktop";
+                }
 
             }
         }
