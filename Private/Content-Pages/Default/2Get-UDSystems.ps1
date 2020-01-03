@@ -16,18 +16,10 @@ Function 2Get-UDSystems ()
 
         if ($HasSystems.Count -eq 0)
         {
-            <#New-UDRow {
-                New-UDUnDraw -Name "monitor"
-            }
-            New-UDRow {
-                New-UDColumn -Size 12 {
-                    New-UDCard -Title "No Systems Registered" -Text "To load the systems dashboard install the JumpCloud systems agent on your systems." -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-systems1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Systems")
-                }
-            }#>
             New-UDRow {
                 New-UDColumn -Size 6 {
                     New-UDCard -Title "No Systems Registered" -Content {
-                        New-UDParagraph -Text "To load the systems dashboard install the JumpCloud systems agent on your systems." -Color "#ffffff"
+                        New-UDParagraph -Text "To load the systems dashboard install the JumpCloud agent on your systems."
                         New-UDunDraw -Name "monitor"
                     } -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-systems1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Systems")
                 }

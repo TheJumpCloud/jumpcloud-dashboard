@@ -14,12 +14,13 @@ Function 1Get-UDSystemUsers () {
         $HasUsers = Get-JCUser -returnProperties username | Measure-Object
 
         if ($HasUsers.Count -eq 0) {
+
             New-UDRow {
-                New-UDUnDraw -Name "team-spirit"
-            }
-            New-UDRow {
-                New-UDColumn -Size 12 {
-                    New-UDCard -Title "No Users Registered" -Text "To load the users dashboard create some users in your JumpCloud Administrator Console." -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-users1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Users")
+                New-UDColumn -Size 6 {
+                    New-UDCard -Title "No Users Registered" -Content {
+                        New-UDParagraph -Text "To load the users dashboard create some users in your JumpCloud Administrator Console."
+                        New-UDunDraw -Name "team-spirit"
+                    } -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-users1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Users")
                 }
             }
         }
@@ -33,19 +34,20 @@ Function 1Get-UDSystemUsers () {
                                 Created   = $_.created;
                                 Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                 Email     = $_.email;
-                                Activated = $_.activated;
+                                Activated = $(if ($_.activated) { New-UDIcon -Icon check } else {""});
                             }
                         } | Out-UDGridData
                     }
                 }
                 New-UDColumn -Size 4 -Content {
                     #SA-796 - User State Info
-                    New-UDGrid -Title "User State Information" -Properties @("Username", "Email", "State") -Endpoint {
+                    New-UDGrid -Title "User State Information" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
                         Get-JCUser | Where-Object { $_.account_locked -or $_.suspended -or $_.password_expired } | ForEach-Object {
                             [PSCustomObject]@{
                                 Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                Email    = $_.email;
-                                State    = $(if ($_.suspended) { "Suspended" } elseif ($_.password_expired) { "Password Expired" } elseif ($_.account_locked) { "Account Locked" } else { "" });
+                                Suspended = $(if ($_.suspended) { New-UDIcon -Icon check } else {""});
+                                Expired = $(if ($_.password_expired) { New-UDIcon -Icon check } else {""});
+                                Locked = $(if ($_.account_locked) { New-UDIcon -Icon check } else {""});
                             }
                         } | Out-UDGridData
                     }
@@ -57,17 +59,16 @@ Function 1Get-UDSystemUsers () {
                             [PSCustomObject]@{
                                 Username     = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                 Email        = $_.email;
-                                GlobalAdmin  = $_.sudo;
-                                LDAPBindUser = $_.ldap_binding_user;
+                                GlobalAdmin  = $(if ($_.sudo) { New-UDIcon -Icon check } else {""});
+                                LDAPBindUser = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else {""});
                             }
                         } | Out-UDGridData
                     }
                 }
             }
-            
             New-UDRow {
-                New-UDColumn -Size 4 -Content { 
-                    if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays) {
+                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays) {
+                    New-UDColumn -Size 4 -Content { 
                         if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7)) {
                             New-UDGrid -Title "Upcoming Password Expirations" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
                                 Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7) | ForEach-Object {
@@ -85,9 +86,28 @@ Function 1Get-UDSystemUsers () {
                                 New-UDParagraph -Text "You do not have any users whose password will expire in the next 7 days!"
                             }
                         }
-                    }
-                    
-                }       
+                    }                    
+                }
+                New-UDColumn -Size 4 -Content {
+                    $LegendOptions = New-UDChartLegendOptions -Position bottom
+                    $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
+                    New-UDChart -Title "MFA Configured" -Type Doughnut -RefreshInterval 60  -Endpoint {
+                        try
+                        {
+                            Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
+                                [PSCustomObject]@{
+                                    Name = $(if ($_.Name -eq "False, False") {"No MFA"} elseif ($_.Name -eq "False, True") {"MFA Required"} elseif ($_.Name -eq "True, False") {"MFA Configured"} elseif ($_.Name -eq "True, True") {"Completed"});
+                                    Count = $_.Count;
+                                }
+                            } | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
+                            
+                        }
+                        catch
+                        {
+                            0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                        }
+                    } -Options $Options
+                }     
             }
         }
     }
