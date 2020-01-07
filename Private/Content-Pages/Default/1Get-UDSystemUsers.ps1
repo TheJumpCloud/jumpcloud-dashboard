@@ -116,7 +116,7 @@ Function 1Get-UDSystemUsers ()
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $false | ForEach-Object {
                                             [PSCustomObject]@{
-                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Username = $_.username;
                                                 Email    = $_.email;
                                             }
                                         } | Out-UDGridData
@@ -126,7 +126,7 @@ Function 1Get-UDSystemUsers ()
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $true | ForEach-Object {
                                             [PSCustomObject]@{
-                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Username = $_.username;
                                                 Email    = $_.email;
                                             }
                                         } | Out-UDGridData
@@ -136,7 +136,7 @@ Function 1Get-UDSystemUsers ()
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $False | ForEach-Object {
                                             [PSCustomObject]@{
-                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Username = $_.username;
                                                 Email    = $_.email;
                                             }
                                         } | Out-UDGridData
@@ -146,7 +146,7 @@ Function 1Get-UDSystemUsers ()
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $true | ForEach-Object {
                                             [PSCustomObject]@{
-                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Username = $_.username;
                                                 Email    = $_.email;
                                             }
                                         } | Out-UDGridData
