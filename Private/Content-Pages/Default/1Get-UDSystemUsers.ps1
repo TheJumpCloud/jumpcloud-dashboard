@@ -8,7 +8,7 @@ Function 1Get-UDSystemUsers () {
 
     $PageText = 'Users'
     $PageName = 'SystemUsers'
-    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-PasswordExpiration"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-MFA"}]}'
+    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-MFAConfigured"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-PasswordExpiration"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -65,6 +65,61 @@ Function 1Get-UDSystemUsers () {
                         }
                     } | Out-UDGridData
                 }
+                New-UDChart -Title "MFA Configured" -Id "MFAConfigured" -Type Doughnut -RefreshInterval 60 -Options $Options -Endpoint {
+                    Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
+                        [PSCustomObject]@{
+                            Name  = $(if ($_.Name -eq "False, False") { "No MFA" } elseif ($_.Name -eq "False, True") { "MFA Required" } elseif ($_.Name -eq "True, False") { "MFA Configured" } elseif ($_.Name -eq "True, True") { "Completed" });
+                            Count = $_.Count;
+                        }
+                    } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
+                } -OnClick {
+                    if ($EventData -ne "[]") {
+                        Show-UDModal -Content {
+                            New-UDTabContainer -Tabs {
+                                New-UDTab -Text "No MFA" -Content {
+                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
+                                        Get-JCUser | Where-Object { -not $_.totp_enabled -and -not $_.enable_user_portal_multifactor } | ForEach-Object {
+                                            [PSCustomObject]@{
+                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Email    = $_.email;
+                                            }
+                                        } | Out-UDGridData
+                                    }
+                                }
+                                New-UDTab -Text "MFA Required" -Content {
+                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
+                                        Get-JCUser | Where-Object { -not $_.totp_enabled -and $_.enable_user_portal_multifactor } | ForEach-Object {
+                                            [PSCustomObject]@{
+                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Email    = $_.email;
+                                            }
+                                        } | Out-UDGridData
+                                    }
+                                }
+                                New-UDTab -Text "MFA Configured" -Content {
+                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
+                                        Get-JCUser | Where-Object {$_.totp_enabled -and -not $_.enable_user_portal_multifactor } | ForEach-Object {
+                                            [PSCustomObject]@{
+                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Email    = $_.email;
+                                            }
+                                        } | Out-UDGridData
+                                    }
+                                }
+                                New-UDTab -Text "Completed" -Content {
+                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
+                                        Get-JCUser | Where-Object {$_.totp_enabled -and $_.enable_user_portal_multifactor } | ForEach-Object {
+                                            [PSCustomObject]@{
+                                                Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                                Email    = $_.email;
+                                            }
+                                        } | Out-UDGridData
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays) {
                     if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7)) {
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
@@ -84,20 +139,6 @@ Function 1Get-UDSystemUsers () {
                         }
                     }                  
                 }
-                New-UDChart -Title "MFA Configured" -Id "MFA" -Type Doughnut -RefreshInterval 60  -Endpoint {
-                    try {
-                        Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
-                            [PSCustomObject]@{
-                                Name  = $(if ($_.Name -eq "False, False") { "No MFA" } elseif ($_.Name -eq "False, True") { "MFA Required" } elseif ($_.Name -eq "True, False") { "MFA Configured" } elseif ($_.Name -eq "True, True") { "Completed" });
-                                Count = $_.Count;
-                            }
-                        } | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
-                            
-                    }
-                    catch {
-                        0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
-                    }
-                } -Options $Options
             }     
         }
     }

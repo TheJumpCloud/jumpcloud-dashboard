@@ -8,27 +8,28 @@ Function 2Get-UDSystems () {
 
     $PageText = 'Systems'
     $PageName = 'Systems'
-    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-OS"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-MFA"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-NewSystems"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-AgentVersion"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-OSVersion"},{"w":4,"h":9,"x":9,"y":10,"i":"grid-element-LastContact"},{"w":12,"h":5,"x":4,"y":20,"i":"grid-element-SystemsDownload"}]}'
+    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-OS"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-MFA"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-NewSystems"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-AgentVersion"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-OSVersion"},{"w":4,"h":9,"x":9,"y":10,"i":"grid-element-LastContact"},{"w":12,"h":4,"x":4,"y":20,"i":"grid-element-SystemsDownload"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
-        New-UDGridLayout -Layout $PageLayout -Draggable -Resizable  -Content {
-            # Check to see if org has any registered systems
-            $HasSystems = Get-JCSystem -returnProperties hostname | Measure-Object
 
-            if ($HasSystems.Count -eq 0) {
-                New-UDRow {
-                    New-UDColumn -Size 6 {
-                        New-UDCard -Title "No Systems Registered" -Content {
-                            New-UDParagraph -Text "To load the systems dashboard install the JumpCloud agent on your systems."
-                            New-UDunDraw -Name "monitor"
-                        } -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-systems1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Systems")
-                    }
+        # Check to see if org has any registered systems
+        $HasSystems = Get-JCSystem -returnProperties hostname | Measure-Object
+
+        if ($HasSystems.Count -eq 0) {
+            New-UDRow {
+                New-UDColumn -Size 6 {
+                    New-UDCard -Title "No Systems Registered" -Content {
+                        New-UDParagraph -Text "To load the systems dashboard install the JumpCloud agent on your systems."
+                        New-UDunDraw -Name "monitor"
+                    } -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-systems1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Systems")
                 }
             }
-            else {
+        }
+        else {
+            New-UDGridLayout -Layout $PageLayout -Draggable -Resizable  -Content {
                 New-UDChart -Title "Operating Systems $lastContactDays" -Id "OS" -Type Doughnut -RefreshInterval 60  -Endpoint {
                     try {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
@@ -90,7 +91,7 @@ Function 2Get-UDSystems () {
                     $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
                     $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
 
-                    New-UDParagraph -Text "Displaying $ShowingSystems of $TotalSystems systems"
+                    New-UDParagraph -Text "Displaying $ShowingSystems of $TotalSystems systems."
                     New-UDButton -Icon 'cloud_download' -Text "Download All System Information" -OnClick {
                         $DesktopPath = '~' + '\' + 'Desktop'
                         Set-Location $DesktopPath

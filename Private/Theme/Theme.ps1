@@ -119,6 +119,9 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'background-color' = "#202e38"
         'color' = "#ffffff"
     }
+    ".ud-button" = @{
+        'margin' = "10px 0px 0px 0px"
+    }
     UDFooter              = @{
         BackgroundColor = "#202e38"
         FontColor       = "#ffffff"
