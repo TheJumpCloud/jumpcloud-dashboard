@@ -1,4 +1,5 @@
-Function 1Get-UDSystemUsers () {
+Function 1Get-UDSystemUsers ()
+{
     [CmdletBinding()]
 
     param (
@@ -19,7 +20,8 @@ Function 1Get-UDSystemUsers () {
         # Check to see if org has any registered systems
         $HasUsers = Get-JCUser -returnProperties username | Measure-Object
 
-        if ($HasUsers.Count -eq 0) {
+        if ($HasUsers.Count -eq 0)
+        {
 
             New-UDRow {
                 New-UDColumn -Size 6 {
@@ -30,7 +32,8 @@ Function 1Get-UDSystemUsers () {
                 }
             }
         }
-        else {
+        else
+        {
             New-UDGridLayout -Layout $PageLayout -Resizable -Draggable -Content {
                 #SA-798/801 - New User Info
                 New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -Endpoint {
@@ -45,7 +48,23 @@ Function 1Get-UDSystemUsers () {
                 }
                 #SA-796 - User State Info
                 New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
-                    Get-JCUser | Where-Object { $_.account_locked -or $_.suspended -or $_.password_expired } | ForEach-Object {
+                    $UserStates = @()
+
+                    $LockedUsers = Get-JCUser -account_locked $true
+
+                    $UserStates += $LockedUsers
+
+                    $ExpiredUsers = Get-JCUser -password_expired $true
+
+                    $UserStates += $ExpiredUsers
+
+                    $SuspendedUsers = Get-JCUser -suspended $true
+
+                    $UserStates += $SuspendedUsers
+
+                    $UniqueUsers = $UserStates | Sort-Object username -Unique
+
+                    $UniqueUsers | ForEach-Object {
                         [PSCustomObject]@{
                             Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                             Suspended = $(if ($_.suspended) { New-UDIcon -Icon check } else { "" });
@@ -55,13 +74,29 @@ Function 1Get-UDSystemUsers () {
                     } | Out-UDGridData
                 }
                 #SA-799 - Privileged User Info
-                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Headers @("Username", "Email", "Global Admin", "LDAP Bind User") -Properties @("Username", "Email", "GlobalAdmin", "LDAPBindUser") -Endpoint {
-                    Get-JCUser | Where-Object { $_.sudo -or $_.ldap_binding_user } | ForEach-Object {
+                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Headers @("Username", "Email", "Global Admin", "LDAP Bind User", "SambaServiceUser") -Properties @("Username", "Email", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -Endpoint {
+                    $PrivilegedUsers = @()
+
+                    $Sudo = Get-JCUser -sudo $true
+
+                    $PrivilegedUsers += $Sudo
+
+                    $SambaService = Get-JCUser -samba_service_user $true
+
+                    $PrivilegedUsers += $SambaService
+
+                    $LdapBinding = Get-JCUser -ldap_binding_user $true
+
+                    $PrivilegedUsers += $LdapBinding
+
+                    $UniquePrivilegedUsers = $PrivilegedUsers | Sort-Object username -Unique
+                    $UniquePrivilegedUsers | ForEach-Object {
                         [PSCustomObject]@{
-                            Username     = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Email        = $_.email;
-                            GlobalAdmin  = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
-                            LDAPBindUser = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
+                            Username         = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                            Email            = $_.email;
+                            GlobalAdmin      = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
+                            LDAPBindUser     = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
+                            SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });
                         }
                     } | Out-UDGridData
                 }
@@ -73,12 +108,13 @@ Function 1Get-UDSystemUsers () {
                         }
                     } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
                 } -OnClick {
-                    if ($EventData -ne "[]") {
+                    if ($EventData -ne "[]")
+                    {
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
                                 New-UDTab -Text "No MFA" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser | Where-Object { -not $_.totp_enabled -and -not $_.enable_user_portal_multifactor } | ForEach-Object {
+                                        Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $false | ForEach-Object {
                                             [PSCustomObject]@{
                                                 Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                                 Email    = $_.email;
@@ -88,7 +124,7 @@ Function 1Get-UDSystemUsers () {
                                 }
                                 New-UDTab -Text "MFA Required" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser | Where-Object { -not $_.totp_enabled -and $_.enable_user_portal_multifactor } | ForEach-Object {
+                                        Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $true | ForEach-Object {
                                             [PSCustomObject]@{
                                                 Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                                 Email    = $_.email;
@@ -98,7 +134,7 @@ Function 1Get-UDSystemUsers () {
                                 }
                                 New-UDTab -Text "MFA Configured" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser | Where-Object {$_.totp_enabled -and -not $_.enable_user_portal_multifactor } | ForEach-Object {
+                                        Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $False | ForEach-Object {
                                             [PSCustomObject]@{
                                                 Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                                 Email    = $_.email;
@@ -108,7 +144,7 @@ Function 1Get-UDSystemUsers () {
                                 }
                                 New-UDTab -Text "Completed" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser | Where-Object {$_.totp_enabled -and $_.enable_user_portal_multifactor } | ForEach-Object {
+                                        Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $true | ForEach-Object {
                                             [PSCustomObject]@{
                                                 Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                                 Email    = $_.email;
@@ -120,8 +156,10 @@ Function 1Get-UDSystemUsers () {
                         }
                     }
                 }
-                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays) {
-                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7)) {
+                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
+                {
+                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7))
+                    {
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
                             Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7) | ForEach-Object {
                                 [PSCustomObject]@{
@@ -132,14 +170,15 @@ Function 1Get-UDSystemUsers () {
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
                             New-UDParagraph -Text "You do not have any users whose password will expire in the next 7 days!"
                         }
-                    }                  
+                    }
                 }
-            }     
+            }
         }
     }
     $UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
