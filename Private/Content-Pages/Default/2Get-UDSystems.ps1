@@ -37,7 +37,28 @@ Function 2Get-UDSystems () {
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                     }
-                } -Options $Options
+                } -Options $Options -OnClick {
+                    if ($EventData -ne "[]") {
+                        $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Name
+                        Show-UDModal -Content {
+                            New-UDTabContainer -Tabs {
+                                foreach ($TabName in $TabNames) {
+                                    New-UDTab -Text $TabName.Name -Content {
+                                        New-UDGrid -Properties @("HostName", "OS", "Version") -Endpoint {
+                                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.os -eq $TabName.Name } | ForEach-Object {
+                                                [PSCustomObject]@{
+                                                    HostName = $_.hostname;
+                                                    OS       = $_.os;
+                                                    Version  = $_.version;
+                                                }
+                                            } | Out-UDGridData
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 New-UDChart -Title "MFA Enabled Systems" -Id "MFA" -Type pie -RefreshInterval 60  -Endpoint {
                     try {
