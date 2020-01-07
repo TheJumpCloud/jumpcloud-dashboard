@@ -44,8 +44,9 @@ Function 2Get-UDSystems () {
                             New-UDTabContainer -Tabs {
                                 foreach ($TabName in $TabNames) {
                                     New-UDTab -Text $TabName.Name -Content {
+                                        $script:OSType = $TabName.Name
                                         New-UDGrid -Properties @("HostName", "OS", "Version") -Endpoint {
-                                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.os -eq $TabName.Name } | ForEach-Object {
+                                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.os -eq $OSType } | ForEach-Object {
                                                 [PSCustomObject]@{
                                                     HostName = $_.hostname;
                                                     OS       = $_.os;
