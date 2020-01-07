@@ -8,7 +8,7 @@ Function 2Get-UDSystems () {
 
     $PageText = 'Systems'
     $PageName = 'Systems'
-    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-OS"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-MFA"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-NewSystems"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-AgentVersion"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-OSVersion"},{"w":4,"h":9,"x":9,"y":10,"i":"grid-element-LastContact"},,{"w":12,"h":5,"x":4,"y":20,"i":"grid-element-SystemsDownload"}]}'
+    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-OS"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-MFA"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-NewSystems"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-AgentVersion"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-OSVersion"},{"w":4,"h":9,"x":9,"y":10,"i":"grid-element-LastContact"},{"w":12,"h":5,"x":4,"y":20,"i":"grid-element-SystemsDownload"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -41,15 +41,6 @@ Function 2Get-UDSystems () {
                 New-UDChart -Title "MFA Enabled Systems" -Id "MFA" -Type pie -RefreshInterval 60  -Endpoint {
                     try {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
-                    }
-                    catch {
-                        0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
-                    }
-                } -Options $Options
-
-                New-UDChart -Title "System Insights Status" -Id "SystemInsights" -Type pie -RefreshInterval 60  -Endpoint {
-                    try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object _id, @{Name = 'SystemInsightsState'; Expression = { $_.systemInsights.state } } | Group-Object SystemInsightsState | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#8014558C", "#803AE8CE") -HoverBackgroundColor @("#8014558C", "#803AE8CE")
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
