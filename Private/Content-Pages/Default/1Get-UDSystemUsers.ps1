@@ -74,7 +74,7 @@ Function 1Get-UDSystemUsers ()
                     } | Out-UDGridData
                 }
                 #SA-799 - Privileged User Info
-                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Headers @("Username", "Email", "Global Admin", "LDAP Bind User", "SambaServiceUser") -Properties @("Username", "Email", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -Endpoint {
+                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -Endpoint {
                     $PrivilegedUsers = @()
 
                     $Sudo = Get-JCUser -sudo $true
@@ -90,10 +90,10 @@ Function 1Get-UDSystemUsers ()
                     $PrivilegedUsers += $LdapBinding
 
                     $UniquePrivilegedUsers = $PrivilegedUsers | Sort-Object username -Unique
+
                     $UniquePrivilegedUsers | ForEach-Object {
                         [PSCustomObject]@{
-                            Username         = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Email            = $_.email;
+                            Username         = $_.username;
                             GlobalAdmin      = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
                             LDAPBindUser     = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
                             SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });

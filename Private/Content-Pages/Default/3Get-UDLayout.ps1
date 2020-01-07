@@ -1,4 +1,5 @@
-Function 3Get-UDLayout () {
+Function 3Get-UDLayout ()
+{
     $PageText = 'Layout'
     $PageName = 'Layout'
 
@@ -17,7 +18,8 @@ Function 3Get-UDLayout () {
                     }
                 } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
             } -OnClick {
-                if ($EventData -ne "[]") {
+                if ($EventData -ne "[]")
+                {
                     Show-UDModal -Content {
                         New-UDTabContainer -Tabs {
                             New-UDTab -Text "No MFA" -Content {
@@ -42,7 +44,7 @@ Function 3Get-UDLayout () {
                             }
                             New-UDTab -Text "MFA Configured" -Content {
                                 New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                    Get-JCUser | Where-Object {$_.totp_enabled -and -not $_.enable_user_portal_multifactor } | ForEach-Object {
+                                    Get-JCUser | Where-Object { $_.totp_enabled -and -not $_.enable_user_portal_multifactor } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                             Email    = $_.email;
@@ -52,7 +54,7 @@ Function 3Get-UDLayout () {
                             }
                             New-UDTab -Text "Completed" -Content {
                                 New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                    Get-JCUser | Where-Object {$_.totp_enabled -and $_.enable_user_portal_multifactor } | ForEach-Object {
+                                    Get-JCUser | Where-Object { $_.totp_enabled -and $_.enable_user_portal_multifactor } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Username = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                             Email    = $_.email;
@@ -64,17 +66,17 @@ Function 3Get-UDLayout () {
                     }
                 }
             }
-            # New-UDChart - MFA Configured
-            New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -NoExport -Headers @("Username", "Email", "Global Admin", "LDAP Bind User") -Properties @("Username", "Email", "GlobalAdmin", "LDAPBindUser") -Endpoint {
-                Get-JCUser | Where-Object { $_.sudo -or $_.ldap_binding_user } | ForEach-Object {
-                    [PSCustomObject]@{
-                        Username     = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                        Email        = $_.email;
-                        GlobalAdmin  = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
-                        LDAPBindUser = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
-                    }
-                } | Out-UDGridData
-            } # New-UDGrid - Privileged Users
+            # # New-UDChart - MFA Configured
+            # New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -NoExport -Headers @("Username", "Email", "Global Admin", "LDAP Bind User") -Properties @("Username", "Email", "GlobalAdmin", "LDAPBindUser") -Endpoint {
+            #     Get-JCUser | Where-Object { $_.sudo -or $_.ldap_binding_user } | ForEach-Object {
+            #         [PSCustomObject]@{
+            #             Username     = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+            #             Email        = $_.email;
+            #             GlobalAdmin  = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
+            #             LDAPBindUser = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
+            #         }
+            #     } | Out-UDGridData
+            # } # New-UDGrid - Privileged Users
             New-UDGrid -Title "User State Information" -Id "UserStateInformation" -NoExport -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
                 Get-JCUser | Where-Object { $_.account_locked -or $_.suspended -or $_.password_expired } | ForEach-Object {
                     [PSCustomObject]@{
