@@ -8,3 +8,5 @@ Feature: JumpCloud-Dashboard Whats New Dashboard Page
         And the dashboard has updated
         When the dashboard loads
         Then the components of the whats-new dashboard informs admins of the changes
+
+
