@@ -1,6 +1,5 @@
 Return New-UDTheme -Name "Theme" -Definition @{
     '.sidenav'            = @{
-#        'position'         = "absolute"
         'background-color' = "#202e38"
         'color'            = "#ffffff"
         'margin-top'       = "75px"
@@ -33,6 +32,13 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".pagination li.active" = @{
         'background-color' = "#26a69a"
     }
+    ".card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating)" = @{
+        'color' = "#039be5"
+    }
+    ".react-grid-item>.react-resizable-handle:after" = @{
+        'border-right' = "2px solid #9e9e9e"
+        'border-bottom' = "2px solid #9e9e9e"
+    }
     UDNavBar              = @{
         BackgroundColor = "#202e38"
         FontColor       = "#ffffff"
@@ -49,14 +55,57 @@ Return New-UDTheme -Name "Theme" -Definition @{
         BackgroundColor = "#f9fafb"
         FontColor       = "#545454"
     }
-    UDCard                = @{
-        BackgroundColor = "#ffffff"
-        FontColor       = "#000000"
-    }
     ".ud-card"            = @{
-        'border-radius' = "8px"
         'background-color' = "#202e38"
+        'border-radius' = "8px"
         'color' = "#ffffff"
+    }
+    ".ud-card p" = @{
+        'color' = "#ffffff !important"
+    }
+    ".card" = @{
+        'height' = "100%"
+        'width' = "100%"
+        'overflow-y' = "auto"
+        # Works for Microsoft browsers (IE & Edge)
+        '-ms-overflow-style' = "-ms-autohiding-scrollbar"
+    }
+    # Works for WebKit browsers (Chrome, Safari, Opera, etc)
+    ".card::-webkit-scrollbar" = @{
+        'background-color' = "##202e38"
+        'border-radius' = "0px 8px 8px 0px"
+    }
+    ".card::-webkit-scrollbar-thumb" = @{
+        'background' = "#a7a7a7"
+        'border-radius' = "8px"
+        'opacity' = "50%"
+    }
+    # End of WebKit specifics
+    ".card-content" = @{
+        'height' = "100%"
+        'width' = "100%"
+    }
+    ".tabs" = @{
+        'overflow-x' = "hidden"
+        'border-radius' = "8px"
+        'display' = "table-caption"
+    }
+    ".tabs .tab a" = @{
+        'color' = "#a7a7a7"
+        'opacity' = "50%"
+    }
+    ".tabs .tab a:hover" = @{
+        'color' = "#ffffff"
+    }
+    ".tabs .tab a.active" = @{
+        'color' = "#ffffff"
+        'opacity' = "100%"
+    }
+    ".tabs .indicator" = @{
+        'background-color' = "#a7a7a7"
+    }
+    ".ud-modal" = @{
+        'border-radius' = "8px"
     }
     UDChart               = @{
         BackgroundColor = "#202e38"
@@ -69,6 +118,9 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'border-radius' = "8px"
         'background-color' = "#202e38"
         'color' = "#ffffff"
+    }
+    ".ud-button" = @{
+        'margin' = "10px 0px 0px 0px"
     }
     UDFooter              = @{
         BackgroundColor = "#202e38"
