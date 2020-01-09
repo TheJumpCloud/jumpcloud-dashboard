@@ -1,6 +1,6 @@
 Feature: User Activation Information
 
-    As JumpCloud, I want to provide admins with a component that informs admins with at a glance info into user activation information.
+    As JumpCloud, I want to provide admins with a component that informs them with at a glance info into user activation information.
 
     Scenario: A JumpCloud admin of a tenant that has users views the user activation information component
 
