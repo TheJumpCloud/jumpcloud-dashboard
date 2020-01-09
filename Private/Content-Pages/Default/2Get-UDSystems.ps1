@@ -230,7 +230,7 @@ Function 2Get-UDSystems () {
                             OS       = $_.os + " " + $_.version;
                         }
                     } | Out-UDGridData
-                }
+                } -NoExport
                 New-UDCard -Title "Displaying information from systems that have checked in within the last $lastContactDays days" -Id "SystemsDownload" -Content {
                     $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
                     $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
@@ -240,7 +240,7 @@ Function 2Get-UDSystems () {
                         $DesktopPath = '~' + '\' + 'Desktop'
                         Set-Location $DesktopPath
                         Get-JCBackup -Systems
-                        Show-UDToast -Message "System Information Downloaded To CSV On Desktop";
+                        Show-UDToast -Message "System Information Downloaded To CSV On Desktop" -Duration 10000;
                     }
                 }
             }

@@ -9,7 +9,7 @@ Function 1Get-UDSystemUsers ()
 
     $PageText = 'Users'
     $PageName = 'SystemUsers'
-    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-MFAConfigured"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-PasswordExpiration"}]}'
+    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-MFAConfigured"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-PasswordExpiration"},{"w":12,"h":4,"x":4,"y":20,"i":"grid-element-UsersDownload"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -45,7 +45,7 @@ Function 1Get-UDSystemUsers ()
                             Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
                         }
                     } | Out-UDGridData
-                }
+                } -NoExport
                 #SA-796 - User State Info
                 New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
                     $UserStates = @()
@@ -72,7 +72,7 @@ Function 1Get-UDSystemUsers ()
                             Locked    = $(if ($_.account_locked) { New-UDIcon -Icon check } else { "" });
                         }
                     } | Out-UDGridData
-                }
+                } -NoExport
                 #SA-799 - Privileged User Info
                 New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -Endpoint {
                     $PrivilegedUsers = @()
@@ -99,7 +99,7 @@ Function 1Get-UDSystemUsers ()
                             SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });
                         }
                     } | Out-UDGridData
-                }
+                } -NoExport
                 New-UDChart -Title "MFA Configured" -Id "MFAConfigured" -Type Doughnut -RefreshInterval 60 -Options $Options -Endpoint {
                     Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
                         [PSCustomObject]@{
@@ -163,7 +163,7 @@ Function 1Get-UDSystemUsers ()
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
                             Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7) | ForEach-Object {
                                 [PSCustomObject]@{
-                                    Username       = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                    Username       = $_.username;
                                     Email          = $_.email;
                                     ExpirationDate = $_.password_expiration_date.ToLocalTime();
                                 }
@@ -176,6 +176,17 @@ Function 1Get-UDSystemUsers ()
                             New-UDunDraw -Name "my-password"
                             New-UDParagraph -Text "You do not have any users whose password will expire in the next 7 days!"
                         }
+                    }
+                }
+                New-UDCard -Title "Displaying information from all users in your JumpCloud Organization" -Id "UsersDownload" -Content {
+                    $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
+
+                    New-UDParagraph -Text "Displaying $TotalUsers users."
+                    New-UDButton -Icon 'cloud_download' -Text "Download All User Information" -OnClick {
+                        $DesktopPath = '~' + '\' + 'Desktop'
+                        Set-Location $DesktopPath
+                        Get-JCBackup -Systems
+                        Show-UDToast -Message "User Information Downloaded To CSV On Desktop" -Duration 10000;
                     }
                 }
             }
