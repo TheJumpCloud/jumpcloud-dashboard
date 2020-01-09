@@ -186,12 +186,41 @@ Function 2Get-UDSystems () {
                 
                 New-UDChart -Title "Last Contact Days" -Id "LastContact" -Type Line -RefreshInterval 60  -Endpoint {
                     try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -ExpandProperty lastContact | Select-Object @{Name = "Date"; expression = { $_ } }, @{Name = "TimeSpan"; expression = { (New-TimeSpan -Start $_ -End $(Get-Date)).Days } } | Group-object -Property TimeSpan | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
+                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | ForEach-Object {
+                            [PSCustomObject]@{
+                                LastContactDate = $_.lastContact.ToString("yyyy-MM-dd")
+                            }
+                        } | Group-Object -Property LastContactDate | Select-Object Name, Count | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                     }
-                } -Options $LineChartOptions 
+                } -Options $LineChartOptions -OnClick {
+                    $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | ForEach-Object {
+                        [PSCustomObject]@{
+                            LastContactDate = $_.lastContact.ToString("yyyy-MM-dd")
+                        }
+                    } | Group-Object -Property LastContactDate | Select-Object Name
+                    Show-UDModal -Content {
+                        New-UDTabContainer -Tabs {
+                            foreach ($TabName in $TabNames) {
+                                New-UDTab -Text $TabName.Name -Content {
+                                    $script:LastContact = $TabName.Name
+                                    New-UDGrid -Properties @("Hostname", "OS", "Version", "LastContactDate") -Endpoint {
+                                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? {$_.lastContact.ToString("yyyy-MM-dd") -like $LastContact} | ForEach-Object {
+                                            [PSCustomObject]@{
+                                                Hostname = $_.Hostname;
+                                                OS = $_.os;
+                                                Version = $_.version;
+                                                LastContactDate = $_.lastContact.ToString("yyyy-MM-dd");
+                                            }
+                                        } | Out-UDGridData
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 
                 New-UDGrid -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Properties @("Hostname", "OS", "Created") -Endpoint {
                     Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7) | Sort-Object created -Descending | ForEach-Object {
