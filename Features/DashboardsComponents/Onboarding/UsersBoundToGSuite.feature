@@ -1,6 +1,6 @@
 Feature: Users Bound To G Suite
 
-    As JumpCloud, I want to provide admins with a component that gives them at a glance info into G -Suite integration
+    As JumpCloud, I want to provide admins with a component that gives them at a glance info into G Suite integration
 
     Scenario: A JumpCloud admin of a tenant that has users bound to G Suite views the Users Bound To G Suite component
 

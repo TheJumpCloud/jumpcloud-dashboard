@@ -16,4 +16,4 @@ Feature: JumpCloud-Dashboard Beta System Insights Dashboard
         And the -Beta parameter has been used
         And system insights is not enabled for the org
         When the system insights dashboard loads
-        Then the admin is informed that they must enable system insights to view the compoents of the dashboard
+        Then the admin is informed that they must enable system insights to view the components of the dashboard
