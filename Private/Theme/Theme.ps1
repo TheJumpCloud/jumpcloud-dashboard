@@ -1,7 +1,7 @@
 Return New-UDTheme -Name "Theme" -Definition @{
     '.sidenav'            = @{
         'background-color' = "#202e38"
-        'color'            = "#ffffff"
+        'color'            = "#fcfcfc"
         'margin-top'       = "75px"
         'height'           = "80%"
         'border-radius'    = "0px 8px 8px 0px"
@@ -12,7 +12,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     'li'                  = @{
         'background-color' = "#202e38"
-        'color'            = "#ffffff"
+        'color'            = "#fcfcfc"
     }
     'nav'                 = @{
         'left'  = "0"
@@ -20,7 +20,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     ".collapsible-header" = @{
         'background-color' = "#202e38"
-        'color'            = "#ffffff"
+        'color'            = "#fcfcfc"
         'font-size'        = "18px"
     }
     '.collapsible-body > ul > li > a'     = @{
@@ -41,15 +41,16 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     UDNavBar              = @{
         BackgroundColor = "#202e38"
-        FontColor       = "#ffffff"
+        FontColor       = "#fcfcfc"
     }
     ".ud-navbar"          = @{
         'width'    = "100%"
         'position' = "fixed"
         'z-index'  = "9999"
     }
-    ".btn-flat" = @{
-        'color' = "#ffffff"
+    ".btn" = @{
+        'color' = "#fcfcfc"
+        'background-color' = "#2cc692"
     }
     UDDashboard           = @{
         BackgroundColor = "#f9fafb"
@@ -58,10 +59,10 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".ud-card"            = @{
         'background-color' = "#202e38"
         'border-radius' = "8px"
-        'color' = "#ffffff"
+        'color' = "#fcfcfc"
     }
     ".ud-card p" = @{
-        'color' = "#ffffff !important"
+        'color' = "#fcfcfc !important"
     }
     ".card" = @{
         'height' = "100%"
@@ -72,7 +73,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     # Works for WebKit browsers (Chrome, Safari, Opera, etc)
     ".card::-webkit-scrollbar" = @{
-        'background-color' = "##202e38"
+        'background-color' = "#202e38"
         'border-radius' = "0px 8px 8px 0px"
     }
     ".card::-webkit-scrollbar-thumb" = @{
@@ -86,19 +87,33 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'width' = "100%"
     }
     ".tabs" = @{
-        'overflow-x' = "hidden"
+        'overflow-x' = "auto"
         'border-radius' = "8px"
-        'display' = "table-caption"
+        'display' = "inherit"
+        # Works for Microsoft browsers (IE & Edge)
+        '-ms-overflow-style' = "-ms-autohiding-scrollbar"
+    }
+    # Works for WebKit browsers (Chrome, Safari, Opera, etc)
+    ".tabs::-webkit-scrollbar" = @{
+        'height' = "0.66vh"
+        'background-color' = "#202e38"
+        'border-radius' = "0px 0px 8px 8px"
+    }
+    ".tabs::-webkit-scrollbar-thumb" = @{
+        'background' = "#a7a7a7"
+        'border-radius' = "8px"
+        'opacity' = "50%"
+        'width' = "50%"
     }
     ".tabs .tab a" = @{
         'color' = "#a7a7a7"
         'opacity' = "50%"
     }
     ".tabs .tab a:hover" = @{
-        'color' = "#ffffff"
+        'color' = "#fcfcfc"
     }
     ".tabs .tab a.active" = @{
-        'color' = "#ffffff"
+        'color' = "#fcfcfc"
         'opacity' = "100%"
     }
     ".tabs .indicator" = @{
@@ -109,7 +124,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     UDChart               = @{
         BackgroundColor = "#202e38"
-        FontColor       = "#ffffff"
+        FontColor       = "#fcfcfc"
     }
     ".ud-chart"           = @{
         'border-radius' = "8px"
@@ -117,14 +132,14 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".ud-grid"            = @{
         'border-radius' = "8px"
         'background-color' = "#202e38"
-        'color' = "#ffffff"
+        'color' = "#fcfcfc"
     }
     ".ud-button" = @{
         'margin' = "10px 0px 0px 0px"
     }
     UDFooter              = @{
         BackgroundColor = "#202e38"
-        FontColor       = "#ffffff"
+        FontColor       = "#fcfcfc"
     }
     'main'                = @{
         'flex'       = "1 0 auto"
