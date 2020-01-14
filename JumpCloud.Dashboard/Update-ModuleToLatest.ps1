@@ -8,7 +8,7 @@ Function Update-ModuleToLatest
     {
         $ModuleInfo = $ModuleName | ForEach-Object {
             [PSCustomObject]@{
-                PSGallery      = Find-Module -Name:($_)
+                PSGallery      = Find-Module -Name:($_) -Repository:LocalRepository
                 LocalInstalled = Get-InstalledModule -Name:($_) -AllVersions -ErrorAction:('Ignore') | Sort-Object -Property:('Version') | Select-Object -Last 1
                 LocalImported  = Get-Module -Name:($_) -All -ErrorAction:('Ignore') | Sort-Object -Property:('Version') | Select-Object -Last 1
             }
@@ -90,7 +90,7 @@ Function Update-ModuleToLatest
                 }
                 Else
                 {
-                    Install-Module -Name:($ModuleData.PSGallery.Name) -Force
+                    Install-Module -Name:($ModuleData.PSGallery.Name) -Force -Repository:LocalRepository
                 }
             }
         }
