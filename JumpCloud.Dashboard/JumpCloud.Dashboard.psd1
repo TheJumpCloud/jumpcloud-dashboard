@@ -51,8 +51,10 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules   = @('JumpCloud', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw')
-
+    RequiredModules   = @(
+        @{ModuleName = "UniversalDashboard.Community"; ModuleVersion = "2.8.1"; Guid = "c7894dd1-357e-4474-b8e1-b416afd70c2d" }
+        @{ModuleName = "UniversalDashboard.UDunDraw"; ModuleVersion = "1.0.2"; Guid = "04f4ae9e-5e65-4ebc-a4a4-3d419f9a2963" }
+    )
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
 
