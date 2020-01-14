@@ -51,8 +51,10 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules   = @('JumpCloud', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw')
-
+    RequiredModules   = @(
+        @{ModuleName = "UniversalDashboard.Community"; ModuleVersion = "2.8.1"; Guid = "c7894dd1-357e-4474-b8e1-b416afd70c2d" }
+        @{ModuleName = "UniversalDashboard.UDunDraw"; ModuleVersion = "1.0.2"; Guid = "04f4ae9e-5e65-4ebc-a4a4-3d419f9a2963" }
+    )
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
 
@@ -95,20 +97,29 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags         = 'JumpCloud', 'DaaS', 'Jump', 'Cloud', 'Directory', 'Dashboard'
+            Tags                       = 'JumpCloud', 'DaaS', 'Jump', 'Cloud', 'Directory', 'Dashboard'
 
             # A URL to the license for this module.
-            LicenseUri   = 'https://github.com/TheJumpCloud/support/blob/master/PowerShell/LICENSE'
+            LicenseUri                 = 'https://github.com/TheJumpCloud/support/blob/master/PowerShell/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri   = 'https://github.com/TheJumpCloud/jumpcloud-dashboard'
+            ProjectUri                 = 'https://github.com/TheJumpCloud/jumpcloud-dashboard'
 
             # A URL to an icon representing this module.
-            IconUri      = 'https://avatars1.githubusercontent.com/u/4927461?s=200&v=4'
+            IconUri                    = 'https://avatars1.githubusercontent.com/u/4927461?s=200&v=4'
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'Welcome to the JumpCloud Dashboard.
+            ReleaseNotes               = 'Welcome to the JumpCloud Dashboard.
 To get started run the command: Start-JCDashboard'
+
+            # Prerelease string of this module
+            Prerelease                 = 'beta'
+
+            # Flag to indicate whether the module requires explicit user acceptance for install/update/save
+            # RequireLicenseAcceptance = $false
+
+            # External dependent modules of this module
+            ExternalModuleDependencies = @('JumpCloud', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw')
 
         } # End of PSData hashtable
 

@@ -90,7 +90,8 @@ Function Update-ModuleToLatest
                 }
                 Else
                 {
-                    Install-Module -Name:($ModuleData.PSGallery.Name) -Force
+                    Write-Host ('Installing the ' + $ModuleName + ' PowerShell module.') -BackgroundColor:('Black') -ForegroundColor:('Gray')
+                    Install-Module -Name:($ModuleName) -Force
                 }
             }
         }
