@@ -10,7 +10,7 @@ Function 1Get-UDSystemUsers () {
     $PageName = 'SystemUsers'
     $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"}]}'
 
-    $LegendOptions = New-UDChartLegendOptions -Position bottom
+    $LegendOptions = New-UDChartLegendOptions -Position top
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
@@ -54,23 +54,23 @@ Function 1Get-UDSystemUsers () {
                 }
             
                 #SA-796 - User State Info
+                $UserStates = @()
+
+                $LockedUsers = Get-JCUser -account_locked $true
+
+                $UserStates += $LockedUsers
+
+                $ExpiredUsers = Get-JCUser -password_expired $true
+
+                $UserStates += $ExpiredUsers
+
+                $SuspendedUsers = Get-JCUser -suspended $true
+
+                $UserStates += $SuspendedUsers
+
+                $Script:UniqueUsers = $UserStates | Sort-Object username -Unique
+                if ($UniqueUsers) {
                 New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
-                    $UserStates = @()
-
-                    $LockedUsers = Get-JCUser -account_locked $true
-
-                    $UserStates += $LockedUsers
-
-                    $ExpiredUsers = Get-JCUser -password_expired $true
-
-                    $UserStates += $ExpiredUsers
-
-                    $SuspendedUsers = Get-JCUser -suspended $true
-
-                    $UserStates += $SuspendedUsers
-
-                    $UniqueUsers = $UserStates | Sort-Object username -Unique
-
                     $UniqueUsers | ForEach-Object {
                         [PSCustomObject]@{
                             Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
@@ -80,6 +80,12 @@ Function 1Get-UDSystemUsers () {
                         }
                     } | Out-UDGridData
                 } -NoExport
+            } else {
+                New-UDCard -Title "User State Information" -Id "UserState" -Content {
+                    New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
+                    New-UDunDraw -Name "celebration"
+                }
+            }
                 #SA-799 - Privileged User Info
                 New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
                     $PrivilegedUsers = @()

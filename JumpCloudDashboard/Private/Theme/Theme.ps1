@@ -61,7 +61,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'z-index'  = "9999"
     }
     ".btn" = @{
-        'color' = "#414c55"
+        'color' = "#ffffff"
         'background-color' = "#2cc692"
     }
     UDDashboard           = @{
