@@ -102,29 +102,32 @@ Function 2Get-UDSystems () {
                     }
                 }
 
-                New-UDChart -Title "MFA Enabled Systems" -Id "SystemsMFA" -Type pie -RefreshInterval 60  -Endpoint {
-                    try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
-                    }
-                    catch {
-                        0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
-                    }
-                } -Options $CircleChartOptions -OnClick {
-                    if ($EventData -ne "[]") {
-                        $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Name
-                        Show-UDModal -Content {
-                            New-UDTabContainer -Tabs {
-                                foreach ($TabName in $TabNames) {
-                                    New-UDTab -Text $TabName.Name -Content {
-                                        $script:MFAEnabled = [System.Convert]::ToBoolean($TabName.Name)
-                                        New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
-                                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.allowMultiFactorAuthentication -eq $MFAEnabled } | ForEach-Object {
-                                                [PSCustomObject]@{
-                                                    Hostname = $_.hostname;
-                                                    OS       = $_.os;
-                                                    Version  = $_.version;
-                                                }
-                                            } | Out-UDGridData
+                $Script:MFASystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.allowMultiFactorAuthentication }
+                if ($MFASystems) {
+                    New-UDChart -Title "MFA Enabled Systems" -Id "SystemsMFA" -Type pie -RefreshInterval 60  -Endpoint {
+                        try {
+                            Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
+                        }
+                        catch {
+                            0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                        }
+                    } -Options $CircleChartOptions -OnClick {
+                        if ($EventData -ne "[]") {
+                            $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Name
+                            Show-UDModal -Content {
+                                New-UDTabContainer -Tabs {
+                                    foreach ($TabName in $TabNames) {
+                                        New-UDTab -Text $TabName.Name -Content {
+                                            $script:MFAEnabled = [System.Convert]::ToBoolean($TabName.Name)
+                                            New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
+                                                Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.allowMultiFactorAuthentication -eq $MFAEnabled } | ForEach-Object {
+                                                    [PSCustomObject]@{
+                                                        Hostname = $_.hostname;
+                                                        OS       = $_.os;
+                                                        Version  = $_.version;
+                                                    }
+                                                } | Out-UDGridData
+                                            }
                                         }
                                     }
                                 }
@@ -132,6 +135,14 @@ Function 2Get-UDSystems () {
                         }
                     }
                 }
+                else {
+                    New-UDCard -Title "MFA Enabled Systems" -Id "SystemsMFA" -Content {
+                        New-UDunDraw -Name "authentication"
+                        New-UDParagraph -Text "None of your systems have MFA enabled."
+
+                    }
+                }
+
 
                 New-UDChart -Title "Agent Version" -Id "AgentVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                     try {
@@ -249,8 +260,8 @@ Function 2Get-UDSystems () {
                 }
                 else {
                     New-UDCard -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Content {
-                        New-UDParagraph -Text "You have not added any new systems to your JumpCloud Organization in the past 7 days."
                         New-UDunDraw -Name "operating-system"
+                        New-UDParagraph -Text "No new systems have been added to your JumpCloud Organization in the past 7 days."
                     }
                 }
             }

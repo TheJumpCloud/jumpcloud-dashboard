@@ -48,8 +48,8 @@ Function 1Get-UDSystemUsers () {
                 }
                 else {
                     New-UDCard -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Content {
-                        New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
                         New-UDunDraw -Name "add-user"
+                        New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
                     }
                 }
             
@@ -82,8 +82,8 @@ Function 1Get-UDSystemUsers () {
                 } -NoExport
             } else {
                 New-UDCard -Title "User State Information" -Id "UserState" -Content {
-                    New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
                     New-UDunDraw -Name "celebration"
+                    New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
                 }
             }
                 #SA-799 - Privileged User Info
