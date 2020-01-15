@@ -247,9 +247,9 @@ Function 2Get-UDSystems () {
         } 
     }
 
-    $UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Laptop')
+    #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Laptop')
     Return [PSCustomObject]@{
         'UDPage'        = $UDPage;
-        'UDSideNavItem' = $UDSideNavItem;
+    #    'UDSideNavItem' = $UDSideNavItem;
     }
 }
