@@ -149,6 +149,10 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".ud-button" = @{
         'margin' = "10px 0px 0px 0px"
     }
+    "#SystemsDownload" = @{
+        'box-shadow' = "none"
+        'background-color' = "inherit"
+    }
     UDFooter              = @{
         BackgroundColor = "#ffffff"
         FontColor       = "#414c55"

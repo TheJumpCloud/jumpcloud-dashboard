@@ -1,5 +1,4 @@
-Function 1Get-UDSystemUsers ()
-{
+Function 1Get-UDSystemUsers () {
     [CmdletBinding()]
 
     param (
@@ -9,7 +8,7 @@ Function 1Get-UDSystemUsers ()
 
     $PageText = 'Users'
     $PageName = 'SystemUsers'
-    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-MFAConfigured"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-PasswordExpiration"},{"w":12,"h":4,"x":4,"y":20,"i":"grid-element-UsersDownload"}]}'
+    $PageLayout = '{"lg":[{"w":4,"h":10,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":11,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":11,"i":"grid-element-PasswordExpiration"},{"w":12,"h":4,"x":4,"y":22,"i":"grid-element-UsersDownload"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -20,8 +19,7 @@ Function 1Get-UDSystemUsers ()
         # Check to see if org has any registered systems
         $HasUsers = Get-JCUser -returnProperties username | Measure-Object
 
-        if ($HasUsers.Count -eq 0)
-        {
+        if ($HasUsers.Count -eq 0) {
 
             New-UDRow {
                 New-UDColumn -Size 6 {
@@ -32,20 +30,29 @@ Function 1Get-UDSystemUsers ()
                 }
             }
         }
-        else
-        {
+        else {
             New-UDGridLayout -Layout $PageLayout -Content {
                 #SA-798/801 - New User Info
-                New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -Endpoint {
-                    Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14) | Sort-Object created -Descending | ForEach-Object {
-                        [PSCustomObject]@{
-                            Created   = $_.created;
-                            Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Email     = $_.email;
-                            Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
-                        }
-                    } | Out-UDGridData
-                } -NoExport
+                $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
+                if ($NewUsers) {
+                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -Endpoint {    
+                        $NewUsers | Sort-Object created -Descending | ForEach-Object {
+                            [PSCustomObject]@{
+                                Created   = $_.created;
+                                Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                Email     = $_.email;
+                                Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
+                            }
+                        } | Out-UDGridData
+                    } -NoExport
+                }
+                else {
+                    New-UDCard -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Content {
+                        New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
+                        New-UDunDraw -Name "add-user"
+                    }
+                }
+            
                 #SA-796 - User State Info
                 New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
                     $UserStates = @()
@@ -108,8 +115,7 @@ Function 1Get-UDSystemUsers ()
                         }
                     } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
                 } -OnClick {
-                    if ($EventData -ne "[]")
-                    {
+                    if ($EventData -ne "[]") {
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
                                 New-UDTab -Text "No MFA" -Content {
@@ -156,10 +162,8 @@ Function 1Get-UDSystemUsers ()
                         }
                     }
                 }
-                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
-                {
-                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7))
-                    {
+                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays) {
+                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7)) {
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
                             Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7) | ForEach-Object {
                                 [PSCustomObject]@{
@@ -170,8 +174,7 @@ Function 1Get-UDSystemUsers ()
                             }
                         }
                     }
-                    else
-                    {
+                    else {
                         New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
                             New-UDParagraph -Text "You do not have any users whose password will expire in the next 7 days!"
@@ -194,7 +197,7 @@ Function 1Get-UDSystemUsers ()
     }
     #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
     Return [PSCustomObject]@{
-        'UDPage'        = $UDPage;
-    #    'UDSideNavItem' = $UDSideNavItem;
+        'UDPage' = $UDPage;
+        #    'UDSideNavItem' = $UDSideNavItem;
     }
 }
