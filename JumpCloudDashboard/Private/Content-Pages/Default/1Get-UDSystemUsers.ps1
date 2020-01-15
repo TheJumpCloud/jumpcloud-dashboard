@@ -34,7 +34,7 @@ Function 1Get-UDSystemUsers ()
         }
         else
         {
-            New-UDGridLayout -Layout $PageLayout -Resizable -Draggable -Content {
+            New-UDGridLayout -Layout $PageLayout -Content {
                 #SA-798/801 - New User Info
                 New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -Endpoint {
                     Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14) | Sort-Object created -Descending | ForEach-Object {

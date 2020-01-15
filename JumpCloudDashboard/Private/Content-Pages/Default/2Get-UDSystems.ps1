@@ -57,7 +57,7 @@ Function 2Get-UDSystems () {
             }
         }
         else {
-            New-UDGridLayout -Layout $PageLayout -Draggable -Resizable  -Content {
+            New-UDGridLayout -Layout $PageLayout -Content {
                 New-UDChart -Title "Operating Systems $lastContactDays" -Id "OS" -Type Doughnut -RefreshInterval 60  -Endpoint {
                     try {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac")
