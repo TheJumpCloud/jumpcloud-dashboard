@@ -161,4 +161,18 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'flex'       = "1 0 auto"
         'margin-top' = "4.7rem"
     }
+    # table header allignment
+    "th.griddle-table-heading-cell:first-child" = @{
+        'text-align' = "left"
+    }
+    "th.griddle-table-heading-cell" = @{
+        'text-align' = "center"
+    }
+    # cell text and checkmnark allignment
+    "td.griddle-cell:first-child"   = @{
+        'text-align' = "left"
+    }
+    "td.griddle-cell"    = @{
+        'text-align' = "center"
+    }
 }
