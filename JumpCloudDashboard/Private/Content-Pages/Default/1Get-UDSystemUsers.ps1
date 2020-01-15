@@ -35,7 +35,7 @@ Function 1Get-UDSystemUsers () {
                 #SA-798/801 - New User Info
                 $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
                 if ($NewUsers) {
-                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -Endpoint {    
+                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -NoFilter -Endpoint {    
                         $NewUsers | Sort-Object created -Descending | ForEach-Object {
                             [PSCustomObject]@{
                                 Created   = $_.created;
@@ -54,7 +54,7 @@ Function 1Get-UDSystemUsers () {
                 }
             
                 #SA-796 - User State Info
-                New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
+                New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
                     $UserStates = @()
 
                     $LockedUsers = Get-JCUser -account_locked $true
@@ -81,7 +81,7 @@ Function 1Get-UDSystemUsers () {
                     } | Out-UDGridData
                 } -NoExport
                 #SA-799 - Privileged User Info
-                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -Endpoint {
+                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
                     $PrivilegedUsers = @()
 
                     $Sudo = Get-JCUser -sudo $true
