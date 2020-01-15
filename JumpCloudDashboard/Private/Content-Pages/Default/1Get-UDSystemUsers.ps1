@@ -192,9 +192,9 @@ Function 1Get-UDSystemUsers ()
             }
         }
     }
-    $UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
+    #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
     Return [PSCustomObject]@{
         'UDPage'        = $UDPage;
-        'UDSideNavItem' = $UDSideNavItem;
+    #    'UDSideNavItem' = $UDSideNavItem;
     }
 }

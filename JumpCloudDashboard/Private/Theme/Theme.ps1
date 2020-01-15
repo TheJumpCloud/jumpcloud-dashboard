@@ -21,6 +21,12 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'left'  = "0"
         'right' = "0"
     }
+    'nav ul a' = @{
+        'background-color' = "#202e38"
+    }
+    'nav ul li' = @{
+        'background-color' = "inherit"
+    }
     ".collapsible-header" = @{
         'background-color' = "#ffffff"
         'color'            = "#414c55"
@@ -45,6 +51,9 @@ Return New-UDTheme -Name "Theme" -Definition @{
     UDNavBar              = @{
         BackgroundColor = "#202e38"
         FontColor       = "#414c55"
+    }
+    ".right hide-on-med-and-down" = @{
+        'background-color' = "#202e38"
     }
     ".ud-navbar"          = @{
         'width'    = "100%"
