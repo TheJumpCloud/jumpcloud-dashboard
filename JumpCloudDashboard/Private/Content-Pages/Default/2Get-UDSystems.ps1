@@ -8,7 +8,7 @@ Function 2Get-UDSystems () {
 
     $PageText = 'Systems'
     $PageName = 'Systems'
-    $PageLayout = '{"lg":[{"w":12,"h":4,"x":0,"y":0,"i":"grid-element-SystemsDownload"},{"w":4,"h":10,"x":0,"y":5,"i":"grid-element-OS"},{"w":4,"h":10,"x":4,"y":5,"i":"grid-element-SystemsMFA"},{"w":4,"h":10,"x":9,"y":5,"i":"grid-element-NewSystems"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-AgentVersion"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-OSVersion"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-LastContact"}]}'
+    $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-SystemsDownload"},{"w":4,"h":10,"x":0,"y":5,"i":"grid-element-OS"},{"w":4,"h":10,"x":4,"y":5,"i":"grid-element-SystemsMFA"},{"w":4,"h":10,"x":9,"y":5,"i":"grid-element-NewSystems"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-AgentVersion"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-OSVersion"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-LastContact"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -58,7 +58,7 @@ Function 2Get-UDSystems () {
         }
         else {
             New-UDGridLayout -Layout $PageLayout -Content {
-                New-UDCard -Title "Systems" -Id "SystemsDownload" -Horizontal -Content {
+                New-UDCard -Horizontal -Title "Systems" -Id "SystemsDownload" -Content {
                     $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
                     $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
 

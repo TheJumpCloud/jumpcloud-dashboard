@@ -97,7 +97,9 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".card-content" = @{
         'height' = "100%"
         'width' = "100%"
+        'display' = "inline-block"
     }
+
     ".tabs" = @{
         'overflow-x' = "auto"
         #'border-radius' = "8px"
@@ -131,9 +133,6 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".tabs .indicator" = @{
         'background-color' = "#a7a7a7"
     }
-    ".ud-modal" = @{
-        #'border-radius' = "8px"
-    }
     UDChart               = @{
         BackgroundColor = "#ffffff"
         FontColor       = "#414c55"
@@ -147,9 +146,20 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'color' = "#414c55"
     }
     ".ud-button" = @{
-        'margin' = "10px 0px 0px 0px"
+        'float' = "right"
     }
     "#SystemsDownload" = @{
+        'box-shadow' = "none"
+        'background-color' = "inherit"
+    }
+    ".left-align p" = @{
+        'float' = "left"
+    }
+    ".left-align button" = @{
+        'float' = "right"
+        'margin' = "-2vh 0 0 0"
+    }
+    "#UsersDownload" = @{
         'box-shadow' = "none"
         'background-color' = "inherit"
     }
