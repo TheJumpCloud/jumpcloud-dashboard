@@ -135,7 +135,10 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     UDChart               = @{
         BackgroundColor = "#ffffff"
-        FontColor       = "#414c55"
+        FontColor       = "#414c55 !important"
+    }
+    ".grey-text" = @{
+        'color' = "#414c55 !important"
     }
     ".ud-chart"           = @{
         #'border-radius' = "8px"
@@ -152,16 +155,22 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'box-shadow' = "none"
         'background-color' = "inherit"
     }
+    "#SystemsDownload .card-title" = @{
+        'font-weight' = "bold"
+    }
+    "#UsersDownload" = @{
+        'box-shadow' = "none"
+        'background-color' = "inherit"
+    }
+    "#UsersDownload .card-title" = @{
+        'font-weight' = "bold"
+    }
     ".left-align p" = @{
         'float' = "left"
     }
     ".left-align button" = @{
         'float' = "right"
         'margin' = "-2vh 0 0 0"
-    }
-    "#UsersDownload" = @{
-        'box-shadow' = "none"
-        'background-color' = "inherit"
     }
     UDFooter              = @{
         BackgroundColor = "#ffffff"
