@@ -183,8 +183,13 @@ Function 1Get-UDSystemUsers () {
                     else {
                         New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
-                            New-UDParagraph -Text "You do not have any users whose password will expire in the next 7 days!"
+                            New-UDParagraph -Text "None of your users' passwords will expire in the next 7 days!"
                         }
+                    }
+                } else {
+                    New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
+                        New-UDunDraw -Name "my-password"
+                        New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
                     }
                 }
                 New-UDCard -Title "Users" -Id "UsersDownload" -Content {
