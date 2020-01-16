@@ -1,3 +1,43 @@
+
+<#PSScriptInfo
+
+.VERSION 1.0
+
+.GUID fbcec5aa-bc99-4977-91df-3ad335faa175
+
+.AUTHOR Solution Architecture Team
+
+.COMPANYNAME JumpCloud
+
+.COPYRIGHT
+
+.TAGS
+
+.LICENSEURI
+
+.PROJECTURI
+
+.ICONURI
+
+.EXTERNALMODULEDEPENDENCIES
+
+.REQUIREDSCRIPTS
+
+.EXTERNALSCRIPTDEPENDENCIES
+
+.RELEASENOTES
+
+
+.PRIVATEDATA
+
+#>
+
+<#
+
+.DESCRIPTION
+ Use to check for updates to PowerShell modules and will prompt to install if an update is available.
+
+#>
 Function Update-ModuleToLatest
 {
     Param(
