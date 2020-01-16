@@ -12,7 +12,7 @@
     RootModule        = 'JumpCloud.Dashboard.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.0'
+    ModuleVersion     = '0.0.6'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -71,7 +71,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = 'Start-JCDashboard'
+    FunctionsToExport = 'Start-JCDashboard', 'Update-ModuleToLatest'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = @()
