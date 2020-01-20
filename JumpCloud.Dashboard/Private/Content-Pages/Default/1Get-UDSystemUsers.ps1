@@ -10,7 +10,7 @@ Function 1Get-UDSystemUsers () {
     $PageName = 'SystemUsers'
     $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"}]}'
 
-    $LegendOptions = New-UDChartLegendOptions -Position top
+    $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
 
     $UDPage = New-UDPage -Name:($PageName) -Content {

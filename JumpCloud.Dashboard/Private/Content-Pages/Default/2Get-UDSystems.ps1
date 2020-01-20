@@ -139,14 +139,15 @@ Function 2Get-UDSystems () {
                     New-UDCard -Title "MFA Enabled Systems" -Id "SystemsMFA" -Content {
                         New-UDunDraw -Name "authentication"
                         New-UDParagraph -Text "None of your systems have MFA enabled."
-
                     }
                 }
 
-
+                $AgentVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Measure-Object | Select-Object -ExpandProperty Count
+                $AgentVersionNum = 9
+                $Script:AgentVersionColors = Get-AlternatingColors($AgentVersionNum,"#006cac","#e54852")
                 New-UDChart -Title "Agent Version" -Id "AgentVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                     try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
+                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#ffffff" -HoverBackgroundColor "#2cc692"
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
@@ -175,10 +176,12 @@ Function 2Get-UDSystems () {
                         }
                     }
                 }
-
+                $Script:OSColors = @()
+                $Script:OSColors += "#2cc692"
+                $Script:OSColors += "#ffffff"
                 New-UDChart -Title "OS Version" -Id "OSVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                     try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
+                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSColors -HoverBackgroundColor "#2cc692"
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
