@@ -156,8 +156,7 @@ Function 2Get-UDSystems ()
                 }
 
                 $AgentVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Measure-Object | Select-Object -ExpandProperty Count
-                [int]$Script:AgentVersionNum = 9
-                $Script:AgentVersionColors = Get-AlternatingColors -Rows:("$AgentVersionNum") -Color1:('#006cac') -Color2:('#e54852')
+                $Script:AgentVersionColors = Get-AlternatingColors -Rows:("$AgentVersionCount") -Color1:('#006cac') -Color2:('#2cc692')
                 New-UDChart -Title "Agent Version" -Id "AgentVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                     try
                     {
@@ -193,13 +192,13 @@ Function 2Get-UDSystems ()
                         }
                     }
                 }
-                $Script:OSColors = @()
-                $Script:OSColors += "#2cc692"
-                $Script:OSColors += "#ffffff"
+
+                $OSVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Measure-Object | Select-Object -ExpandProperty Count
+                $Script:OSVersionColors = Get-AlternatingColors -Rows:("$OSVersionCount") -Color1:('#2cc692') -Color2:('#006cac')
                 New-UDChart -Title "OS Version" -Id "OSVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
                     try
                     {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSColors -HoverBackgroundColor "#2cc692"
+                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSVersionColors -HoverBackgroundColor "#2cc692"
                     }
                     catch
                     {
