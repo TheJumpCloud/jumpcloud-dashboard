@@ -1,4 +1,5 @@
-Function 2Get-UDSystems () {
+Function 2Get-UDSystems ()
+{
     [CmdletBinding()]
 
     param (
@@ -46,7 +47,8 @@ Function 2Get-UDSystems () {
         # Check to see if org has any registered systems
         $HasSystems = Get-JCSystem -returnProperties hostname | Measure-Object
 
-        if ($HasSystems.Count -eq 0) {
+        if ($HasSystems.Count -eq 0)
+        {
             New-UDRow {
                 New-UDColumn -Size 6 {
                     New-UDCard -Title "No Systems Registered" -Content {
@@ -56,7 +58,8 @@ Function 2Get-UDSystems () {
                 }
             }
         }
-        else {
+        else
+        {
             New-UDGridLayout -Layout $PageLayout -Content {
                 New-UDCard -Horizontal -Title "Systems" -Id "SystemsDownload" -Content {
                     $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
@@ -72,18 +75,22 @@ Function 2Get-UDSystems () {
                 }
 
                 New-UDChart -Title "Operating System" -Id "OS" -Type Doughnut -RefreshInterval 60  -Endpoint {
-                    try {
+                    try
+                    {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac")
                     }
-                    catch {
+                    catch
+                    {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                     }
                 } -Options $CircleChartOptions -OnClick {
-                    if ($EventData -ne "[]") {
+                    if ($EventData -ne "[]")
+                    {
                         $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property os | Select-object Name
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
-                                foreach ($TabName in $TabNames) {
+                                foreach ($TabName in $TabNames)
+                                {
                                     New-UDTab -Text $TabName.Name -Content {
                                         $script:OSType = $TabName.Name
                                         New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
@@ -103,20 +110,25 @@ Function 2Get-UDSystems () {
                 }
 
                 $Script:MFASystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.allowMultiFactorAuthentication }
-                if ($MFASystems) {
+                if ($MFASystems)
+                {
                     New-UDChart -Title "MFA Enabled Systems" -Id "SystemsMFA" -Type pie -RefreshInterval 60  -Endpoint {
-                        try {
+                        try
+                        {
                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
                         }
-                        catch {
+                        catch
+                        {
                             0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                         }
                     } -Options $CircleChartOptions -OnClick {
-                        if ($EventData -ne "[]") {
+                        if ($EventData -ne "[]")
+                        {
                             $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Name
                             Show-UDModal -Content {
                                 New-UDTabContainer -Tabs {
-                                    foreach ($TabName in $TabNames) {
+                                    foreach ($TabName in $TabNames)
+                                    {
                                         New-UDTab -Text $TabName.Name -Content {
                                             $script:MFAEnabled = [System.Convert]::ToBoolean($TabName.Name)
                                             New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
@@ -135,7 +147,8 @@ Function 2Get-UDSystems () {
                         }
                     }
                 }
-                else {
+                else
+                {
                     New-UDCard -Title "MFA Enabled Systems" -Id "SystemsMFA" -Content {
                         New-UDunDraw -Name "authentication"
                         New-UDParagraph -Text "None of your systems have MFA enabled."
@@ -143,21 +156,25 @@ Function 2Get-UDSystems () {
                 }
 
                 $AgentVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Measure-Object | Select-Object -ExpandProperty Count
-                $AgentVersionNum = 9
-                $Script:AgentVersionColors = Get-AlternatingColors($AgentVersionNum,"#006cac","#e54852")
+                [int]$Script:AgentVersionNum = 9
+                $Script:AgentVersionColors = Get-AlternatingColors -Rows:("$AgentVersionNum") -Color1:('#006cac') -Color2:('#e54852')
                 New-UDChart -Title "Agent Version" -Id "AgentVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
-                    try {
+                    try
+                    {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#ffffff" -HoverBackgroundColor "#2cc692"
                     }
-                    catch {
+                    catch
+                    {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                     }
                 } -Options $BarChartOptions -OnClick {
-                    if ($EventData -ne "[]") {
+                    if ($EventData -ne "[]")
+                    {
                         $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object agentVersion | Select-object Name
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
-                                foreach ($TabName in $TabNames) {
+                                foreach ($TabName in $TabNames)
+                                {
                                     New-UDTab -Text $TabName.Name -Content {
                                         $script:AgentVersion = $TabName.Name
                                         New-UDGrid -Headers @("Hostname", "OS", "Version", "Agent Version") -Properties @("Hostname", "OS", "Version", "AgentVersion") -Endpoint {
@@ -180,19 +197,23 @@ Function 2Get-UDSystems () {
                 $Script:OSColors += "#2cc692"
                 $Script:OSColors += "#ffffff"
                 New-UDChart -Title "OS Version" -Id "OSVersion" -Type HorizontalBar -RefreshInterval 60  -Endpoint {
-                    try {
+                    try
+                    {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSColors -HoverBackgroundColor "#2cc692"
                     }
-                    catch {
+                    catch
+                    {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                     }
 
                 } -Options $BarChartOptions -OnClick {
-                    if ($EventData -ne "[]") {
+                    if ($EventData -ne "[]")
+                    {
                         $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object version | Select-object Name
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
-                                foreach ($TabName in $TabNames) {
+                                foreach ($TabName in $TabNames)
+                                {
                                     New-UDTab -Text $TabName.Name -Content {
                                         $script:OSVersion = $TabName.Name
                                         New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
@@ -212,14 +233,16 @@ Function 2Get-UDSystems () {
                 }
                 
                 New-UDChart -Title "Last Contact Days" -Id "LastContact" -Type Line -RefreshInterval 60  -Endpoint {
-                    try {
+                    try
+                    {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | ForEach-Object {
                             [PSCustomObject]@{
                                 LastContactDate = $_.lastContact.ToString("yyyy-MM-dd")
                             }
                         } | Group-Object -Property LastContactDate | Select-Object Name, Count | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
                     }
-                    catch {
+                    catch
+                    {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
                     }
                 } -Options $LineChartOptions -OnClick {
@@ -230,7 +253,8 @@ Function 2Get-UDSystems () {
                     } | Group-Object -Property LastContactDate | Select-Object Name
                     Show-UDModal -Content {
                         New-UDTabContainer -Tabs {
-                            foreach ($TabName in $TabNames) {
+                            foreach ($TabName in $TabNames)
+                            {
                                 New-UDTab -Text $TabName.Name -Content {
                                     $script:LastContact = $TabName.Name
                                     New-UDGrid -Properties @("Hostname", "OS", "Version", "LastContactDate") -Endpoint {
@@ -250,7 +274,8 @@ Function 2Get-UDSystems () {
                 }
                 
                 $Script:NewSystems = Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7)
-                if ($NewSystems) {
+                if ($NewSystems)
+                {
                     New-UDGrid -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Properties @("Hostname", "OS", "Created") -Endpoint {
                         Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7) | Sort-Object created -Descending | ForEach-Object {
                             [PSCustomObject]@{
@@ -261,7 +286,8 @@ Function 2Get-UDSystems () {
                         } | Out-UDGridData
                     } -NoExport
                 }
-                else {
+                else
+                {
                     New-UDCard -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Content {
                         New-UDunDraw -Name "operating-system"
                         New-UDParagraph -Text "No new systems have been added to your JumpCloud Organization in the past 7 days."
