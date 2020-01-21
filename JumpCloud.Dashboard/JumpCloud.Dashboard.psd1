@@ -109,7 +109,7 @@
             IconUri                    = 'https://avatars1.githubusercontent.com/u/4927461?s=200&v=4'
 
             # ReleaseNotes of this module
-            ReleaseNotes               = 'Welcome to the JumpCloud Dashboard. 
+            ReleaseNotes               = 'Welcome to the JumpCloud Dashboard.
 To get started run the command: Start-JCDashboard'
 
             # Prerelease string of this module
