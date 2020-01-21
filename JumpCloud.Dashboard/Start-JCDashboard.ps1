@@ -52,11 +52,10 @@ Function Start-JCDashboard
     )
 
     # Auto Update
-
     if (! $NoUpdate) {
         Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
     }
-    
+
     ## Authentication
     if ($JumpCloudApiKey)
     {
@@ -140,9 +139,9 @@ Function Start-JCDashboard
     # -Footer:($Footer)
 
     ## Start the dashboard
-    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8000) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
+    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8001) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
     ## Opens the dashboard
-    Start-Process -FilePath 'http://127.0.0.1:8000'
+    Start-Process -FilePath 'http://127.0.0.1:8001'
 
 }
