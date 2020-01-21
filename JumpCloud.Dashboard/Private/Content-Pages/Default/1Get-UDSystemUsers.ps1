@@ -182,7 +182,7 @@ Function 1Get-UDSystemUsers ()
                     if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30))
                     {
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Password Expiration Date")-Properties @("Username", "ExpirationDate") -Endpoint {
-                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object -Descending "password_expiration_date" | ForEach-Object {
+                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object "password_expiration_date" | ForEach-Object {
                                 [PSCustomObject]@{
                                     Username       = $_.username;
                                     ExpirationDate = $_.password_expiration_date.ToLocalTime();
@@ -209,13 +209,17 @@ Function 1Get-UDSystemUsers ()
 
                 if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
                 {
-                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30))
+                    [int]$script:PasswordExpirationDays = $JCSettings.SETTINGS.passwordPolicy.passwordExpirationInDays
+
+                    [int]$script:PasswordExpirationDaysSearch = $PasswordExpirationDays - 14
+
+                    if (Get-JCUser -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username)
                     {
-                        New-UDGrid -Title "Recent Password Changes" -Id "PasswordChanges" -Headers @("Username", "Password Expiration Date")-Properties @("Username", "ExpirationDate") -Endpoint {
-                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object -Descending "password_expiration_date" | ForEach-Object {
+                        New-UDGrid -Title "Recent Password Changes" -Id "PasswordChanges" -Headers @("Username", "Password Change Date")-Properties @("Username", "ChangeDate") -Endpoint {
+                            Get-JCUser -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username | Sort-object 'password_expiration_date' -Descending | ForEach-Object {
                                 [PSCustomObject]@{
                                     Username       = $_.username;
-                                    ExpirationDate = $_.password_expiration_date.ToLocalTime();
+                                    ChangeDate = $_.password_expiration_date.ToLocalTime().AddDays(-$PasswordExpirationDays)
                                 }
                             } | Out-UDGridData
                         }
