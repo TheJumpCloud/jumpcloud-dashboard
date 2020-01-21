@@ -110,7 +110,7 @@
 
             # ReleaseNotes of this module
             ReleaseNotes               = 'Welcome to the JumpCloud Dashboard. 
-            To get started run the command: Start-JCDashboard'
+To get started run the command: Start-JCDashboard'
 
             # Prerelease string of this module
             Prerelease                 = 'beta'
