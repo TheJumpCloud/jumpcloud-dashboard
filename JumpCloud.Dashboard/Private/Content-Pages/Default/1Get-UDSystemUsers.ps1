@@ -9,7 +9,7 @@ Function 1Get-UDSystemUsers ()
 
     $PageText = 'Users'
     $PageName = 'SystemUsers'
-    $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"}]}'
+    $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-PasswordChanges"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -179,23 +179,22 @@ Function 1Get-UDSystemUsers ()
                 }
                 if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
                 {
-                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7))
+                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30))
                     {
-                        New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
-                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7) | ForEach-Object {
+                        New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Password Expiration Date")-Properties @("Username", "ExpirationDate") -Endpoint {
+                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object -Descending "password_expiration_date" | ForEach-Object {
                                 [PSCustomObject]@{
                                     Username       = $_.username;
-                                    Email          = $_.email;
                                     ExpirationDate = $_.password_expiration_date.ToLocalTime();
                                 }
-                            }
+                            } | Out-UDGridData
                         }
                     }
                     else
                     {
                         New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
-                            New-UDParagraph -Text "None of your users' passwords will expire in the next 7 days!"
+                            New-UDParagraph -Text "None of your users' passwords will expire in the next 30 days!"
                         }
                     }
                 }
@@ -206,6 +205,38 @@ Function 1Get-UDSystemUsers ()
                         New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
                     }
                 }
+
+
+                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
+                {
+                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30))
+                    {
+                        New-UDGrid -Title "Recent Password Changes" -Id "PasswordChanges" -Headers @("Username", "Password Expiration Date")-Properties @("Username", "ExpirationDate") -Endpoint {
+                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object -Descending "password_expiration_date" | ForEach-Object {
+                                [PSCustomObject]@{
+                                    Username       = $_.username;
+                                    ExpirationDate = $_.password_expiration_date.ToLocalTime();
+                                }
+                            } | Out-UDGridData
+                        }
+                    }
+                    else
+                    {
+                        New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
+                            New-UDunDraw -Name "my-password"
+                            New-UDParagraph -Text "None of your users' passwords will expire in the next 30 days!"
+                        }
+                    }
+                }
+                else
+                {
+                    New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
+                        New-UDunDraw -Name "my-password"
+                        New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
+                    }
+                }
+
+
                 New-UDCard -Title "Users" -Id "UsersDownload" -Content {
                     $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
 
@@ -213,7 +244,7 @@ Function 1Get-UDSystemUsers ()
                     New-UDButton -Icon 'cloud_download' -Text "Download All User Information" -OnClick {
                         $DesktopPath = '~' + '\' + 'Desktop'
                         Set-Location $DesktopPath
-                        Get-JCBackup -Systems
+                        Get-JCBackup -Users
                         Show-UDToast -Message "User Information Downloaded To CSV On Desktop" -Duration 10000;
                     }
                 }
