@@ -1,42 +1,3 @@
-<#PSScriptInfo
-
-.VERSION 1.0
-
-.GUID 7917df3f-978f-4246-8e61-2fd55f1075f1
-
-.AUTHOR Solution Architecture Team
-
-.COMPANYNAME JumpCloud
-
-.COPYRIGHT
-
-.TAGS
-
-.LICENSEURI
-
-.PROJECTURI
-
-.ICONURI
-
-.EXTERNALMODULEDEPENDENCIES
-
-.REQUIREDSCRIPTS
-
-.EXTERNALSCRIPTDEPENDENCIES
-
-.RELEASENOTES
-
-
-.PRIVATEDATA
-
-#>
-
-<#
-
-.DESCRIPTION
- Used to start the JumpCloud Dashboard instance.
-
-#>
 Function Start-JCDashboard
 {
     Param(
@@ -72,7 +33,7 @@ Function Start-JCDashboard
 
     ## Declare container variables for dashboard items
     $UDPages = @()
-    $UDSideNavItems = @()
+    #$UDSideNavItems = @()
     $Scripts = @()
     $Stylesheets = @()
 
@@ -115,10 +76,10 @@ Function Start-JCDashboard
 
         ## Add the output to the container variable
         $UDPages += $CommandResults.UDPage
-        $UDSideNavItems += $CommandResults.UDSideNavItem
+        #$UDSideNavItems += $CommandResults.UDSideNavItem
     }
     # Build dashboard
-    $Navigation = New-UDSideNav -Content { $UDSideNavItems }
+    $Navigation = New-UDSideNav -None
     $Pages = $UDPages
     $Dashboard = New-UDDashboard `
         -Title:("$($OrgName) Dashboard") `
