@@ -39,13 +39,12 @@ Function 1Get-UDSystemUsers ()
                 $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
                 if ($NewUsers)
                 {
-                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -NoFilter -Endpoint {    
+                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Headers @("Username","Activated","Created") -Properties @("Username","Activated","Created") -NoFilter -Endpoint {    
                         $NewUsers | Sort-Object created -Descending | ForEach-Object {
                             [PSCustomObject]@{
-                                Created   = $_.created;
                                 Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                Email     = $_.email;
                                 Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
+                                Created   = $_.created;
                             }
                         } | Out-UDGridData
                     } -NoExport
@@ -121,7 +120,7 @@ Function 1Get-UDSystemUsers ()
 
                             $UniquePrivilegedUsers | ForEach-Object {
                                 [PSCustomObject]@{
-                                    Username         = $_.username;
+                                    Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                     GlobalAdmin      = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
                                     LDAPBindUser     = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
                                     SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });
@@ -205,7 +204,7 @@ Function 1Get-UDSystemUsers ()
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Password Expiration Date")-Properties @("Username", "ExpirationDate") -Endpoint {
                             Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object "password_expiration_date" | ForEach-Object {
                                 [PSCustomObject]@{
-                                    Username       = $_.username;
+                                    Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                     ExpirationDate = $_.password_expiration_date.ToLocalTime();
                                 }
                             } | Out-UDGridData
@@ -223,7 +222,7 @@ Function 1Get-UDSystemUsers ()
                 {
                     New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                         New-UDunDraw -Name "my-password"
-                        New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
+                        New-UDParagraph -Text "Password expiration is not enabled for your JumpCloud Organization."
                     }
                 }
 
@@ -239,7 +238,7 @@ Function 1Get-UDSystemUsers ()
                         New-UDGrid -Title "Recent Password Changes" -Id "PasswordChanges" -Headers @("Username", "Password Change Date")-Properties @("Username", "ChangeDate") -Endpoint {
                             Get-JCUser -activated $true -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username | Sort-object 'password_expiration_date' -Descending | ForEach-Object {
                                 [PSCustomObject]@{
-                                    Username       = $_.username;
+                                    Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
                                     ChangeDate = $_.password_expiration_date.ToLocalTime().AddDays(-$PasswordExpirationDays)
                                 }
                             } | Out-UDGridData
@@ -253,13 +252,13 @@ Function 1Get-UDSystemUsers ()
                             New-UDParagraph -Text "No recent password changes"
                         }
                     }
-    
+
                 }
                 else
                 {
                     New-UDCard -Title "Recent Password Changes" -Id "PasswordChanges" -Content {
-                        New-UDunDraw -Name "no-data"
-                        New-UDParagraph -Text "No recent password changes"
+                        New-UDunDraw -Name "alert"
+                        New-UDParagraph -Text "Password expiration must be enabled to view recent password changes."
                     }
                 }
 
