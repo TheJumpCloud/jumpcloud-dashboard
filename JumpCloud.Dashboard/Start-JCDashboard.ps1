@@ -72,7 +72,7 @@ Function Start-JCDashboard
 
     ## Declare container variables for dashboard items
     $UDPages = @()
-    $UDSideNavItems = @()
+    #$UDSideNavItems = @()
     $Scripts = @()
     $Stylesheets = @()
 
@@ -115,10 +115,10 @@ Function Start-JCDashboard
 
         ## Add the output to the container variable
         $UDPages += $CommandResults.UDPage
-        $UDSideNavItems += $CommandResults.UDSideNavItem
+        #$UDSideNavItems += $CommandResults.UDSideNavItem
     }
     # Build dashboard
-    $Navigation = New-UDSideNav -Content { $UDSideNavItems }
+    $Navigation = New-UDSideNav -None
     $Pages = $UDPages
     $Dashboard = New-UDDashboard `
         -Title:("$($OrgName) Dashboard") `
