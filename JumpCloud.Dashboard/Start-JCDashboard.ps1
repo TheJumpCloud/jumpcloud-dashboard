@@ -49,7 +49,8 @@ Function Start-JCDashboard
         [Switch]$Beta
     )
 
-
+    # Auto Update
+    Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
     ## Authentication
     if ($JumpCloudApiKey)
     {
