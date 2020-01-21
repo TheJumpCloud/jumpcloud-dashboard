@@ -74,6 +74,7 @@ Function 1Get-UDSystemUsers ()
                 $UserStates += $SuspendedUsers
 
                 $Script:UniqueUsers = $UserStates | Sort-Object username -Unique
+
                 if ($UniqueUsers)
                 {
                     New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
@@ -86,17 +87,18 @@ Function 1Get-UDSystemUsers ()
                             }
                         } | Out-UDGridData
                     } -NoExport
-                }
+                 }
                 else
                 {
+
                     New-UDCard -Title "User State Information" -Id "UserState" -Content {
                         New-UDunDraw -Name "celebration"
-                        New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
+                        New-UDParagraph -Text "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
                     }
                 }
                 #SA-799 - Privileged User Info
-                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
-                    $PrivilegedUsers = @()
+
+                $PrivilegedUsers = @()
 
                     $Sudo = Get-JCUser -sudo $true
 
@@ -110,17 +112,36 @@ Function 1Get-UDSystemUsers ()
 
                     $PrivilegedUsers += $LdapBinding
 
-                    $UniquePrivilegedUsers = $PrivilegedUsers | Sort-Object username -Unique
+                    $script:UniquePrivilegedUsers = $PrivilegedUsers | Sort-Object username -Unique
 
-                    $UniquePrivilegedUsers | ForEach-Object {
-                        [PSCustomObject]@{
-                            Username         = $_.username;
-                            GlobalAdmin      = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
-                            LDAPBindUser     = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
-                            SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });
+                    if ($UniquePrivilegedUsers) {
+
+                        New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
+                    
+
+                            $UniquePrivilegedUsers | ForEach-Object {
+                                [PSCustomObject]@{
+                                    Username         = $_.username;
+                                    GlobalAdmin      = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
+                                    LDAPBindUser     = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
+                                    SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });
+                                }
+                            } | Out-UDGridData
+                        } -NoExport
+
+                    }
+
+                    else {
+                        New-UDCard -Title "Privileged Users" -Id "PrivilegedUsers" -Content {
+                            New-UDunDraw -Name "safe"
+                            New-UDParagraph -Text "None of your users are configured as Global Admin, LDAP Bind, or Samba Service users."
                         }
-                    } | Out-UDGridData
-                } -NoExport
+                    }
+
+                
+
+
+
                 New-UDChart -Title "MFA Configured" -Id "MFAConfigured" -Type Doughnut -RefreshInterval 60 -Options $Options -Endpoint {
                     Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
                         [PSCustomObject]@{
@@ -207,7 +228,7 @@ Function 1Get-UDSystemUsers ()
                 }
 
 
-                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
+                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays -eq "True")
                 {
                     [int]$script:PasswordExpirationDays = $JCSettings.SETTINGS.passwordPolicy.passwordExpirationInDays
 
@@ -216,7 +237,7 @@ Function 1Get-UDSystemUsers ()
                     if (Get-JCUser -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username)
                     {
                         New-UDGrid -Title "Recent Password Changes" -Id "PasswordChanges" -Headers @("Username", "Password Change Date")-Properties @("Username", "ChangeDate") -Endpoint {
-                            Get-JCUser -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username | Sort-object 'password_expiration_date' -Descending | ForEach-Object {
+                            Get-JCUser -activated $true -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username | Sort-object 'password_expiration_date' -Descending | ForEach-Object {
                                 [PSCustomObject]@{
                                     Username       = $_.username;
                                     ChangeDate = $_.password_expiration_date.ToLocalTime().AddDays(-$PasswordExpirationDays)
@@ -224,19 +245,21 @@ Function 1Get-UDSystemUsers ()
                             } | Out-UDGridData
                         }
                     }
+
                     else
                     {
-                        New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
-                            New-UDunDraw -Name "my-password"
-                            New-UDParagraph -Text "None of your users' passwords will expire in the next 30 days!"
+                        New-UDCard -Title "Recent Password Changes" -Id "PasswordChanges" -Content {
+                            New-UDunDraw -Name "no-data"
+                            New-UDParagraph -Text "No recent password changes"
                         }
                     }
+    
                 }
                 else
                 {
-                    New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
-                        New-UDunDraw -Name "my-password"
-                        New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
+                    New-UDCard -Title "Recent Password Changes" -Id "PasswordChanges" -Content {
+                        New-UDunDraw -Name "no-data"
+                        New-UDParagraph -Text "No recent password changes"
                     }
                 }
 
