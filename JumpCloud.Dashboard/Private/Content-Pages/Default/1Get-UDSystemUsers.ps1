@@ -9,7 +9,7 @@ Function 1Get-UDSystemUsers ()
 
     $PageText = 'Users'
     $PageName = 'SystemUsers'
-    $PageLayout = '{"lg":[{"w":4,"h":9,"x":0,"y":0,"i":"grid-element-NewUsers"},{"w":4,"h":9,"x":4,"y":0,"i":"grid-element-UserState"},{"w":4,"h":9,"x":9,"y":0,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":9,"x":0,"y":10,"i":"grid-element-MFAConfigured"},{"w":4,"h":9,"x":4,"y":10,"i":"grid-element-PasswordExpiration"},{"w":12,"h":4,"x":4,"y":20,"i":"grid-element-UsersDownload"}]}'
+    $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"}]}'
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -34,47 +34,68 @@ Function 1Get-UDSystemUsers ()
         }
         else
         {
-            New-UDGridLayout -Layout $PageLayout -Resizable -Draggable -Content {
+            New-UDGridLayout -Layout $PageLayout -Content {
                 #SA-798/801 - New User Info
-                New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -Endpoint {
-                    Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14) | Sort-Object created -Descending | ForEach-Object {
-                        [PSCustomObject]@{
-                            Created   = $_.created;
-                            Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Email     = $_.email;
-                            Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
-                        }
-                    } | Out-UDGridData
-                } -NoExport
+                $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
+                if ($NewUsers)
+                {
+                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -NoFilter -Endpoint {    
+                        $NewUsers | Sort-Object created -Descending | ForEach-Object {
+                            [PSCustomObject]@{
+                                Created   = $_.created;
+                                Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                Email     = $_.email;
+                                Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
+                            }
+                        } | Out-UDGridData
+                    } -NoExport
+                }
+                else
+                {
+                    New-UDCard -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Content {
+                        New-UDunDraw -Name "add-user"
+                        New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
+                    }
+                }
+            
                 #SA-796 - User State Info
-                New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -Endpoint {
-                    $UserStates = @()
+                $UserStates = @()
 
-                    $LockedUsers = Get-JCUser -account_locked $true
+                $LockedUsers = Get-JCUser -account_locked $true
 
-                    $UserStates += $LockedUsers
+                $UserStates += $LockedUsers
 
-                    $ExpiredUsers = Get-JCUser -password_expired $true
+                $ExpiredUsers = Get-JCUser -password_expired $true
 
-                    $UserStates += $ExpiredUsers
+                $UserStates += $ExpiredUsers
 
-                    $SuspendedUsers = Get-JCUser -suspended $true
+                $SuspendedUsers = Get-JCUser -suspended $true
 
-                    $UserStates += $SuspendedUsers
+                $UserStates += $SuspendedUsers
 
-                    $UniqueUsers = $UserStates | Sort-Object username -Unique
-
-                    $UniqueUsers | ForEach-Object {
-                        [PSCustomObject]@{
-                            Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Suspended = $(if ($_.suspended) { New-UDIcon -Icon check } else { "" });
-                            Expired   = $(if ($_.password_expired) { New-UDIcon -Icon check } else { "" });
-                            Locked    = $(if ($_.account_locked) { New-UDIcon -Icon check } else { "" });
-                        }
-                    } | Out-UDGridData
-                } -NoExport
+                $Script:UniqueUsers = $UserStates | Sort-Object username -Unique
+                if ($UniqueUsers)
+                {
+                    New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
+                        $UniqueUsers | ForEach-Object {
+                            [PSCustomObject]@{
+                                Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                Suspended = $(if ($_.suspended) { New-UDIcon -Icon check } else { "" });
+                                Expired   = $(if ($_.password_expired) { New-UDIcon -Icon check } else { "" });
+                                Locked    = $(if ($_.account_locked) { New-UDIcon -Icon check } else { "" });
+                            }
+                        } | Out-UDGridData
+                    } -NoExport
+                }
+                else
+                {
+                    New-UDCard -Title "User State Information" -Id "UserState" -Content {
+                        New-UDunDraw -Name "celebration"
+                        New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
+                    }
+                }
                 #SA-799 - Privileged User Info
-                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -Endpoint {
+                New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
                     $PrivilegedUsers = @()
 
                     $Sudo = Get-JCUser -sudo $true
@@ -174,14 +195,21 @@ Function 1Get-UDSystemUsers ()
                     {
                         New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
-                            New-UDParagraph -Text "You do not have any users whose password will expire in the next 7 days!"
+                            New-UDParagraph -Text "None of your users' passwords will expire in the next 7 days!"
                         }
                     }
                 }
-                New-UDCard -Title "Displaying information from all users in your JumpCloud Organization" -Id "UsersDownload" -Content {
+                else
+                {
+                    New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
+                        New-UDunDraw -Name "my-password"
+                        New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
+                    }
+                }
+                New-UDCard -Title "Users" -Id "UsersDownload" -Content {
                     $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
 
-                    New-UDParagraph -Text "Displaying $TotalUsers users."
+                    New-UDParagraph -Text "Displaying information from all users in your JumpCloud Organization. Displaying $TotalUsers users."
                     New-UDButton -Icon 'cloud_download' -Text "Download All User Information" -OnClick {
                         $DesktopPath = '~' + '\' + 'Desktop'
                         Set-Location $DesktopPath
@@ -192,9 +220,9 @@ Function 1Get-UDSystemUsers ()
             }
         }
     }
-    $UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
+    #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
     Return [PSCustomObject]@{
-        'UDPage'        = $UDPage;
-        'UDSideNavItem' = $UDSideNavItem;
+        'UDPage' = $UDPage;
+        #    'UDSideNavItem' = $UDSideNavItem;
     }
 }
