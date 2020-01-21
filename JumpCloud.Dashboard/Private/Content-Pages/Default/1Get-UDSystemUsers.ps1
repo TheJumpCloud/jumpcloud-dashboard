@@ -1,4 +1,5 @@
-Function 1Get-UDSystemUsers () {
+Function 1Get-UDSystemUsers ()
+{
     [CmdletBinding()]
 
     param (
@@ -19,7 +20,8 @@ Function 1Get-UDSystemUsers () {
         # Check to see if org has any registered systems
         $HasUsers = Get-JCUser -returnProperties username | Measure-Object
 
-        if ($HasUsers.Count -eq 0) {
+        if ($HasUsers.Count -eq 0)
+        {
 
             New-UDRow {
                 New-UDColumn -Size 6 {
@@ -30,11 +32,13 @@ Function 1Get-UDSystemUsers () {
                 }
             }
         }
-        else {
+        else
+        {
             New-UDGridLayout -Layout $PageLayout -Content {
                 #SA-798/801 - New User Info
                 $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
-                if ($NewUsers) {
+                if ($NewUsers)
+                {
                     New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Properties @("Username", "Email", "Created", "Activated") -NoFilter -Endpoint {    
                         $NewUsers | Sort-Object created -Descending | ForEach-Object {
                             [PSCustomObject]@{
@@ -46,7 +50,8 @@ Function 1Get-UDSystemUsers () {
                         } | Out-UDGridData
                     } -NoExport
                 }
-                else {
+                else
+                {
                     New-UDCard -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Content {
                         New-UDunDraw -Name "add-user"
                         New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
@@ -69,23 +74,26 @@ Function 1Get-UDSystemUsers () {
                 $UserStates += $SuspendedUsers
 
                 $Script:UniqueUsers = $UserStates | Sort-Object username -Unique
-                if ($UniqueUsers) {
-                New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
-                    $UniqueUsers | ForEach-Object {
-                        [PSCustomObject]@{
-                            Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Suspended = $(if ($_.suspended) { New-UDIcon -Icon check } else { "" });
-                            Expired   = $(if ($_.password_expired) { New-UDIcon -Icon check } else { "" });
-                            Locked    = $(if ($_.account_locked) { New-UDIcon -Icon check } else { "" });
-                        }
-                    } | Out-UDGridData
-                } -NoExport
-            } else {
-                New-UDCard -Title "User State Information" -Id "UserState" -Content {
-                    New-UDunDraw -Name "celebration"
-                    New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
+                if ($UniqueUsers)
+                {
+                    New-UDGrid -Title "User State Information" -Id "UserState" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
+                        $UniqueUsers | ForEach-Object {
+                            [PSCustomObject]@{
+                                Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                Suspended = $(if ($_.suspended) { New-UDIcon -Icon check } else { "" });
+                                Expired   = $(if ($_.password_expired) { New-UDIcon -Icon check } else { "" });
+                                Locked    = $(if ($_.account_locked) { New-UDIcon -Icon check } else { "" });
+                            }
+                        } | Out-UDGridData
+                    } -NoExport
                 }
-            }
+                else
+                {
+                    New-UDCard -Title "User State Information" -Id "UserState" -Content {
+                        New-UDunDraw -Name "celebration"
+                        New-UDParagraph "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
+                    }
+                }
                 #SA-799 - Privileged User Info
                 New-UDGrid -Title "Privileged Users" -Id "PrivilegedUsers" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
                     $PrivilegedUsers = @()
@@ -121,7 +129,8 @@ Function 1Get-UDSystemUsers () {
                         }
                     } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
                 } -OnClick {
-                    if ($EventData -ne "[]") {
+                    if ($EventData -ne "[]")
+                    {
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
                                 New-UDTab -Text "No MFA" -Content {
@@ -168,8 +177,10 @@ Function 1Get-UDSystemUsers () {
                         }
                     }
                 }
-                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays) {
-                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7)) {
+                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
+                {
+                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7))
+                    {
                         New-UDGrid -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Headers @("Username", "Email", "Expiration Date")-Properties @("Username", "Email", "ExpirationDate") -Endpoint {
                             Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(7) | ForEach-Object {
                                 [PSCustomObject]@{
@@ -180,13 +191,16 @@ Function 1Get-UDSystemUsers () {
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
                             New-UDParagraph -Text "None of your users' passwords will expire in the next 7 days!"
                         }
                     }
-                } else {
+                }
+                else
+                {
                     New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
                         New-UDunDraw -Name "my-password"
                         New-UDParagraph -Text "Password Expiration is not enabled for your JumpCloud Organization."
