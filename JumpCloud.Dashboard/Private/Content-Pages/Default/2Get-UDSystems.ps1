@@ -115,7 +115,7 @@ Function 2Get-UDSystems () {
 
                 $Script:MFASystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.allowMultiFactorAuthentication }
                 if ($MFASystems) {
-                    New-UDChart -Title "MFA Enabled Systems" -Id "SystemsMFA" -Type pie -RefreshInterval 60  -Endpoint {
+                    New-UDChart -Title "MFA Enabled Systems" -Id "SystemsMFA" -Type Doughnut -RefreshInterval 60  -Endpoint {
                         try {
                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
                         }
