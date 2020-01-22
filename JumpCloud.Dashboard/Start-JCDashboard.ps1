@@ -99,11 +99,30 @@ Function Start-JCDashboard
     $Theme = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Theme/Theme.ps1')
     $NavBarLinks = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Navigation/NavBarLinks.ps1')
     ##############################################################################################################
+
+    [int]$ProgressCounter = 0
+
     $ContentPagesFiles | ForEach-Object {
+
+
         ## Load functions from "Content-Pages" folder
         .($_.FullName)
-
         Write-Verbose "Loading $($_.BaseName)"
+
+        ## Write progress logic
+        $PageName = ($($_.BaseName) -split '-UD')[1]
+        $ProgressCounter++
+
+        $PageProgressParams = @{
+
+            Activity        = "Loading the $PageName dashboard components"
+            Status          = "Dashboard $ProgressCounter of $($ContentPagesFiles.count)"
+            PercentComplete = ($ProgressCounter / $($ContentPagesFiles.count)) * 100
+
+        }
+
+        Write-Progress @PageProgressParams
+
         ## Load the Page Settings
         $PageSettings = $($DashboardSettings."$($_.BaseName)".'Settings')
 
@@ -113,7 +132,6 @@ Function Start-JCDashboard
         $($PageSettings).PSObject.Properties | ForEach-Object {
             $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
         }
-
         Write-Debug $commandParams
 
         ## Run function to load the page

@@ -39,7 +39,7 @@ Function 1Get-UDSystemUsers ()
                 $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
                 if ($NewUsers)
                 {
-                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Headers @("Username","Activated","Created") -Properties @("Username","Activated","Created") -NoFilter -Endpoint {    
+                    New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Headers @("Username","Activated","Created") -Properties @("Username","Activated","Created") -NoFilter -Endpoint {
                         $NewUsers | Sort-Object created -Descending | ForEach-Object {
                             [PSCustomObject]@{
                                 Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
