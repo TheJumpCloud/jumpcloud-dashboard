@@ -10,6 +10,7 @@ Function 1Get-UDSystemUsers ()
     $PageText = 'Users'
     $PageName = 'SystemUsers'
     $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-PasswordChanges"}]}'
+    $unDrawColor = "#006cac"
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -27,7 +28,7 @@ Function 1Get-UDSystemUsers ()
                 New-UDColumn -Size 6 {
                     New-UDCard -Title "No Users Registered" -Content {
                         New-UDParagraph -Text "To load the users dashboard create some users in your JumpCloud Administrator Console."
-                        New-UDunDraw -Name "team-spirit"
+                        New-UDunDraw -Name "team-spirit" -Color $unDrawColor
                     } -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-users1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Users")
                 }
             }
@@ -52,7 +53,7 @@ Function 1Get-UDSystemUsers ()
                 else
                 {
                     New-UDCard -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Content {
-                        New-UDunDraw -Name "add-user"
+                        New-UDunDraw -Name "add-user" -Color $unDrawColor
                         New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
                     }
                 }
@@ -91,7 +92,7 @@ Function 1Get-UDSystemUsers ()
                 {
 
                     New-UDCard -Title "User State Information" -Id "UserState" -Content {
-                        New-UDunDraw -Name "celebration"
+                        New-UDunDraw -Name "celebration" -Color $unDrawColor
                         New-UDParagraph -Text "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
                     }
                 }
@@ -132,7 +133,7 @@ Function 1Get-UDSystemUsers ()
 
                     else {
                         New-UDCard -Title "Privileged Users" -Id "PrivilegedUsers" -Content {
-                            New-UDunDraw -Name "safe"
+                            New-UDunDraw -Name "safe" -Color $unDrawColor
                             New-UDParagraph -Text "None of your users are configured as Global Admin, LDAP Bind, or Samba Service users."
                         }
                     }
@@ -213,7 +214,7 @@ Function 1Get-UDSystemUsers ()
                     else
                     {
                         New-UDCard -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Content {
-                            New-UDunDraw -Name "my-password"
+                            New-UDunDraw -Name "my-password" -Color $unDrawColor
                             New-UDParagraph -Text "None of your users' passwords will expire in the next 30 days!"
                         }
                     }
@@ -221,7 +222,7 @@ Function 1Get-UDSystemUsers ()
                 else
                 {
                     New-UDCard -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Content {
-                        New-UDunDraw -Name "my-password"
+                        New-UDunDraw -Name "my-password" -Color $unDrawColor
                         New-UDParagraph -Text "Password expiration is not enabled for your JumpCloud Organization."
                     }
                 }
@@ -248,7 +249,7 @@ Function 1Get-UDSystemUsers ()
                     else
                     {
                         New-UDCard -Title "Recent Password Changes" -Id "PasswordChanges" -Content {
-                            New-UDunDraw -Name "no-data"
+                            New-UDunDraw -Name "no-data" -Color $unDrawColor
                             New-UDParagraph -Text "No recent password changes"
                         }
                     }
@@ -257,7 +258,7 @@ Function 1Get-UDSystemUsers ()
                 else
                 {
                     New-UDCard -Title "Recent Password Changes" -Id "PasswordChanges" -Content {
-                        New-UDunDraw -Name "alert"
+                        New-UDunDraw -Name "alert" -Color $unDrawColor
                         New-UDParagraph -Text "Password expiration must be enabled to view recent password changes."
                     }
                 }

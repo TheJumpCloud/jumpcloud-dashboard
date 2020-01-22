@@ -9,6 +9,7 @@ Function 2Get-UDSystems () {
     $PageText = 'Systems'
     $PageName = 'Systems'
     $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-SystemsDownload"},{"w":4,"h":10,"x":0,"y":5,"i":"grid-element-OS"},{"w":4,"h":10,"x":4,"y":5,"i":"grid-element-SystemsMFA"},{"w":4,"h":10,"x":9,"y":5,"i":"grid-element-NewSystems"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-AgentVersion"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-OSVersion"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-LastContact"}]}'
+    $unDrawColor = "#006cac"
 
     $LegendOptions = New-UDChartLegendOptions -Position bottom
     $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -60,7 +61,7 @@ Function 2Get-UDSystems () {
                 New-UDColumn -Size 6 {
                     New-UDCard -Title "No Systems Registered" -Content {
                         New-UDParagraph -Text "To load the systems dashboard install the JumpCloud agent on your systems."
-                        New-UDunDraw -Name "monitor"
+                        New-UDunDraw -Name "monitor" -Color $unDrawColor
                     } -Links @(New-UDLink -Url 'https://support.jumpcloud.com/support/s/article/getting-started-systems1-2019-08-21-10-36-47' -Text "SEE: Getting Started - Systems")
                 }
             }
@@ -147,7 +148,7 @@ Function 2Get-UDSystems () {
                 }
                 else {
                     New-UDCard -Title "MFA Enabled Systems" -Id "SystemsMFA" -Content {
-                        New-UDunDraw -Name "authentication"
+                        New-UDunDraw -Name "authentication" -Color $unDrawColor
                         New-UDParagraph -Text "None of your systems have MFA enabled."
                     }
                 }
@@ -274,7 +275,7 @@ Function 2Get-UDSystems () {
                 }
                 else {
                     New-UDCard -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Content {
-                        New-UDunDraw -Name "operating-system"
+                        New-UDunDraw -Name "operating-system" -Color $unDrawColor
                         New-UDParagraph -Text "No new systems have been added to your JumpCloud Organization in the past 7 days."
                     }
                 }
