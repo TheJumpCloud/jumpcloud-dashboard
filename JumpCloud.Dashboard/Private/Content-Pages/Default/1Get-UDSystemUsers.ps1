@@ -141,10 +141,10 @@ Function 1Get-UDSystemUsers ()
 
 
 
-                New-UDChart -Title "MFA Configured" -Id "MFAConfigured" -Type Doughnut -RefreshInterval 60 -Options $Options -Endpoint {
+                New-UDChart -Title "User MFA Status" -Id "MFAConfigured" -Type Doughnut -RefreshInterval 60 -Options $Options -Endpoint {
                     Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
                         [PSCustomObject]@{
-                            Name  = $(if ($_.Name -eq "False, False") { "No MFA" } elseif ($_.Name -eq "False, True") { "MFA Required" } elseif ($_.Name -eq "True, False") { "MFA Configured" } elseif ($_.Name -eq "True, True") { "Completed" });
+                            Name  = $(if ($_.Name -eq "False, False") { "Not Required" } elseif ($_.Name -eq "False, True") { "Pending Configuration" } elseif ($_.Name -eq "True, False") { "Configured & Not Required" } elseif ($_.Name -eq "True, True") { "Configured & Required" });
                             Count = $_.Count;
                         }
                     } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
@@ -153,7 +153,7 @@ Function 1Get-UDSystemUsers ()
                     {
                         Show-UDModal -Content {
                             New-UDTabContainer -Tabs {
-                                New-UDTab -Text "No MFA" -Content {
+                                New-UDTab -Text "Not Required" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $false | ForEach-Object {
                                             [PSCustomObject]@{
@@ -163,7 +163,7 @@ Function 1Get-UDSystemUsers ()
                                         } | Out-UDGridData
                                     }
                                 }
-                                New-UDTab -Text "MFA Required" -Content {
+                                New-UDTab -Text "Pending Configuration" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $true | ForEach-Object {
                                             [PSCustomObject]@{
@@ -173,7 +173,7 @@ Function 1Get-UDSystemUsers ()
                                         } | Out-UDGridData
                                     }
                                 }
-                                New-UDTab -Text "MFA Configured" -Content {
+                                New-UDTab -Text "Configured & Not Required" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $False | ForEach-Object {
                                             [PSCustomObject]@{
@@ -183,7 +183,7 @@ Function 1Get-UDSystemUsers ()
                                         } | Out-UDGridData
                                     }
                                 }
-                                New-UDTab -Text "Completed" -Content {
+                                New-UDTab -Text "Configured & Required" -Content {
                                     New-UDGrid -Properties @("Username", "Email") -Endpoint {
                                         Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $true | ForEach-Object {
                                             [PSCustomObject]@{
@@ -212,7 +212,7 @@ Function 1Get-UDSystemUsers ()
                     }
                     else
                     {
-                        New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
+                        New-UDCard -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Content {
                             New-UDunDraw -Name "my-password"
                             New-UDParagraph -Text "None of your users' passwords will expire in the next 30 days!"
                         }
@@ -220,7 +220,7 @@ Function 1Get-UDSystemUsers ()
                 }
                 else
                 {
-                    New-UDCard -Title "Upcoming Password Expiration" -Id "PasswordExpiration" -Content {
+                    New-UDCard -Title "Upcoming Password Expirations" -Id "PasswordExpiration" -Content {
                         New-UDunDraw -Name "my-password"
                         New-UDParagraph -Text "Password expiration is not enabled for your JumpCloud Organization."
                     }

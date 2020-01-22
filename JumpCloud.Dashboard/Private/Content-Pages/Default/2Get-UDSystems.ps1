@@ -222,7 +222,7 @@ Function 2Get-UDSystems () {
                 
                 $LastContactCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | Measure-Object | Select-Object -ExpandProperty "Count"
                 $Script:LastContactColors = Get-AlternatingColors -Rows:("$LastContactCount") -Color1:('#006cac') -Color2:('#2cc692')
-                New-UDChart -Title "Last Contact Days" -Id "LastContact" -Type Bar -RefreshInterval 60  -Endpoint {
+                New-UDChart -Title "Last Contact Date" -Id "LastContact" -Type Bar -RefreshInterval 60  -Endpoint {
                     try {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | ForEach-Object {
                             [PSCustomObject]@{
@@ -262,11 +262,11 @@ Function 2Get-UDSystems () {
                 
                 $Script:NewSystems = Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7)
                 if ($NewSystems) {
-                    New-UDGrid -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Properties @("Hostname", "OS", "Created") -Endpoint {
+                    New-UDGrid -Title "New Systems (Created in the last 7 days)" -Id "NewSystems" -Properties @("Hostname", "OS", "Created") -Headers @("Hostname", "OS", "Created") -Endpoint {
                         Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7) | Sort-Object created -Descending | ForEach-Object {
                             [PSCustomObject]@{
-                                Created  = $_.created;
                                 Hostname = (New-UDLink -Text $_.hostname -Url "https://console.jumpcloud.com/#/systems/$($_._id)/details" -OpenInNewWindow);
+                                Created  = $_.created;
                                 OS       = $_.os + " " + $_.version;
                             }
                         } | Out-UDGridData
