@@ -130,7 +130,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
         BackgroundColor = "#ffffff"
         FontColor       = "#414c55 !important"
     }
-    ".grey-text" = @{
+    ".grey-text.text-lighten-4" = @{
         'color' = "#414c55 !important"
     }
     ".ud-grid"            = @{
