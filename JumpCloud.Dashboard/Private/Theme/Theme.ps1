@@ -41,13 +41,6 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".pagination li.active" = @{
         'background-color' = "#26a69a"
     }
-    <#".card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating)" = @{
-        'color' = "#039be5"
-    }
-    ".react-grid-item>.react-resizable-handle:after" = @{
-        'border-right' = "2px solid #9e9e9e"
-        'border-bottom' = "2px solid #9e9e9e"
-    } #>
     UDNavBar              = @{
         BackgroundColor = "#202e38"
         FontColor       = "#414c55"
@@ -70,7 +63,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     ".ud-card"            = @{
         'background-color' = "#ffffff"
-        #'border-radius' = "8px"
+
         'color' = "#414c55"
     }
     ".ud-card p" = @{
@@ -99,10 +92,11 @@ Return New-UDTheme -Name "Theme" -Definition @{
         'width' = "100%"
         'display' = "inline-block"
     }
-
+    ".react-grid-item" = @{
+        'margin-top' = "-2vh"
+    }
     ".tabs" = @{
         'overflow-x' = "auto"
-        #'border-radius' = "8px"
         'display' = "inherit"
         # Works for Microsoft browsers (IE & Edge)
         '-ms-overflow-style' = "-ms-autohiding-scrollbar"
@@ -115,7 +109,6 @@ Return New-UDTheme -Name "Theme" -Definition @{
     }
     ".tabs::-webkit-scrollbar-thumb" = @{
         'background' = "#a7a7a7"
-        #'border-radius' = "8px"
         'opacity' = "50%"
         'width' = "50%"
     }
@@ -140,11 +133,7 @@ Return New-UDTheme -Name "Theme" -Definition @{
     ".grey-text" = @{
         'color' = "#414c55 !important"
     }
-    ".ud-chart"           = @{
-        #'border-radius' = "8px"
-    }
     ".ud-grid"            = @{
-        #'border-radius' = "8px"
         'background-color' = "#ffffff"
         'color' = "#414c55"
     }
