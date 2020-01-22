@@ -20,7 +20,7 @@ Function 2Get-UDSystems () {
         scales = @{
             xAxes = @(
                 @{
-                    ticks = @{
+                    ticks      = @{
                         beginAtZero = $true
                     }
                     scaleLabel = @{
@@ -39,7 +39,7 @@ Function 2Get-UDSystems () {
         scales = @{
             yAxes = @(
                 @{
-                    ticks = @{
+                    ticks      = @{
                         beginAtZero = $true
                     }
                     scaleLabel = @{
@@ -97,12 +97,12 @@ Function 2Get-UDSystems () {
                                 foreach ($TabName in $TabNames) {
                                     New-UDTab -Text $TabName.Name -Content {
                                         $script:OSType = $TabName.Name
-                                        New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
+                                        New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {
                                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.os -eq $OSType } | ForEach-Object {
                                                 [PSCustomObject]@{
                                                     Hostname = $_.hostname;
-                                                    OS       = $_.os;
-                                                    Version  = $_.version;
+                                                    OS       = $_.os + " " + $_.version;
+                                                    SystemID = $_._id;
                                                 }
                                             } | Out-UDGridData
                                         }
@@ -130,12 +130,12 @@ Function 2Get-UDSystems () {
                                     foreach ($TabName in $TabNames) {
                                         New-UDTab -Text $TabName.Name -Content {
                                             $script:MFAEnabled = [System.Convert]::ToBoolean($TabName.Name)
-                                            New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
+                                            New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {
                                                 Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.allowMultiFactorAuthentication -eq $MFAEnabled } | ForEach-Object {
                                                     [PSCustomObject]@{
                                                         Hostname = $_.hostname;
-                                                        OS       = $_.os;
-                                                        Version  = $_.version;
+                                                        OS       = $_.os + " " + $_.version;
+                                                        SystemID = $_._id;
                                                     }
                                                 } | Out-UDGridData
                                             }
@@ -157,7 +157,7 @@ Function 2Get-UDSystems () {
                 $Script:AgentVersionColors = Get-AlternatingColors -Rows:("$AgentVersionCount") -Color1:('#006cac') -Color2:('#2cc692')
                 New-UDChart -Title "Agent Version" -Id "AgentVersion" -Type HorizontalBar -AutoRefresh -RefreshInterval 60  -Endpoint {
                     try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $AgentVersionColors -HoverBackgroundColor "#2cc692"
+                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $AgentVersionColors -HoverBackgroundColor $AgentVersionColors
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
@@ -170,13 +170,13 @@ Function 2Get-UDSystems () {
                                 foreach ($TabName in $TabNames) {
                                     New-UDTab -Text $TabName.Name -Content {
                                         $script:AgentVersion = $TabName.Name
-                                        New-UDGrid -Headers @("Hostname", "OS", "Version", "Agent Version") -Properties @("Hostname", "OS", "Version", "AgentVersion") -Endpoint {
+                                        New-UDGrid -Headers @("Hostname", "Operating System", "Agent Version", "System ID") -Properties @("Hostname", "OS", "AgentVersion", "SystemID") -Endpoint {
                                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.agentVersion -eq $AgentVersion } | ForEach-Object {
                                                 [PSCustomObject]@{
                                                     Hostname     = $_.hostname;
-                                                    OS           = $_.os;
-                                                    Version      = $_.version;
+                                                    OS           = $_.os + " " + $_.version;
                                                     AgentVersion = $_.agentVersion;
+                                                    SystemID     = $_._id;
                                                 }
                                             } | Out-UDGridData
                                         }
@@ -191,7 +191,7 @@ Function 2Get-UDSystems () {
                 $Script:OSVersionColors = Get-AlternatingColors -Rows:("$OSVersionCount") -Color1:('#2cc692') -Color2:('#006cac')
                 New-UDChart -Title "OS Version" -Id "OSVersion" -Type HorizontalBar -AutoRefresh -RefreshInterval 60  -Endpoint {
                     try {
-                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSVersionColors -HoverBackgroundColor "#2cc692"
+                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSVersionColors -HoverBackgroundColor $OSVersionColors
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
@@ -205,12 +205,12 @@ Function 2Get-UDSystems () {
                                 foreach ($TabName in $TabNames) {
                                     New-UDTab -Text $TabName.Name -Content {
                                         $script:OSVersion = $TabName.Name
-                                        New-UDGrid -Properties @("Hostname", "OS", "Version") -Endpoint {
+                                        New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {
                                             Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.version -eq $OSVersion } | ForEach-Object {
                                                 [PSCustomObject]@{
                                                     Hostname = $_.hostname;
-                                                    OS       = $_.os;
-                                                    Version  = $_.version;
+                                                    OS       = $_.os + " " + $_.version;
+                                                    SystemID = $_._id;
                                                 }
                                             } | Out-UDGridData
                                         }
@@ -229,7 +229,7 @@ Function 2Get-UDSystems () {
                             [PSCustomObject]@{
                                 LastContactDate = $_.lastContact.ToString("yyyy-MM-dd")
                             }
-                        } | Group-Object -Property LastContactDate | Select-Object Name, Count | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor $LastContactColors
+                        } | Group-Object -Property LastContactDate | Select-Object Name, Count | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor $LastContactColors -HoverBackgroundColor $LastContactColors
                     }
                     catch {
                         0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
@@ -245,13 +245,13 @@ Function 2Get-UDSystems () {
                             foreach ($TabName in $TabNames) {
                                 New-UDTab -Text $TabName.Name -Content {
                                     $script:LastContact = $TabName.Name
-                                    New-UDGrid -Properties @("Hostname", "OS", "Version", "LastContactDate") -Endpoint {
+                                    New-UDGrid -Header @("Hostname", "Operating System", "Last Contact Date", "System ID") -Properties @("Hostname", "OS", "LastContactDate", "SystemID") -Endpoint {
                                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.lastContact.ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
                                             [PSCustomObject]@{
-                                                Hostname        = $_.Hostname;
-                                                OS              = $_.os;
-                                                Version         = $_.version;
+                                                Hostname        = $_.hostname;
+                                                OS              = $_.os + " " + $_.version;
                                                 LastContactDate = $_.lastContact.ToString("yyyy-MM-dd");
+                                                SystemID        = $_._id;
                                             }
                                         } | Out-UDGridData
                                     }
