@@ -27,6 +27,9 @@ Return New-UDTheme -Name "Theme" -Definition @{
     'nav ul li' = @{
         'background-color' = "inherit"
     }
+    '.mdc-tab-bar' = @{
+        'background' = "#ffffff"
+    }
     ".collapsible-header" = @{
         'background-color' = "#ffffff"
         'color'            = "#414c55"
