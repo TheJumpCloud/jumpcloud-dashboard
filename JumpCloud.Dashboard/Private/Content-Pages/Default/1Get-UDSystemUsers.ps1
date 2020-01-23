@@ -21,26 +21,31 @@ Function 1Get-UDSystemUsers ()
 
         New-UDGridLayout -Layout $PageLayout -Content {
             #SA-798/801 - New User Info
-            $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
-            if ($NewUsers)
-            {
-                New-UDGrid -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Headers @("Username", "Activated", "Created") -Properties @("Username", "Activated", "Created") -NoFilter -Endpoint {
-                    $NewUsers | Sort-Object created -Descending | ForEach-Object {
-                        [PSCustomObject]@{
-                            Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                            Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
-                            Created   = $_.created;
-                        }
-                    } | Out-UDGridData
-                } -NoExport
-            }
-            else
-            {
-                New-UDCard -Title "New Users (Created in the last 14 days)" -Id "NewUsers" -Content {
-                    New-UDunDraw -Name "add-user" -Color $unDrawColor
-                    New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
+
+            New-UDElement -Tag "NewUsers" -Id "NewUsers" -RefreshInterval 10 -AutoRefresh -Endpoint {
+
+                $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
+                if ($NewUsers)
+                {
+                    New-UDGrid -Title "New Users (Created in the last 14 days)"  -Headers @("Username", "Activated", "Created") -Properties @("Username", "Activated", "Created") -NoFilter -Endpoint {
+                        $NewUsers | Sort-Object created -Descending | ForEach-Object {
+                            [PSCustomObject]@{
+                                Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
+                                Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
+                                Created   = $_.created;
+                            }
+                        } | Out-UDGridData
+                    } -NoExport
+                }
+                else
+                {
+                    New-UDCard -Title "New Users (Created in the last 14 days)" -Content {
+                        New-UDunDraw -Name "add-user" -Color $unDrawColor
+                        New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
+                    }
                 }
             }
+            
 
             #SA-796 - User State Info
             $UserStates = @()
