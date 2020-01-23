@@ -46,13 +46,16 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
+        [Int]$LastContactDays = 90,
+
         [Switch]$Beta,
 
         [Switch]$NoUpdate
     )
 
     # Auto Update
-    if (! $NoUpdate) {
+    if (! $NoUpdate)
+    {
         Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
     }
 
@@ -75,6 +78,11 @@ Function Start-JCDashboard
 
     # ## Import Settings File
     $DashboardSettings = Get-Content -Raw -Path:($PSScriptRoot + '/' + 'DashboardSettings.json') | ConvertFrom-Json
+
+    if ($LastContactDays)
+    {
+        $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
+    }
 
     ## Declare container variables for dashboard items
     $UDPages = @()
@@ -157,9 +165,9 @@ Function Start-JCDashboard
     # -Footer:($Footer)
 
     ## Start the dashboard
-    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8001) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
+    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8002) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
     ## Opens the dashboard
-    Start-Process -FilePath 'http://127.0.0.1:8001'
+    Start-Process -FilePath 'http://127.0.0.1:8002'
 
 }

@@ -5,7 +5,7 @@
         },
         "2Get-UDSystems": {
             "Settings": {
-                "lastContactDays": 365
+                "lastContactDays": 90
             }
         }
     }
