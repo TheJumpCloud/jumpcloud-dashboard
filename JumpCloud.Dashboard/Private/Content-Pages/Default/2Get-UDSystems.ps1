@@ -13,7 +13,7 @@ Function 2Get-UDSystems ()
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
 
-        New-UDElement -Tag "tag_Systems"  -AutoRefresh -RefreshInterval 30 -Endpoint {
+        New-UDElement -Tag "tag_Systems"  -AutoRefresh -RefreshInterval 30 -Content {
 
             $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-SystemsDownload"},{"w":4,"h":10,"x":0,"y":5,"i":"grid-element-OS"},{"w":4,"h":10,"x":4,"y":5,"i":"grid-element-SystemsMFA"},{"w":4,"h":10,"x":9,"y":5,"i":"grid-element-NewSystems"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-AgentVersion"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-OSVersion"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-LastContact"}]}'
             $unDrawColor = "#006cac"
