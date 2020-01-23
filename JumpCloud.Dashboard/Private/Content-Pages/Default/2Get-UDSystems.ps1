@@ -308,7 +308,7 @@ Function 2Get-UDSystems ()
                 }
                 else
                 {
-                    New-UDCard -Title "New Systems (Created in the last 7 days)""NewSystems" -Content {
+                    New-UDCard -Title "New Systems (Created in the last 7 days)" -Content {
                         New-UDunDraw -Name "operating-system" -Color $unDrawColor
                         New-UDParagraph -Text "No new systems have been added to your JumpCloud Organization in the past 7 days."
                     }
