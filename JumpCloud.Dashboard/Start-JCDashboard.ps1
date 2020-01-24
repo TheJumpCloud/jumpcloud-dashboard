@@ -46,12 +46,15 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
+        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
         [Int]$LastContactDays = 90,
 
+        [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval = 30,
 
         #[Switch]$Beta,
 
+        [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate
     )
 
