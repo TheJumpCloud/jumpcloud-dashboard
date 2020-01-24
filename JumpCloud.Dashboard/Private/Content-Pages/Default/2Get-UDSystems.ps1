@@ -4,7 +4,10 @@ Function 2Get-UDSystems ()
 
     param (
         [Parameter(ValueFromPipelineByPropertyName)]
-        $lastContactDays
+        $lastContactDays,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
+        $refreshInterval
     )
 
     $PageText = 'Systems'
@@ -13,7 +16,7 @@ Function 2Get-UDSystems ()
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
 
-        [int]$ComponentRefreshInterval = '20'
+        [int]$refreshInterval = $refreshInterval
 
         $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-SystemsDownload"},{"w":4,"h":10,"x":0,"y":5,"i":"grid-element-OS"},{"w":4,"h":10,"x":4,"y":5,"i":"grid-element-SystemsMFA"},{"w":4,"h":10,"x":9,"y":5,"i":"grid-element-NewSystems"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-AgentVersion"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-OSVersion"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-LastContact"}]}'
         $unDrawColor = "#006cac"
@@ -76,7 +79,7 @@ Function 2Get-UDSystems ()
                 }
             }
 
-            New-UDElement -Tag "OS" -Id "OS"  -RefreshInterval  $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "OS" -Id "OS"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
                 New-UDChart -Title "Operating System" -Type Doughnut -AutoRefresh -RefreshInterval 60  -Endpoint {
                     try
@@ -114,7 +117,7 @@ Function 2Get-UDSystems ()
                 }
             }
 
-            New-UDElement -Tag "SystemsMFA" -Id "SystemsMFA"  -RefreshInterval  $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "SystemsMFA" -Id "SystemsMFA"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
                 $Script:MFASystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.allowMultiFactorAuthentication }
                 if ($MFASystems)
@@ -163,7 +166,7 @@ Function 2Get-UDSystems ()
                 }
             }
 
-            New-UDElement -Tag "AgentVersion" -Id "AgentVersion"  -RefreshInterval  $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "AgentVersion" -Id "AgentVersion"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
                 $AgentVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Measure-Object | Select-Object -ExpandProperty Count
                 $Script:AgentVersionColors = Get-AlternatingColors -Rows:("$AgentVersionCount") -Color1:('#006cac') -Color2:('#2cc692')
@@ -204,7 +207,7 @@ Function 2Get-UDSystems ()
                 }
             }
 
-            New-UDElement -Tag "OSVersion" -Id "OSVersion"  -RefreshInterval  $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "OSVersion" -Id "OSVersion"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
                 $OSVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Measure-Object | Select-Object -ExpandProperty Count
                 $Script:OSVersionColors = Get-AlternatingColors -Rows:("$OSVersionCount") -Color1:('#2cc692') -Color2:('#006cac')
@@ -245,7 +248,7 @@ Function 2Get-UDSystems ()
                 }
             }
                 
-            New-UDElement -Tag "LastContact" -Id "LastContact"  -RefreshInterval  $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "LastContact" -Id "LastContact"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
                 $LastContactCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | Measure-Object | Select-Object -ExpandProperty "Count"
                 $Script:LastContactColors = Get-AlternatingColors -Rows:("$LastContactCount") -Color1:('#006cac') -Color2:('#2cc692')
@@ -291,7 +294,7 @@ Function 2Get-UDSystems ()
                 }
             }
 
-            New-UDElement -Tag "NewSystems" -Id "NewSystems"  -RefreshInterval  $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "NewSystems" -Id "NewSystems"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
                 
                 $Script:NewSystems = Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7)
                 if ($NewSystems)
