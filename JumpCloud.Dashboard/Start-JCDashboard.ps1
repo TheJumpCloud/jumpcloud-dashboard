@@ -38,6 +38,7 @@
 #>
 Function Start-JCDashboard
 {
+    [CmdletBinding(HelpURI = "https://github.com/TheJumpCloud/support/wiki/Start-JCDashboard")]
     Param(
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, HelpMessage = 'Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.')]
         [ValidateNotNullOrEmpty()]
