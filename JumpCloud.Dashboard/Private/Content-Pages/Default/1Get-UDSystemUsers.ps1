@@ -3,8 +3,9 @@ Function 1Get-UDSystemUsers ()
     [CmdletBinding()]
 
     param (
+
         [Parameter(ValueFromPipelineByPropertyName)]
-        $lastContactDays
+        $refreshInterval
     )
 
     $PageText = 'Users'
@@ -12,7 +13,7 @@ Function 1Get-UDSystemUsers ()
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
         
-        [int]$ComponentRefreshInterval = '20'
+        [int]$refreshInterval = $refreshInterval
 
         $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-PasswordChanges"}]}'
         $unDrawColor = "#006cac"
@@ -35,7 +36,7 @@ Function 1Get-UDSystemUsers ()
         New-UDGridLayout -Layout $PageLayout -Content {
             #SA-798/801 - New User Info
 
-            New-UDElement -Tag "NewUsers" -Id "NewUsers" -RefreshInterval $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "NewUsers" -Id "NewUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
                 if ($NewUsers)
@@ -59,7 +60,7 @@ Function 1Get-UDSystemUsers ()
                 }
             }
             
-            New-UDElement -Tag "UserState" -Id "UserState" -RefreshInterval $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "UserState" -Id "UserState" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 #SA-796 - User State Info
                 $UserStates = @()
@@ -102,7 +103,7 @@ Function 1Get-UDSystemUsers ()
             }
             #SA-799 - Privileged User Info
 
-            New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
             
                 $PrivilegedUsers = @()
@@ -148,7 +149,7 @@ Function 1Get-UDSystemUsers ()
                 }
             }
 
-            New-UDElement -Tag "MFAConfigured" -Id "MFAConfigured" -RefreshInterval $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "MFAConfigured" -Id "MFAConfigured" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 New-UDChart -Title "User MFA Status"  -Type Doughnut -Options $Options -Endpoint {
                     Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
@@ -208,7 +209,7 @@ Function 1Get-UDSystemUsers ()
                 }
             }
 
-            New-UDElement -Tag "PasswordExpiration" -Id "PasswordExpiration" -RefreshInterval $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "PasswordExpiration" -Id "PasswordExpiration" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
                 {
@@ -240,7 +241,7 @@ Function 1Get-UDSystemUsers ()
                 }
             }
 
-            New-UDElement -Tag "PasswordExpiration" -Id "PasswordChanges" -RefreshInterval $ComponentRefreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "PasswordExpiration" -Id "PasswordChanges" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays -eq "True")
                 {

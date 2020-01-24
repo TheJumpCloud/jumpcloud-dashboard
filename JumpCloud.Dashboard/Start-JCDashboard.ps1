@@ -48,7 +48,9 @@ Function Start-JCDashboard
 
         [Int]$LastContactDays = 90,
 
-        [Switch]$Beta,
+        [Int]$RefreshInterval = 20,
+
+        #[Switch]$Beta,
 
         [Switch]$NoUpdate
     )
@@ -82,6 +84,13 @@ Function Start-JCDashboard
     if ($LastContactDays)
     {
         $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
+    }
+
+    if ($RefreshInterval)
+    {
+        $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
+        $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
+        
     }
 
     ## Declare container variables for dashboard items
