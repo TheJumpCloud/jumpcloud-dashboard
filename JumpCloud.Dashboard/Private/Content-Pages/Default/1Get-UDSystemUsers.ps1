@@ -219,7 +219,7 @@ Function 1Get-UDSystemUsers ()
                             Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object "password_expiration_date" | ForEach-Object {
                                 [PSCustomObject]@{
                                     Username       = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                    ExpirationDate = $_.password_expiration_date.ToLocalTime();
+                                    ExpirationDate = (Get-Date($_.password_expiration_date)).ToLocalTime();
                                 }
                             } | Out-UDGridData
                         }
@@ -255,7 +255,7 @@ Function 1Get-UDSystemUsers ()
                             Get-JCUser -activated $true -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username | Sort-object 'password_expiration_date' -Descending | ForEach-Object {
                                 [PSCustomObject]@{
                                     Username   = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                    ChangeDate = $_.password_expiration_date.ToLocalTime().AddDays(-$PasswordExpirationDays)
+                                    ChangeDate = (Get-Date($_.password_expiration_date)).AddDays(-$PasswordExpirationDays)
                                 }
                             } | Out-UDGridData
                         }
