@@ -257,7 +257,7 @@ Function 2Get-UDSystems ()
                     {
                         Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | ForEach-Object {
                             [PSCustomObject]@{
-                                LastContactDate = $_.lastContact.ToString("yyyy-MM-dd")
+                                LastContactDate = (Get-Date($_.lastContact)).ToString("yyyy-MM-dd")
                             }
                         } | Group-Object -Property LastContactDate | Select-Object Name, Count | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor $LastContactColors -HoverBackgroundColor $LastContactColors
                     }
