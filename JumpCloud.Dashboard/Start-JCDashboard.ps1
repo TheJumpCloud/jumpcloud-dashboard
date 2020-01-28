@@ -47,7 +47,7 @@ Function Start-JCDashboard
         $JumpCloudApiKey,
 
         [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
-        [Int]$LastContactDays = 90,
+        [Int]$LastContactDays = 30,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval = 30,
