@@ -78,6 +78,22 @@ Function Start-JCDashboard
     ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
     $OrgName = $JCSettings.SETTINGS.name
 
+    ## Call API
+    $SettingsURL = "$JCUrlBasePath" + '/api/settings'
+    $hdrs = @{
+
+        'Content-Type' = 'application/json'
+        'Accept'       = 'application/json'
+        'X-API-KEY'    = $JCAPIKEY
+    }
+
+    if ($JCOrgID)
+    {
+        $hdrs.Add('x-org-id', "$($JCOrgID)")
+    }
+
+    $APICall = Invoke-RestMethod -Method GET -Uri  $SettingsURL -Headers $hdrs -UserAgent:(Get-JCUserAgent)
+
     ## Stop existing dashboards
     Get-UDDashboard | Stop-UDDashboard
 
