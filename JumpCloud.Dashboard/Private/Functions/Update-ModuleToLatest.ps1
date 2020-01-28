@@ -122,6 +122,7 @@ Function Update-ModuleToLatest
                             If (Get-Module -Name:($ModuleData.PSGallery.Name) | Where-Object { $ModuleData.PSGallery.Version -like ([System.String]$_.Version + '*') })
                             {
                                 Write-Host ('The "' + $ModuleData.PSGallery.Name + ' - ' + $ModuleData.PSGallery.Version + '" PowerShell module has successfully been installed.') -BackgroundColor:('Black') -ForegroundColor:('Gray')
+                                Return $true
                             }
                             Else
                             {
