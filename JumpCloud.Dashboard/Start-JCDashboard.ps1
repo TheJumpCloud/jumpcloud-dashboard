@@ -132,8 +132,8 @@ Function Start-JCDashboard
     }
     ## Call functions to build dashboard
     ##############################################################################################################
-    $Theme = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Theme/Theme.ps1')
-    $NavBarLinks = Invoke-Expression -Command:($PSScriptRoot + '/Private/' + '/Navigation/NavBarLinks.ps1')
+    $Theme = .($PSScriptRoot + '/Private/' + '/Theme/Theme.ps1')
+    $NavBarLinks = .($PSScriptRoot + '/Private/' + '/Navigation/NavBarLinks.ps1')    
     ##############################################################################################################
 
     [int]$ProgressCounter = 0
