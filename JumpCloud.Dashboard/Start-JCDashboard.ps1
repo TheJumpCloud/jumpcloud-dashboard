@@ -47,10 +47,10 @@ Function Start-JCDashboard
         $JumpCloudApiKey,
 
         [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
-        [Int]$LastContactDays = 45,
+        [Int]$LastContactDays,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
-        [Int]$RefreshInterval = 30,
+        [Int]$RefreshInterval,
 
         #[Switch]$Beta,
 
@@ -159,8 +159,8 @@ Function Start-JCDashboard
     }
     ## Call functions to build dashboard
     ##############################################################################################################
-    $Theme = .($InstalledModuleLocation + '/Private/' + 'Theme/Theme.ps1')
-    $NavBarLinks = .($InstalledModuleLocation + '/Private/' + 'Navigation/NavBarLinks.ps1')
+    $Theme = Get-JCTheme
+    $NavBarLinks = Get-JCNavBarLinks
     ##############################################################################################################
 
     [int]$ProgressCounter = 0
