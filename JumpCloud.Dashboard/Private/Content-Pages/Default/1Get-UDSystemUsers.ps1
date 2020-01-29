@@ -155,7 +155,7 @@ Function 1Get-UDSystemUsers ()
                     Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
                         [PSCustomObject]@{
                             Name  = $(if ($_.Name -eq "False, False") { "Not Required" } elseif ($_.Name -eq "False, True") { "Pending Configuration" } elseif ($_.Name -eq "True, False") { "Configured & Not Required" } elseif ($_.Name -eq "True, True") { "Configured & Required" });
-                            Sort = $(if ($_.Name -eq "False, False") { "1" } elseif ($_.Name -eq "False, True") { "2" } elseif ($_.Name -eq "True, False") { "3" } elseif ($_.Name -eq "True, True") { "4" });
+                            Sort  = $(if ($_.Name -eq "False, False") { "1" } elseif ($_.Name -eq "False, True") { "2" } elseif ($_.Name -eq "True, False") { "3" } elseif ($_.Name -eq "True, True") { "4" });
                             Count = $_.Count;
                         }
                     } | Sort-Object -Property Sort | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000" , "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000" , "#006cac", "#2cc692")
