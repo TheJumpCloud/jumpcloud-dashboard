@@ -12,7 +12,7 @@
     RootModule        = 'JumpCloud.Dashboard.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.24'
+    ModuleVersion     = '1.0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -113,7 +113,7 @@
 To get started run the command: Start-JCDashboard'
 
             # Prerelease string of this module
-            Prerelease                 = 'beta'
+            # Prerelease                 = 'beta'
 
             # Flag to indicate whether the module requires explicit user acceptance for install/update/save
             # RequireLicenseAcceptance = $false
