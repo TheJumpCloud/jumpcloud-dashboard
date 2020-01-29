@@ -56,11 +56,11 @@ Function Start-JCDashboard
     )
     Try
     {
-        # Auto Update
+        # Auto Update - If update occurs rerun existing command
         $UpdatedToLatest = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
         If ($UpdatedToLatest)
         {
-            Start-JCDashboard @PSBoundParameters
+            Invoke-Expression -Command:($MyInvocation.MyCommand.Name + ' ' + (($PSBoundParameters.GetEnumerator() | ForEach-Object { If ($_.Value -in ('true', 'false')) { "-$($_.Key):(`$$($_.Value))" }Else { "-$($_.Key):('$($_.Value -join ''',''')')" } }) -join ' '))
         }
         Else
         {

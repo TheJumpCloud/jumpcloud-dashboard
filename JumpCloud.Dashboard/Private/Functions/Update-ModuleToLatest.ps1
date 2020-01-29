@@ -36,7 +36,17 @@
 
 .DESCRIPTION
  Use to check for updates to PowerShell modules and will prompt to install if an update is available.
-
+.EXAMPLE
+# Auto Update - If update occurs rerun existing command
+$UpdatedToLatest = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
+If ($UpdatedToLatest)
+{
+    Invoke-Expression -Command:($MyInvocation.MyCommand.Name + ' ' + (($PSBoundParameters.GetEnumerator() | ForEach-Object { If ($_.Value -in ('true', 'false')) { "-$($_.Key):(`$$($_.Value))" }Else { "-$($_.Key):('$($_.Value -join ''',''')')" } }) -join ' '))
+}
+Else
+{
+    CONTINUE WITH SCRIPT
+}
 #>
 Function Update-ModuleToLatest
 {
