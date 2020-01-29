@@ -268,7 +268,7 @@ Function 2Get-UDSystems ()
                 } -Options $VerticalBarChartOptions -OnClick {
                     $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | ForEach-Object {
                         [PSCustomObject]@{
-                            LastContactDate = $_.lastContact.ToString("yyyy-MM-dd")
+                            LastContactDate = (Get-Date($_.lastContact)).ToString("yyyy-MM-dd")
                         }
                     } | Group-Object -Property LastContactDate | Select-Object Name
                     Show-UDModal -Content {
@@ -278,11 +278,11 @@ Function 2Get-UDSystems ()
                                 New-UDTab -Text $TabName.Name -Content {
                                     $script:LastContact = $TabName.Name
                                     New-UDGrid -Header @("Hostname", "Operating System", "Last Contact Date", "System ID") -Properties @("Hostname", "OS", "LastContactDate", "SystemID") -Endpoint {
-                                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.lastContact.ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
+                                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { (Get-Date($_.lastContact)).ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
                                             [PSCustomObject]@{
                                                 Hostname        = $_.hostname;
                                                 OS              = $_.os + " " + $_.version;
-                                                LastContactDate = $_.lastContact.ToString("yyyy-MM-dd");
+                                                LastContactDate = (Get-Date($_.lastContact)).ToString("yyyy-MM-dd");
                                                 SystemID        = $_._id;
                                             }
                                         } | Out-UDGridData
