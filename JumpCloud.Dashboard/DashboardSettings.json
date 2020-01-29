@@ -8,7 +8,7 @@
         "2Get-UDSystems": {
             "Settings": {
                 "lastContactDays": 30,
-                "refreshInterval": 30
+                "refreshInterval": 60
             }
         }
     }
