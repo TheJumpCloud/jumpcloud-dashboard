@@ -47,10 +47,10 @@ Function Start-JCDashboard
         $JumpCloudApiKey,
 
         [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
-        [Int]$LastContactDays = 30,
+        [Int]$LastContactDays,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
-        [Int]$RefreshInterval = 30,
+        [Int]$RefreshInterval,
 
         #[Switch]$Beta,
 
@@ -61,7 +61,7 @@ Function Start-JCDashboard
     # Auto Update
     if (! $NoUpdate)
     {
-        Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
+        $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
     }
 
     ## Authentication
@@ -72,6 +72,33 @@ Function Start-JCDashboard
     else
     {
         if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
+    }
+
+    ## Set Module Installed location
+    if ($Updated -eq $true)
+    {
+        $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
+
+        $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
+
+        Foreach ($Function in $Private)
+        {
+            Try
+            {
+                . $Function.FullName
+                Write-Verbose "Imported $($Function.FullName)"
+            }
+            Catch
+            {
+                Write-Error -Message "Failed to import function $($Function.FullName): $_"
+            }
+        }
+
+    }
+
+    else
+    {
+        $InstalledModuleLocation = $PSScriptRoot
     }
 
     ## Gather org name
@@ -98,7 +125,7 @@ Function Start-JCDashboard
     Get-UDDashboard | Stop-UDDashboard
 
     # ## Import Settings File
-    $DashboardSettings = Get-Content -Raw -Path:($PSScriptRoot + '/' + 'DashboardSettings.json') | ConvertFrom-Json
+    $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + 'DashboardSettings.json') | ConvertFrom-Json
 
     if ($LastContactDays)
     {
@@ -109,7 +136,7 @@ Function Start-JCDashboard
     {
         $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
         $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
-        
+
     }
 
     ## Declare container variables for dashboard items
@@ -119,21 +146,21 @@ Function Start-JCDashboard
     $Stylesheets = @()
 
     ## Get files from "Content-Pages" folder
-    $PublishedFolder = Publish-UDFolder -Path:($PSScriptRoot + '/Private/' + '/Images') -RequestPath "/Images"
+    $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
 
     if ($Beta)
     {
         # If Beta Selected Then Load All Content-Pages
-        $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Private/' + '/Content-Pages/*.ps1') -Recurse
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Content-Pages/*.ps1') -Recurse
     }
     else
     {
-        $ContentPagesFiles = Get-ChildItem -Path:($PSScriptRoot + '/Private/' + '/Content-Pages/Default/*.ps1') -Recurse
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Content-Pages/Default/*.ps1') -Recurse
     }
     ## Call functions to build dashboard
     ##############################################################################################################
-    $Theme = .($PSScriptRoot + '/Private/' + '/Theme/Theme.ps1')
-    $NavBarLinks = .($PSScriptRoot + '/Private/' + '/Navigation/NavBarLinks.ps1')    
+    $Theme = Get-JCTheme
+    $NavBarLinks = Get-JCNavBarLinks
     ##############################################################################################################
 
     [int]$ProgressCounter = 0

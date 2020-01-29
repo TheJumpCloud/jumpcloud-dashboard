@@ -26,10 +26,10 @@ Function 1Get-UDSystemUsers ()
 
             New-UDParagraph -Text "Displaying information from all users in your JumpCloud Organization. Displaying $TotalUsers users."
             New-UDButton -Icon 'cloud_download' -Text "Download All User Information" -OnClick {
-                $DesktopPath = '~' + '\' + 'Desktop'
-                Set-Location $DesktopPath
+                $DownloadsPath = '~' + '\' + 'Downloads'
+                Set-Location $DownloadsPath
                 Get-JCBackup -Users
-                Show-UDToast -Message "User Information Downloaded To CSV On Desktop" -Duration 10000;
+                Show-UDToast -Message "User Information Downloaded To CSV In Downloads" -Duration 10000;
             }
         }
 
