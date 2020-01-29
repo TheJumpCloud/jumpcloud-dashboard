@@ -1,0 +1,23 @@
+TOPIC
+    about_jumpcloud.dashboard
+
+SHORT DESCRIPTION
+    A Set of PowerShell Dashboards for a JumpCloud Directory as a Service
+
+LONG DESCRIPTION
+    A Set of PowerShell Dashboards for a JumpCloud Directory as a Service
+
+EXAMPLES
+    Start-JCDashboard
+
+TROUBLESHOOTING NOTE
+    Your JumpCloud API key is needed for running any function in the JumpCloud
+    module. This can be found in the JumpCloud admin console within 'API
+    Settings' accessible from the drop down icon next to the admin email address
+    in the top right corner of the JumpCloud admin console. Note that each
+    administrator within a JumpCloud tenant has their own unique API key and can
+    reset this API key from this settings page.
+
+SEE ALSO
+    # KEYWORDS
+

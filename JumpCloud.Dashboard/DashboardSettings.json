@@ -1,11 +1,14 @@
 [
     {
         "1Get-UDSystemUsers": {
-            "Settings": {}
+            "Settings": {
+                "refreshInterval": 30
+            }
         },
         "2Get-UDSystems": {
             "Settings": {
-                "lastContactDays": 365
+                "lastContactDays": 30,
+                "refreshInterval": 60
             }
         }
     }
