@@ -157,7 +157,7 @@ Function 1Get-UDSystemUsers ()
                             Name  = $(if ($_.Name -eq "False, False") { "Not Required" } elseif ($_.Name -eq "False, True") { "Pending Configuration" } elseif ($_.Name -eq "True, False") { "Configured & Not Required" } elseif ($_.Name -eq "True, True") { "Configured & Required" });
                             Count = $_.Count;
                         }
-                    } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000", "#006cac", "#2cc692")
+                    } | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000" , "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000" , "#006cac", "#2cc692")
                 } -OnClick {
                     if ($EventData -ne "[]")
                     {
