@@ -55,7 +55,7 @@ Function 1Get-UDSystemUsers ()
                 {
                     New-UDCard -Title "New Users (Created in the last 14 days)" -Content {
                         New-UDunDraw -Name "add-user" -Color $unDrawColor
-                        New-UDParagraph -Text "No new users have been added your your JumpCloud Organization in the past 14 days."
+                        New-UDParagraph -Text "No new users have been added to your JumpCloud Organization in the past 14 days."
                     }
                 }
             }
@@ -97,7 +97,7 @@ Function 1Get-UDSystemUsers ()
 
                     New-UDCard -Title "User State Information" -Content {
                         New-UDunDraw -Name "celebration" -Color $unDrawColor
-                        New-UDParagraph -Text "None of your users are Suspended, Expired or Locked Out of their JumpCloud accounts!"
+                        New-UDParagraph -Text "None of your users are Suspended, Expired, or Locked Out of their JumpCloud accounts!"
                     }
                 }
             }

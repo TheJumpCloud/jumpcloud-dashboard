@@ -23,6 +23,7 @@ Function 2Get-UDSystems ()
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
+
         $HorizontalBarChartOptions = @{
             legend = @{
                 display = $false
@@ -61,11 +62,8 @@ Function 2Get-UDSystems ()
             }
         }
 
-        #
         New-UDGridLayout -Layout $PageLayout -Content {
             
-             
-
             New-UDCard -Horizontal -Title "Systems" -Id "SystemsDownload" -Content {
                 $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
                 $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
