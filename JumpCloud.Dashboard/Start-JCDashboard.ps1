@@ -106,7 +106,7 @@ Function Start-JCDashboard
     $OrgName = $JCSettings.SETTINGS.name
 
     ## Call API
-    $SettingsURL = "$JCUrlBasePath" + '/api/settings'
+    $OrganizationsURL = "$JCUrlBasePath" + "/api/organizations/$($JCSettings.ORG_ID)"
     $hdrs = @{
 
         'Content-Type' = 'application/json'
@@ -119,7 +119,11 @@ Function Start-JCDashboard
         $hdrs.Add('x-org-id', "$($JCOrgID)")
     }
 
-    $APICall = Invoke-RestMethod -Method GET -Uri  $SettingsURL -Headers $hdrs -UserAgent:(Get-JCUserAgent)
+    $OrgHeaders = $hdrs
+
+    $OrgHeaders.Remove('x-org-id')
+
+    $APICall = Invoke-RestMethod -Method PUT -Uri  $OrganizationsURL -Headers $OrgHeaders -UserAgent:(Get-JCUserAgent)
 
     ## Stop existing dashboards
     Get-UDDashboard | Stop-UDDashboard
