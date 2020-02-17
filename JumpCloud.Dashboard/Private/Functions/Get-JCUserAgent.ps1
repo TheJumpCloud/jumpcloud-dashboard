@@ -24,8 +24,12 @@ Function Get-JCUserAgent
             Write-Error ('Unable to locate the module psd1 file!')
         }
     }
-    $CustomUserAgent = 'JumpCloud/' + $UserAgent_ModuleName + '/' + $UserAgent_ModuleVersion
+    $UserAgent_ModuleName = 'JumpCloud_' + $UserAgent_ModuleName
 
+    $Template_UserAgent = "{0}/{1}"
+    $CustomUserAgent = $Template_UserAgent -f $UserAgent_ModuleName, $UserAgent_ModuleVersion
+    
+    # Show the UserAgent to the console if parameter is passed in
     if ($PSBoundParameters.ShowUserAgent)
     {
         $CurrentVerbosePreference = $VerbosePreference
