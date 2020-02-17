@@ -119,7 +119,7 @@ Function Start-JCDashboard
         $hdrs.Add('x-org-id', "$($JCOrgID)")
     }
 
-    $APICall = Invoke-RestMethod -Method GET -Uri  $SettingsURL -Headers $hdrs -UserAgent:(Get-JCUserAgent)
+    $APICall = Invoke-RestMethod -Method GET -Uri  $SettingsURL -Headers $hdrs -UserAgent:(Get-JCUserAgent) -SkipHeaderValidation
 
     ## Stop existing dashboards
     Get-UDDashboard | Stop-UDDashboard

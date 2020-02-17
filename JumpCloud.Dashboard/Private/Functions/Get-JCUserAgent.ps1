@@ -24,25 +24,8 @@ Function Get-JCUserAgent
             Write-Error ('Unable to locate the module psd1 file!')
         }
     }
-    $UserAgent_ModuleName = 'JumpCloud/' + $UserAgent_ModuleName
-    # Get information about the version of PowerShell
-    #$UserAgent_PSVersion = [System.String]$PSVersionTable.PSVersion
-    #$UserAgent_PSEdition = [System.String]$PSVersionTable.PSEdition
-    #$UserAgent_OS = [System.String]$PSVersionTable.OS
-    #$UserAgent_Platform = [System.String]$PSVersionTable.Platform
-    # Get information about the functions that were used to make the web request
-    #$UserAgent_PSCallStack = Get-PSCallStack
-    #$UserAgent_PrimaryFunction = $UserAgent_PSCallStack.Command[-2]
-    #$UserAgent_NestedFunction = $UserAgent_PSCallStack.Command[1]
-    # Get information about who is running the command
-    #$UserAgent_IS_CUSTOMER = $JCSettings.IS_CUSTOMER
-    #$UserAgent_ORG_ID = $JCSettings.ORG_ID
-    # Build UserAgent string
-    # $Template_UserAgent = '{0}/{1} (PSVersion:{2}; PSEdition:{3}; OS:{4}; Platform:{5}; IS_CUSTOMER:{6}; PrimaryFunction:{7}; NestedFunction:{8};)'
-    # $CustomUserAgent = $Template_UserAgent -f $UserAgent_ModuleName, $UserAgent_ModuleVersion, $UserAgent_PSVersion, $UserAgent_PSEdition, $UserAgent_OS, $UserAgent_Platform, $UserAgent_IS_CUSTOMER, $UserAgent_PrimaryFunction, $UserAgent_NestedFunction
-    $Template_UserAgent = '{0}/(PSVersion:{1};)'
-    $CustomUserAgent = $Template_UserAgent -f $UserAgent_ModuleName, $UserAgent_ModuleVersion
-    # Show the UserAgent to the console if parameter is passed in
+    $CustomUserAgent = 'JumpCloud/' + $UserAgent_ModuleName + '/' + $UserAgent_ModuleVersion
+
     if ($PSBoundParameters.ShowUserAgent)
     {
         $CurrentVerbosePreference = $VerbosePreference
