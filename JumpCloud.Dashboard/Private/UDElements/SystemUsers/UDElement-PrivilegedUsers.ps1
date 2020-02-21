@@ -1,7 +1,8 @@
 function UDElement-PriviledgedUsers ()
 {
     param (
-        $refreshInterval
+        $refreshInterval,
+        $unDrawColor
     )
     
     New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {

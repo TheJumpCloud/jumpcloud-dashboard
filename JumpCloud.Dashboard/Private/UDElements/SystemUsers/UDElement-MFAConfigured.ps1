@@ -1,10 +1,14 @@
 function UDElement-MFAConfigured ()
 {
     param (
-        $refreshInterval
+        $refreshInterval,
+        $unDrawColor
     )
 
     New-UDElement -Tag "MFAConfigured" -Id "MFAConfigured" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+
+        $LegendOptions = New-UDChartLegendOptions -Position bottom
+        $Options = New-UDLineChartOptions -LegendOptions $LegendOptions
 
         New-UDChart -Title "User MFA Status"  -Type Doughnut -Options $Options -Endpoint {
             Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
