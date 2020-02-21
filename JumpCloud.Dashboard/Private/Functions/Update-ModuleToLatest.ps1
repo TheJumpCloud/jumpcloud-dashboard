@@ -48,7 +48,7 @@ Function Update-ModuleToLatest
     {
         $ModuleInfo = $Name | ForEach-Object {
             [PSCustomObject]@{
-                PSGallery      = Find-Module -Name:($_) 
+                PSGallery      = Find-Module -Name:($_)
                 LocalInstalled = Get-InstalledModule -Name:($_) -AllVersions -ErrorAction:('Ignore') | Sort-Object -Property:('Version')
                 LocalImported  = Get-Module -Name:($_) -All -ErrorAction:('Ignore') | Sort-Object -Property:('Version') | Select-Object -Last 1
             }
@@ -117,7 +117,7 @@ Function Update-ModuleToLatest
                                 Uninstall-Module -Name:($ModuleData.LocalInstalled.Name) -AllVersions -Force
                             }
                             Write-Verbose ('Installing "' + $ModuleData.PSGallery.Name + ' - ' + $ModuleData.PSGallery.Version + '" PowerShell module.') #-BackgroundColor:('Black') -ForegroundColor:('Gray')
-                            Install-Module -Name:($ModuleData.PSGallery.Name) -Force 
+                            Install-Module -Name:($ModuleData.PSGallery.Name) -Force
                             Import-Module -Name:($ModuleData.PSGallery.Name) -Force -Scope:('Global')
                             If (Get-Module -Name:($ModuleData.PSGallery.Name) | Where-Object { $ModuleData.PSGallery.Version -like ([System.String]$_.Version + '*') })
                             {
@@ -142,7 +142,7 @@ Function Update-ModuleToLatest
                 Else
                 {
                     Write-Host ('Installing the ' + $Name + ' PowerShell module.') -BackgroundColor:('Black') -ForegroundColor:('Gray')
-                    Install-Module -Name:($Name) -Force 
+                    Install-Module -Name:($Name) -Force
                 }
             }
         }

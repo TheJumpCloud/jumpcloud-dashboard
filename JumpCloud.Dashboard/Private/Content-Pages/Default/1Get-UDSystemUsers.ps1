@@ -12,7 +12,7 @@ Function 1Get-UDSystemUsers ()
     $PageName = 'SystemUsers'
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
-        
+
         [int]$refreshInterval = $refreshInterval
 
         $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-PasswordChanges"}]}'
@@ -59,7 +59,7 @@ Function 1Get-UDSystemUsers ()
                     }
                 }
             }
-            
+
             New-UDElement -Tag "UserState" -Id "UserState" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 #SA-796 - User State Info
@@ -105,7 +105,6 @@ Function 1Get-UDSystemUsers ()
 
             New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
-            
                 $PrivilegedUsers = @()
 
                 $Sudo = Get-JCUser -sudo $true
@@ -284,12 +283,10 @@ Function 1Get-UDSystemUsers ()
 
     }
 
-
-    
     #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
     Return [PSCustomObject]@{
         'UDPage' = $UDPage;
         #    'UDSideNavItem' = $UDSideNavItem;
     }
-    
+
 }

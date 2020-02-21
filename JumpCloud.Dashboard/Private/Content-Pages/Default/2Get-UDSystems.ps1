@@ -12,7 +12,7 @@ Function 2Get-UDSystems ()
 
     $PageText = 'Systems'
     $PageName = 'Systems'
-    
+
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
 
@@ -63,7 +63,7 @@ Function 2Get-UDSystems ()
         }
 
         New-UDGridLayout -Layout $PageLayout -Content {
-            
+
             New-UDCard -Horizontal -Title "Systems" -Id "SystemsDownload" -Content {
                 $TotalSystems = Get-JCSystem -returnProperties hostname | Measure-Object | Select-Object -ExpandProperty Count
                 $ShowingSystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Measure-Object | Select-Object -ExpandProperty Count
@@ -117,7 +117,7 @@ Function 2Get-UDSystems ()
 
             New-UDElement -Tag "SystemsMFA" -Id "SystemsMFA"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
-                $Script:MFASystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { $_.allowMultiFactorAuthentication }
+                $Script:MFASystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.allowMultiFactorAuthentication }
                 if ($MFASystems)
                 {
                     New-UDChart -Title "MFA Enabled Systems"  -Type Doughnut -AutoRefresh -RefreshInterval 60  -Endpoint {
@@ -245,7 +245,7 @@ Function 2Get-UDSystems ()
                     }
                 }
             }
-                
+
             New-UDElement -Tag "LastContact" -Id "LastContact"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 
                 $LastContactCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Select-Object -Property lastContact | Measure-Object | Select-Object -ExpandProperty "Count"
@@ -276,7 +276,7 @@ Function 2Get-UDSystems ()
                                 New-UDTab -Text $TabName.Name -Content {
                                     $script:LastContact = $TabName.Name
                                     New-UDGrid -Header @("Hostname", "Operating System", "Last Contact Date", "System ID") -Properties @("Hostname", "OS", "LastContactDate", "SystemID") -Endpoint {
-                                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | ? { (Get-Date($_.lastContact)).ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
+                                        Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { (Get-Date($_.lastContact)).ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
                                             [PSCustomObject]@{
                                                 Hostname        = $_.hostname;
                                                 OS              = $_.os + " " + $_.version;
@@ -293,7 +293,7 @@ Function 2Get-UDSystems ()
             }
 
             New-UDElement -Tag "NewSystems" -Id "NewSystems"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
-                
+
                 $Script:NewSystems = Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7)
                 if ($NewSystems)
                 {
@@ -316,8 +316,6 @@ Function 2Get-UDSystems ()
                 }
             }
         }
-        
-        
     }
 
     #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Laptop')
