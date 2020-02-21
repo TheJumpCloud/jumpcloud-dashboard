@@ -5,6 +5,13 @@ Param(
 )
 $ModuleManifestName = 'JumpCloud.Dashboard.psd1'
 
+if (Get-Module -ListAvailable -Name PSScriptAnalyzer) {
+    Write-Host "psscriptanalyzer module installed"
+    } else {
+    Write-Host "Installing psscriptanalyzer"
+    Install-Module -Name:('psscriptanalyzer') -Force -Scope:('CurrentUser') -SkipPublisherCheck
+}
+
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
