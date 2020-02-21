@@ -26,7 +26,7 @@ function UDElement-UserState ()
 
         if ($UniqueUsers)
         {
-            New-UDGrid -Title "User State Information 2" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
+            New-UDGrid -Title "User State Information" -Properties @("Username", "Email", "Suspended", "Expired", "Locked") -NoFilter -Endpoint {
                 $UniqueUsers | ForEach-Object {
                     [PSCustomObject]@{
                         Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);

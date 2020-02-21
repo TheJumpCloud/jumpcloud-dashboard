@@ -34,222 +34,28 @@ Function 1Get-UDSystemUsers ()
         }
 
         New-UDGridLayout -Layout $PageLayout -Content {
-            #SA-798/801 - New User Info
 
-            New-UDElement -Tag "NewUsers" -Id "NewUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
-
-                $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
-                if ($NewUsers)
-                {
-                    New-UDGrid -Title "New Users (Created in the last 14 days)"  -Headers @("Username", "Activated", "Created") -Properties @("Username", "Activated", "Created") -NoFilter -Endpoint {
-                        $NewUsers | Sort-Object created -Descending | ForEach-Object {
-                            [PSCustomObject]@{
-                                Username  = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                Activated = $(if ($_.activated) { New-UDIcon -Icon check } else { "" });
-                                Created   = $_.created;
-                            }
-                        } | Out-UDGridData
-                    } -NoExport
-                }
-                else
-                {
-                    New-UDCard -Title "New Users (Created in the last 14 days)" -Content {
-                        New-UDunDraw -Name "add-user" -Color $unDrawColor
-                        New-UDParagraph -Text "No new users have been added to your JumpCloud Organization in the past 14 days."
-                    }
-                }
-            }
+            # Functions defining elements can be found in the /Private/UDElements/SytemUsers folder
             
-            UDElement-UserState -RefreshInterval $refreshInterval
-            #SA-799 - Privileged User Info
+            UDElement-NewUsers -refreshInterval $refreshInterval
 
-            New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+            UDElement-UserState -refreshInterval $refreshInterval
 
-            
-                $PrivilegedUsers = @()
+            UDElement-PriviledgedUsers -refreshInterval $refreshInterval
 
-                $Sudo = Get-JCUser -sudo $true
+            UDElement-MFAConfigured -refreshInterval $refreshInterval
 
-                $PrivilegedUsers += $Sudo
+            UDElement-PasswordExpiration -refreshInterval $refreshInterval
 
-                $SambaService = Get-JCUser -samba_service_user $true
+            UDElement-PasswordChanges -refreshInterval $refreshInterval
 
-                $PrivilegedUsers += $SambaService
-
-                $LdapBinding = Get-JCUser -ldap_binding_user $true
-
-                $PrivilegedUsers += $LdapBinding
-
-                $script:UniquePrivilegedUsers = $PrivilegedUsers | Sort-Object username -Unique
-
-                if ($UniquePrivilegedUsers)
-                {
-
-                    New-UDGrid -Title "Privileged Users" -Properties @("Username", "GlobalAdmin", "LDAPBindUser", "SambaServiceUser") -NoFilter -Endpoint {
-
-
-                        $UniquePrivilegedUsers | ForEach-Object {
-                            [PSCustomObject]@{
-                                Username         = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                GlobalAdmin      = $(if ($_.sudo) { New-UDIcon -Icon check } else { "" });
-                                LDAPBindUser     = $(if ($_.ldap_binding_user) { New-UDIcon -Icon check } else { "" });
-                                SambaServiceUser = $(if ($_.samba_service_user) { New-UDIcon -Icon check } else { "" });
-                            }
-                        } | Out-UDGridData
-                    } -NoExport
-
-                }
-
-                else
-                {
-                    New-UDCard -Title "Privileged Users"  -Content {
-                        New-UDunDraw -Name "safe" -Color $unDrawColor
-                        New-UDParagraph -Text "None of your users are configured as Global Admin, LDAP Bind, or Samba Service users."
-                    }
-                }
-            }
-
-            New-UDElement -Tag "MFAConfigured" -Id "MFAConfigured" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
-
-                New-UDChart -Title "User MFA Status"  -Type Doughnut -Options $Options -Endpoint {
-                    Get-JCUser | Group-Object -Property totp_enabled, enable_user_portal_multifactor -NoElement | ForEach-Object {
-                        [PSCustomObject]@{
-                            Name  = $(if ($_.Name -eq "False, False") { "Not Required" } elseif ($_.Name -eq "False, True") { "Pending Configuration" } elseif ($_.Name -eq "True, False") { "Configured & Not Required" } elseif ($_.Name -eq "True, True") { "Configured & Required" });
-                            Sort  = $(if ($_.Name -eq "False, False") { "1" } elseif ($_.Name -eq "False, True") { "2" } elseif ($_.Name -eq "True, False") { "3" } elseif ($_.Name -eq "True, True") { "4" });
-                            Count = $_.Count;
-                        }
-                    } | Sort-Object -Property Sort | Out-UDChartData -LabelProperty "Name" -DataProperty "Count" -BackgroundColor @("#e54852", "#ffb000" , "#006cac", "#2cc692") -HoverBackgroundColor @("#e54852", "#ffb000" , "#006cac", "#2cc692")
-                } -OnClick {
-                    if ($EventData -ne "[]")
-                    {
-                        Show-UDModal -Content {
-                            New-UDTabContainer -Tabs {
-                                New-UDTab -Text "Not Required" -Content {
-                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $false | ForEach-Object {
-                                            [PSCustomObject]@{
-                                                Username = $_.username;
-                                                Email    = $_.email;
-                                            }
-                                        } | Out-UDGridData
-                                    }
-                                }
-                                New-UDTab -Text "Pending Configuration" -Content {
-                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser -totp_enabled $False -enable_user_portal_multifactor $true | ForEach-Object {
-                                            [PSCustomObject]@{
-                                                Username = $_.username;
-                                                Email    = $_.email;
-                                            }
-                                        } | Out-UDGridData
-                                    }
-                                }
-                                New-UDTab -Text "Configured & Not Required" -Content {
-                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $False | ForEach-Object {
-                                            [PSCustomObject]@{
-                                                Username = $_.username;
-                                                Email    = $_.email;
-                                            }
-                                        } | Out-UDGridData
-                                    }
-                                }
-                                New-UDTab -Text "Configured & Required" -Content {
-                                    New-UDGrid -Properties @("Username", "Email") -Endpoint {
-                                        Get-JCUser -totp_enabled $true -enable_user_portal_multifactor $true | ForEach-Object {
-                                            [PSCustomObject]@{
-                                                Username = $_.username;
-                                                Email    = $_.email;
-                                            }
-                                        } | Out-UDGridData
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            New-UDElement -Tag "PasswordExpiration" -Id "PasswordExpiration" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
-
-                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)
-                {
-                    if (Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30))
-                    {
-                        New-UDGrid -Title "Upcoming Password Expirations"  -Headers @("Username", "Password Expiration Date")-Properties @("Username", "ExpirationDate") -Endpoint {
-                            Get-JCUser -password_expired $False -filterDateProperty password_expiration_date -dateFilter before -date (Get-Date).AddDays(30) | Sort-Object "password_expiration_date" | ForEach-Object {
-                                [PSCustomObject]@{
-                                    Username       = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                    ExpirationDate = (Get-Date($_.password_expiration_date)).ToLocalTime();
-                                }
-                            } | Out-UDGridData
-                        }
-                    }
-                    else
-                    {
-                        New-UDCard -Title "Upcoming Password Expirations" -Content {
-                            New-UDunDraw -Name "my-password" -Color $unDrawColor
-                            New-UDParagraph -Text "None of your users' passwords will expire in the next 30 days!"
-                        }
-                    }
-                }
-                else
-                {
-                    New-UDCard -Title "Upcoming Password Expirations"  -Content {
-                        New-UDunDraw -Name "my-password" -Color $unDrawColor
-                        New-UDParagraph -Text "Password expiration is not enabled for your JumpCloud Organization."
-                    }
-                }
-            }
-
-            New-UDElement -Tag "PasswordExpiration" -Id "PasswordChanges" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
-
-                if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays -eq "True")
-                {
-                    [int]$script:PasswordExpirationDays = $JCSettings.SETTINGS.passwordPolicy.passwordExpirationInDays
-
-                    [int]$script:PasswordExpirationDaysSearch = $PasswordExpirationDays - 14
-
-                    if (Get-JCUser -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username)
-                    {
-                        New-UDGrid -Title "Recent Password Changes"  -Headers @("Username", "Password Change Date")-Properties @("Username", "ChangeDate") -Endpoint {
-                            Get-JCUser -activated $true -filterDateProperty password_expiration_date -dateFilter after -date (Get-Date).AddDays($PasswordExpirationDaysSearch) -returnProperties password_expiration_date, username | Sort-object 'password_expiration_date' -Descending | ForEach-Object {
-                                [PSCustomObject]@{
-                                    Username   = (New-UDLink -Text $_.username -Url "https://console.jumpcloud.com/#/users/$($_._id)/details" -OpenInNewWindow);
-                                    ChangeDate = (Get-Date($_.password_expiration_date)).AddDays(-$PasswordExpirationDays)
-                                }
-                            } | Out-UDGridData
-                        }
-                    }
-
-                    else
-                    {
-                        New-UDCard -Title "Recent Password Changes"  -Content {
-                            New-UDunDraw -Name "no-data" -Color $unDrawColor
-                            New-UDParagraph -Text "No recent password changes"
-                        }
-                    }
-
-                }
-                else
-                {
-                    New-UDCard -Title "Recent Password Changes"  -Content {
-                        New-UDunDraw -Name "alert" -Color $unDrawColor
-                        New-UDParagraph -Text "Password expiration must be enabled to view recent password changes."
-                    }
-                }
-
-            }
         }
-
     }
 
-
-    
     #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
     Return [PSCustomObject]@{
         'UDPage' = $UDPage;
         #    'UDSideNavItem' = $UDSideNavItem;
     }
-    
+
 }
