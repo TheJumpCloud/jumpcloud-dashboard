@@ -145,17 +145,17 @@ Function Start-JCDashboard
     $Scripts = @()
     $Stylesheets = @()
 
-    ## Get files from "Dashboard-Components" folder
+    ## Get files from "UDPages" folder
     $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
 
     if ($Beta)
     {
-        # If Beta Selected Then Load All Dashboard-Components
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Dashboard-Components/*.ps1') -Recurse
+        # If Beta Selected Then Load All UDPages
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/*.ps1') -Recurse
     }
     else
     {
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Dashboard-Components/Default/*.ps1') -Recurse
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/Default/*.ps1') -Recurse
     }
     ## Call functions to build dashboard
     ##############################################################################################################
@@ -168,7 +168,7 @@ Function Start-JCDashboard
     $ContentPagesFiles | ForEach-Object {
 
 
-        ## Load functions from "Dashboard-Components" folder
+        ## Load functions from "UDPages" folder
         .($_.FullName)
         Write-Verbose "Loading $($_.BaseName)"
 
