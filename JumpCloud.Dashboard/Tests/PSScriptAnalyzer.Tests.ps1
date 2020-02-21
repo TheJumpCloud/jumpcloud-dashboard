@@ -1,6 +1,4 @@
-#$FolderPath_Module = 'C:\agent\_work\1\s\powershell\'
-$FolderPath_Module = 'C:\GIT\jumpcloud-dashboard\JumpCloud.Dashboard\'
-
+$FolderPath_Module = (Split-Path ($PSScriptRoot).ToString())
 
 Write-Host ('[status]Running PSScriptAnalyzer on: ' + $FolderPath_Module)
 $ScriptAnalyzerResults = Invoke-ScriptAnalyzer -Path:($FolderPath_Module) -Recurse -ExcludeRule PSAvoidUsingWMICmdlet,PSAvoidUsingPlainTextForPassword,PSAvoidUsingUsernameAndPasswordParams,PSAvoidUsingInvokeExpression,PSUseDeclaredVarsMoreThanAssignments,PSUseSingularNouns,PSAvoidGlobalVars,PSUseShouldProcessForStateChangingFunctions,PSAvoidUsingWriteHost,PSAvoidUsingPositionalParameters,PSUseApprovedVerbs
