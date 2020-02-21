@@ -1,3 +1,4 @@
+Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud",  "JumpCloud.Dashboard"  -Force -Scope CurrentUser
 . ($PSScriptRoot + '/' + 'Get-Config.ps1')
 ###########################################################################
 Write-Host ('[status]Importing current module: ' + $ModuleName)
