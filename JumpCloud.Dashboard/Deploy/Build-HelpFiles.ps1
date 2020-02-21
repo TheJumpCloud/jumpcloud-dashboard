@@ -1,5 +1,8 @@
 . ($PSScriptRoot + '/' + 'Get-Config.ps1')
 ###########################################################################
+Write-Host ('[status]Importing current module: ' + $ModuleName)
+$FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard.psd1'
+Import-Module ($FilePath_psd1) -Force
 Write-Host ('[status]Installing module: PlatyPS')
 Install-Module -Name:('PlatyPS') -Force -Scope:('CurrentUser')
 Write-Host ('[status]Creating/Updating help files')
