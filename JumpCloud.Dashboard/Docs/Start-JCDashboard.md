@@ -25,6 +25,7 @@ Used to start the JumpCloud Dashboard instance.
 ```powershell
 Start-JCDashboard
 ```
+
 Launches the JumpCloud Dashboard with the default settings.
 
 ### Example 2
@@ -47,7 +48,7 @@ Launches the JumpCloud Dashboard and sets the component refresh interval to 60 s
 A JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -62,7 +63,7 @@ Accept wildcard characters: False
 Include systems that have contacted the JumpCloud directory within this number of days
 
 ```yaml
-Type: Int32
+Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -77,7 +78,7 @@ Accept wildcard characters: False
 Refresh the components on the dashboard measured in seconds
 
 ```yaml
-Type: Int32
+Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -92,7 +93,7 @@ Accept wildcard characters: False
 Prevent the module from auto updating
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -104,8 +105,13 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
 
 ## RELATED LINKS
 
