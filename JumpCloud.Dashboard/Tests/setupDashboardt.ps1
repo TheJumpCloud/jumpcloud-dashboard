@@ -5,14 +5,12 @@ param (
     $JumpCloudAPIKEY
 )
 
-# Required Modules
+# Cheks For Required Modules - Selenium
 
 if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
 {
     Install-Module -Name Selenium -Scope CurrentUser -Force
 }
-
-# Firefox must be installed
 
 $RootPath = Split-Path $PSScriptRoot -Parent
 

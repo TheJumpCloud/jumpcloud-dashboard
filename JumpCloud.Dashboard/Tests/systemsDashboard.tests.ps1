@@ -2,7 +2,10 @@
 
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
+
         # Run setupDashboardt.ps1
+        # REQUIRED: Firefox must be installed
+
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
