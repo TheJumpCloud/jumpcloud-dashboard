@@ -1,8 +1,31 @@
 [
     {
+        "Components": {
+            "Systems": [
+                "AgentVersion",
+                "LastContact",
+                "NewSystems",
+                "OS",
+                "OSVersion",
+                "SystemsMFA"
+            ],
+            "SystemUsers": [
+                "UsersMFA",
+                "NewUsers",
+                "PasswordChanges",
+                "PasswordExpiration",
+                "PrivilegedUsers",
+                "UserState"
+            ]
+        },
+        "Dashboard": {
+            "Settings":{
+                "cycleInterval": 30
+            }
+        },
         "1Get-UDSystemUsers": {
             "Settings": {
-                "refreshInterval": 30
+                "refreshInterval": 60
             }
         },
         "2Get-UDSystems": {

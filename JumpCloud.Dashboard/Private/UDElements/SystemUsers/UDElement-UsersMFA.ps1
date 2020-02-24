@@ -1,11 +1,11 @@
-function UDElement-MFAConfigured ()
+function UDElement-UsersMFA ()
 {
     param (
         $refreshInterval,
         $unDrawColor
     )
 
-    New-UDElement -Tag "MFAConfigured" -Id "MFAConfigured" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "UsersMFA" -Id "UsersMFA" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $Options = New-UDLineChartOptions -LegendOptions $LegendOptions

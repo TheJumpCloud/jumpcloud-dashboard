@@ -36,8 +36,7 @@
  Used to start the JumpCloud Dashboard instance.
 
 #>
-Function Start-JCDashboard
-{
+Function Start-JCDashboard {
     [CmdletBinding(HelpURI = "https://github.com/TheJumpCloud/support/wiki/Start-JCDashboard")]
     Param(
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, HelpMessage = 'Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.')]
@@ -52,54 +51,79 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        #[Switch]$Beta,
+        [Parameter(Mandatory = $false)]
+        [ValidateSet("gridView", "singleComponent")]
+        $Layout = "gridView",
+
+        [Parameter(Mandatory= $false)]
+        [ValidateSet("AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState")]
+        $IncludeComponent,
+
+        [Parameter(Mandatory= $false)]
+        [ValidateSet("AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState")]
+        $ExcludeComponent,
+
+        [Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')]
+        [Int]$CycleInterval,
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate
+        
+        #[Switch]$Beta,
     )
 
     # Auto Update
-    if (! $NoUpdate)
-    {
-        $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
-    }
+    #if (! $NoUpdate)
+    #
+    #    $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
+    #}
 
     ## Authentication
-    if ($JumpCloudApiKey)
-    {
+    if ($JumpCloudApiKey) {
         Connect-JCOnline -JumpCloudApiKey:($JumpCloudApiKey) -force
     }
-    else
-    {
+    else {
         if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
     }
 
     ## Set Module Installed location
-    if ($Updated -eq $true)
-    {
-        $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
+    #if ($Updated -eq $true)
+    #{
+    #    $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
 
-        $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
+    #    $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
 
-        Foreach ($Function in $Private)
-        {
-            Try
-            {
-                . $Function.FullName
-                Write-Verbose "Imported $($Function.FullName)"
-            }
-            Catch
-            {
-                Write-Error -Message "Failed to import function $($Function.FullName): $_"
-            }
+    #    Foreach ($Function in $Private)
+    #    {
+    #        Try
+    #        {
+    #            . $Function.FullName
+    #            Write-Verbose "Imported $($Function.FullName)"
+    #        }
+    #        Catch
+    #        {
+    #            Write-Error -Message "Failed to import function $($Function.FullName): $_"
+    #        }
+    #    }
+
+    #}
+
+    #else
+    #{
+    $InstalledModuleLocation = $PSScriptRoot
+
+    $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
+
+    Foreach ($Function in $Private) {
+        Try {
+            . $Function.FullName
+            Write-Verbose "Imported $($Function.FullName)"
         }
-
+        Catch {
+            Write-Error -Message "Failed to import function $($Function.FullName): $_"
+        }
     }
-
-    else
-    {
-        $InstalledModuleLocation = $PSScriptRoot
-    }
+    #}
 
     ## Gather org name
     ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
@@ -114,8 +138,7 @@ Function Start-JCDashboard
         'X-API-KEY'    = $JCAPIKEY
     }
 
-    if ($JCOrgID)
-    {
+    if ($JCOrgID) {
         $hdrs.Add('x-org-id', "$($JCOrgID)")
     }
 
@@ -127,100 +150,23 @@ Function Start-JCDashboard
     # ## Import Settings File
     $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + 'DashboardSettings.json') | ConvertFrom-Json
 
-    if ($LastContactDays)
-    {
+    if ($LastContactDays) {
         $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
     }
 
-    if ($RefreshInterval)
-    {
+    if ($RefreshInterval) {
         $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
         $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
-
     }
 
-    ## Declare container variables for dashboard items
-    $UDPages = @()
+
     #$UDSideNavItems = @()
-    $Scripts = @()
-    $Stylesheets = @()
+    #$Scripts = @()
+    #$Stylesheets = @()
 
-    ## Get files from "UDPages" folder
-    $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
-
-    if ($Beta)
-    {
-        # If Beta Selected Then Load All UDPages
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/*.ps1') -Recurse
+    if ($Layout -eq "gridView") {
+        Start-JCDashboardGridView($OrgName)
     }
-    else
-    {
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/Default/*.ps1') -Recurse
-    }
-    ## Call functions to build dashboard
-    ##############################################################################################################
-    $Theme = Get-JCTheme
-    $NavBarLinks = Get-JCNavBarLinks
-    ##############################################################################################################
-
-    [int]$ProgressCounter = 0
-
-    $ContentPagesFiles | ForEach-Object {
-
-
-        ## Load functions from "UDPages" folder
-        .($_.FullName)
-        Write-Verbose "Loading $($_.BaseName)"
-
-        ## Write progress logic
-        $PageName = ($($_.BaseName) -split '-UD')[1]
-        $ProgressCounter++
-
-        $PageProgressParams = @{
-
-            Activity        = "Loading the $PageName dashboard components"
-            Status          = "Dashboard $ProgressCounter of $($ContentPagesFiles.count)"
-            PercentComplete = ($ProgressCounter / $($ContentPagesFiles.count)) * 100
-
-        }
-
-        Write-Progress @PageProgressParams
-
-        ## Load the Page Settings
-        $PageSettings = $($DashboardSettings."$($_.BaseName)".'Settings')
-
-        ## Compile the parameters
-        $commandParams = ''
-
-        $($PageSettings).PSObject.Properties | ForEach-Object {
-            $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
-        }
-        Write-Debug $commandParams
-
-        ## Run function to load the page
-        $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"
-
-        ## Add the output to the container variable
-        $UDPages += $CommandResults.UDPage
-        #$UDSideNavItems += $CommandResults.UDSideNavItem
-    }
-    # Build dashboard
-    $Navigation = New-UDSideNav -None
-    $Pages = $UDPages
-    $Dashboard = New-UDDashboard `
-        -Title:("$($OrgName) Dashboard") `
-        -Theme:($Theme) `
-        -Pages:($Pages) `
-        -Navigation:($Navigation) `
-        -NavbarLinks:($NavBarLinks) `
-        -NavBarLogo:(New-UDImage -Url:('/images/jumpcloud.svg') -Height 42 -Width 56)
-
-    # -Scripts:($Scripts) `
-    # -Stylesheets:($Stylesheets) `
-    # -Footer:($Footer)
-
-    ## Start the dashboard
-    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
     ## Opens the dashboard
     Start-Process -FilePath 'http://127.0.0.1:8003'
