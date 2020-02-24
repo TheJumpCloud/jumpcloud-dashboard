@@ -3,11 +3,11 @@ $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 . "$here\$sut"
 
 
-Describe "pesterTests" {
-    It "New Directory Should Exist" {
-        (Test-Path -Path $Path) | Should Be $true
-    }
-}
+# Describe "pesterTests" {
+#     It "New Directory Should Exist" {
+#         (Test-Path -Path $Path) | Should Be $true
+#     }
+# }
 
 Describe "Start Dashboard, web server results" {
     $Path = "../Private/Content-Pages/Default/"
