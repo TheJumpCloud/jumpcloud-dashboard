@@ -9,6 +9,13 @@ Describe "Testing JumpCloud Systems Dashboard" {
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
+        Context "Verify Dashboard is running" {
+            It "Test that the dashboard is actually running" {
+                # variable from setupDashboard.ps1
+                $testDashboard.Running | Should Be $true
+            }
+        }
+    }
     Context "Verifying System Dashboard Components" {
 
         It "Verifies the OS component" {
