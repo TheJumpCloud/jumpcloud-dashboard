@@ -39,12 +39,3 @@ Describe "Testing JumpCloud Systems Dashboard" {
         Stop-SeDriver $Driver
     }
 }
-
-}       }
-
-        AfterAll {
-            Stop-SeDriver $Driver
-        }
-    }
-
-}
