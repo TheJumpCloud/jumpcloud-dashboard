@@ -15,7 +15,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
                 $testDashboard.Running | Should Be $true
             }
         }
-    }
     Context "Verifying System Dashboard Components" {
 
         It "Verifies the OS component" {

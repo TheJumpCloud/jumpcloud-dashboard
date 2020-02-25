@@ -12,7 +12,6 @@ Describe "Testing JumpCloud Users Dashboard" {
             $testDashboard.Running | Should Be $true
         }
     }
-    }
     Context "Verifying SystemUsers Dashboard Components" {
 
         It "Verifies the NewUsers component" {
