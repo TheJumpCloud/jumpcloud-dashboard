@@ -242,7 +242,7 @@ Function 1Get-UDSystemUsers ()
                 }
             }
 
-            New-UDElement -Tag "PasswordExpiration" -Id "PasswordChanges" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+            New-UDElement -Tag "PasswordChanges" -Id "PasswordChanges" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
                 if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays -eq "True")
                 {
