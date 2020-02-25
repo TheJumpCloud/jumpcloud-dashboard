@@ -9,7 +9,7 @@ Describe "Testing JumpCloud Systems Dashboard" {
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
-    Context "Verifying System Dashboard Components" {
+    #Context "Verifying System Dashboard Components" {
 
     #     It "Verifies the OS component" {
     #         $Element = Find-SeElement -Driver $Driver -TagName "OS"
