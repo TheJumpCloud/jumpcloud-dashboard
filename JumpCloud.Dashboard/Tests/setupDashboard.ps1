@@ -27,5 +27,5 @@ $RootPath = Split-Path $PSScriptRoot -Parent
 
 Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
 
-Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
+$testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
 
