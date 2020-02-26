@@ -14,7 +14,7 @@ Function 2Get-UDSystems ()
     $PageName = 'Systems'
     
 
-    $UDPage = New-UDPage -Name:($PageName) -Content {
+    $UDPage = New-UDPage -Name:($PageName) -AutoRefresh -RefreshInterval $refreshInterval -Content {
 
         [int]$refreshInterval = $refreshInterval
 
