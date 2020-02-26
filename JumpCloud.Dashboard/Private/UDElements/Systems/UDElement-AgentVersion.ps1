@@ -6,7 +6,7 @@ function UDElement-AgentVersion
         $unDrawColor
     )
 
-    New-UDElement -Tag "AgentVersion" -Id "AgentVersion"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "AgentVersion" -Id "AgentVersion" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $HorizontalBarChartOptions = @{
             legend = @{
@@ -27,12 +27,12 @@ function UDElement-AgentVersion
             }
         }
 
-        $AgentVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Measure-Object | Select-Object -ExpandProperty Count
+        $AgentVersionCount = $Cache:DisplaySystems | Group-Object -Property agentVersion | Measure-Object | Select-Object -ExpandProperty Count
         $Script:AgentVersionColors = Get-AlternatingColors -Rows:("$AgentVersionCount") -Color1:('#006cac') -Color2:('#2cc692')
-        New-UDChart -Title "Agent Version" -Type HorizontalBar -AutoRefresh -RefreshInterval 60  -Endpoint {
+        New-UDChart -Title "Agent Version" -Type HorizontalBar -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
             try
             {
-                Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $AgentVersionColors -HoverBackgroundColor $AgentVersionColors
+                $Cache:DisplaySystems | Group-Object -Property agentVersion | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $AgentVersionColors -HoverBackgroundColor $AgentVersionColors
             }
             catch
             {
@@ -41,7 +41,7 @@ function UDElement-AgentVersion
         } -Options $HorizontalBarChartOptions -OnClick {
             if ($EventData -ne "[]")
             {
-                $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object agentVersion | Select-object Name
+                $TabNames = $Cache:DisplaySystems | Group-Object agentVersion | Select-object Name
                 Show-UDModal -Content {
                     New-UDTabContainer -Tabs {
                         foreach ($TabName in $TabNames)
@@ -49,7 +49,7 @@ function UDElement-AgentVersion
                             New-UDTab -Text $TabName.Name -Content {
                                 $script:AgentVersion = $TabName.Name
                                 New-UDGrid -Headers @("Hostname", "Operating System", "Agent Version", "System ID") -Properties @("Hostname", "OS", "AgentVersion", "SystemID") -Endpoint {
-                                    Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.agentVersion -eq $AgentVersion } | ForEach-Object {
+                                    $Cache:DisplaySystems | Where-Object { $_.agentVersion -eq $AgentVersion } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Hostname     = $_.hostname;
                                             OS           = $_.os + " " + $_.version;

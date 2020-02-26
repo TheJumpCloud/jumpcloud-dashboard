@@ -6,7 +6,7 @@ function UDElement-OSVersion
         $unDrawColor
     )
 
-    New-UDElement -Tag "OSVersion" -Id "OSVersion"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "OSVersion" -Id "OSVersion"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $HorizontalBarChartOptions = @{
             legend = @{
@@ -27,12 +27,12 @@ function UDElement-OSVersion
             }
         }
 
-        $OSVersionCount = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Measure-Object | Select-Object -ExpandProperty Count
+        $OSVersionCount = $Cache:DisplaySystems | Group-Object -Property version | Measure-Object | Select-Object -ExpandProperty Count
         $Script:OSVersionColors = Get-AlternatingColors -Rows:("$OSVersionCount") -Color1:('#2cc692') -Color2:('#006cac')
-        New-UDChart -Title "OS Version" -Type HorizontalBar -AutoRefresh -RefreshInterval 60  -Endpoint {
+        New-UDChart -Title "OS Version" -Type HorizontalBar -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
             try
             {
-                Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSVersionColors -HoverBackgroundColor $OSVersionColors
+                $Cache:DisplaySystems | Group-Object -Property version | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor $OSVersionColors -HoverBackgroundColor $OSVersionColors
             }
             catch
             {
@@ -42,7 +42,7 @@ function UDElement-OSVersion
         } -Options $HorizontalBarChartOptions -OnClick {
             if ($EventData -ne "[]")
             {
-                $TabNames = Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Group-Object version | Select-object Name
+                $TabNames = $Cache:DisplaySystems | Group-Object version | Select-object Name
                 Show-UDModal -Content {
                     New-UDTabContainer -Tabs {
                         foreach ($TabName in $TabNames)
@@ -50,7 +50,7 @@ function UDElement-OSVersion
                             New-UDTab -Text $TabName.Name -Content {
                                 $script:OSVersion = $TabName.Name
                                 New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {
-                                    Get-SystemsWithLastContactWithinXDays -days $lastContactDays | Where-Object { $_.version -eq $OSVersion } | ForEach-Object {
+                                    $Cache:DisplaySystems | Where-Object { $_.version -eq $OSVersion } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Hostname = $_.hostname;
                                             OS       = $_.os + " " + $_.version;

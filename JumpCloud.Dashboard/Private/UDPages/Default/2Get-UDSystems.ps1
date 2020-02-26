@@ -22,9 +22,13 @@ Function 2Get-UDSystems ()
         $unDrawColor = "#006cac"
 
 
+        New-UDElement -Tag "SystemCache" -Id "SystemCache" -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {
+            $Cache:DisplaySystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays
+        }
+
         New-UDGridLayout -Layout $PageLayout -Content {
 
-            UDCard-SystemsDownload -lastContactDays $lastContactDays
+            UDCard-SystemsDownload -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
             UDElement-OS -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
