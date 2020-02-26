@@ -1,4 +1,9 @@
-
+[CmdletBinding()]
+param (
+    [Parameter()]
+    [String]
+    $JumpCloudAPIKEY
+)
 
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
