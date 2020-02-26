@@ -12,6 +12,9 @@ if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
     Install-Module -Name Selenium -Scope CurrentUser -Force
 }
 
+Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud"  -Force -Scope CurrentUser
+
+
 $RootPath = Split-Path $PSScriptRoot -Parent
 
 #choco uninstall firefox -y
