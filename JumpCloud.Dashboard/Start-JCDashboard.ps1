@@ -268,5 +268,4 @@ $randomport = Get-RandomUsablePort
     ## Opens the dashboard
     $dashurl = 'http://127.0.0.1:'+$randomport
     Start-Process -FilePath $dashurl
-
 }

@@ -12,9 +12,9 @@ if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
     Install-Module -Name Selenium -Scope CurrentUser -Force
 }
 
-if ((Get-InstalledModule -Name JumpCloud.Dashboard -ErrorAction Ignore ))
+if ((Get-Module -Name JumpCloud.Dashboard -ErrorAction Ignore ))
 {
-    Uninstall-Module -Name JumpCloud.Dashboard
+    remove-Module -Name JumpCloud.Dashboard
 }
 
 Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud"  -Force -Scope CurrentUser
