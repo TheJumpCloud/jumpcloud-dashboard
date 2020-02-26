@@ -10,9 +10,8 @@ Describe "Testing JumpCloud Systems Dashboard" {
         Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
 
 
-        $Driver = Start-SeFirefox
-        start-sleep -Seconds 30
-        Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
+        #$Driver = Start-SeFirefox
+        #Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
     Context "Verifying System Dashboard Components" {
 
@@ -41,6 +40,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
      }
 
     AfterAll {
-        Stop-SeDriver $Driver
+        #Stop-SeDriver $Driver
     }
 }
