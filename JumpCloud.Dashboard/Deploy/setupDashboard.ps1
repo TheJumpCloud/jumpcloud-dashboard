@@ -22,5 +22,5 @@ Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "
 $RootPath = Split-Path $PSScriptRoot -Parent
 Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
 
-Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
-Get-UDDashboard
+#Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
+#Get-UDDashboard
