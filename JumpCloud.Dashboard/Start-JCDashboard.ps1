@@ -260,8 +260,8 @@ Function Get-RandomUsablePort
     return $result;
 }
 
-$randomport = Get-RandomUsablePort
-
+#$randomport = Get-RandomUsablePort
+$randomPort = '8003'
     ## Start the dashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:($randomport) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
