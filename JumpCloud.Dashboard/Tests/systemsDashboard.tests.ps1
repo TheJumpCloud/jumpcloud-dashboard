@@ -38,7 +38,7 @@ Describe "Testing JumpCloud Systems Dashboard" {
     # It "Verifies the LastContact component" {
     #     $Element = Find-SeElement -Driver $Driver -TagName "LastContact"
     #     $Element.Displayed | Should -Be $true
-    # }
+     }
 
     AfterAll {
         Stop-SeDriver $Driver
