@@ -1,4 +1,4 @@
-# Cheks For Required Modules - Selenium
+# Checks For Required Modules - Selenium
 
 if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
 {
@@ -12,8 +12,5 @@ if ((Get-Module -Name JumpCloud.Dashboard -ErrorAction Ignore ))
 
 Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud"  -Force -Scope CurrentUser
 
-$RootPath = Split-Path $PSScriptRoot -Parent
-Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
-
-#Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
-#Get-UDDashboard
+$FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard\JumpCloud.Dashboard.psd1'
+Import-Module ($FilePath_psd1) -Force
