@@ -22,8 +22,7 @@ Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
 #Get-UDDashboard | Stop-UDDashboard
 Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
 Get-UDDashboard
-Write-Host ('Test1: ' + $Error.ToString())
-$Error.Clear()
+$Error
 }
 Catch{
     Write-Error $Error
