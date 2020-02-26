@@ -5,12 +5,12 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     Context "Verifying System Dashboard Components" {
 
-        It "Verifies the OS component" {
+    It "Verifies the OS component" {
             $Element = Find-SeElement -Driver $Driver -TagName "OS"
             $Element.Displayed | Should -Be $true
-        }
-        $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
-        $Element.Displayed | Should -Be $true
+    }
+    $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
+    $Element.Displayed | Should -Be $true
     }
     It "Verifies the NewSystems component" {
         $Element = Find-SeElement -Driver $Driver -TagName "NewSystems"
@@ -27,7 +27,7 @@ Describe "Testing JumpCloud Systems Dashboard" {
     It "Verifies the LastContact component" {
         $Element = Find-SeElement -Driver $Driver -TagName "LastContact"
         $Element.Displayed | Should -Be $true
-     }
+    }
 
     AfterAll {
         Stop-SeDriver $Driver

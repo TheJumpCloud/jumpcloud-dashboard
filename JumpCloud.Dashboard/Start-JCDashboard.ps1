@@ -46,7 +46,7 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
-        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days.')]
+        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
         [Int]$LastContactDays,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
@@ -219,53 +219,10 @@ Function Start-JCDashboard
     # -Stylesheets:($Stylesheets) `
     # -Footer:($Footer)
 
-
-    <#
-.SYNOPSIS
-Generates a random port number in a (hopefully) open range.
-.LINK
-https://www.cymru.com/jtk/misc/ephemeralports.html
-#>
-Function Get-RandomPort
-{
-    return Get-Random -Max 32767 -Min 10001;
-}
-
-Function Test-PortInUse
-{
-    Param(
-        [Parameter(Mandatory=$true)]
-        [Int] $portToTest
-    );
-    $count = netstat -aon | find `":$portToTest `" /c;
-    return [bool]($count -gt 0);
-}
-
-Function Get-RandomUsablePort
-{
-    Param(
-        [Int] $maxTries = 100
-    );
-    $result = -1;
-    $tries = 0;
-    DO
-    {
-        $randomPort = Get-RandomPort;
-        if (-Not (Test-PortInUse($randomPort)))
-        {
-            $result = $randomPort;
-        }
-        $tries += 1;
-    } While (($result -lt 0) -and ($tries -lt $maxTries));
-    return $result;
-}
-
-#$randomport = Get-RandomUsablePort
-$randomPort = '8003'
     ## Start the dashboard
-    Start-UDDashboard -Dashboard:($Dashboard) -Port:($randomport) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
+    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
     ## Opens the dashboard
-    $dashurl = 'http://127.0.0.1:'+$randomport
-    Start-Process -FilePath $dashurl
+    Start-Process -FilePath 'http://127.0.0.1:8003'
+
 }
