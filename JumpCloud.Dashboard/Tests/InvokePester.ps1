@@ -12,6 +12,13 @@ if (Get-Module -ListAvailable -Name PSScriptAnalyzer) {
     Install-Module -Name:('psscriptanalyzer') -Force -Scope:('CurrentUser') -SkipPublisherCheck
 }
 
+if (Get-Module -ListAvailable -Name Pester) {
+    Write-Host "pester module installed"
+    } else {
+    Write-Host "Installing pester"
+    Install-Module -Name:('pester') -Force -Scope:('CurrentUser') -SkipPublisherCheck
+}
+
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
