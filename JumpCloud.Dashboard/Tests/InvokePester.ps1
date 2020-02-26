@@ -18,6 +18,11 @@ if (Get-Module -ListAvailable -Name Pester) {
     Write-Host "Installing pester"
     Install-Module -Name:('pester') -Force -Scope:('CurrentUser') -SkipPublisherCheck
 }
+#ud setup
+        $RootPath = Split-Path $PSScriptRoot -Parent
+        Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
+
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
