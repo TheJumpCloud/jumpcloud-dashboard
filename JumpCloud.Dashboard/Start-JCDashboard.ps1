@@ -36,7 +36,6 @@
  Used to start the JumpCloud Dashboard instance.
 
 #>
-try{
 Function Start-JCDashboard
 {
     [CmdletBinding(HelpURI = "https://github.com/TheJumpCloud/support/wiki/Start-JCDashboard")]
@@ -271,5 +270,3 @@ $randomport = Get-RandomUsablePort
     Start-Process -FilePath $dashurl
 
 }
-}
-Catch {Write-error $error}

@@ -5,7 +5,6 @@ param (
     $JumpCloudAPIKEY
 )
 
-try{
 # Cheks For Required Modules - Selenium
 
 if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
@@ -23,7 +22,3 @@ Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
 Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
 Get-UDDashboard
 $Error
-}
-Catch{
-    Write-Error $Error
-}
