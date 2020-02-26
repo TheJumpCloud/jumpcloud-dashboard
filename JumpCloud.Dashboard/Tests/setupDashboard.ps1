@@ -24,5 +24,5 @@ Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
 Get-UDDashboard
 }
 Catch{
-    Write-Error $_
+    Write-Error $Error
 }

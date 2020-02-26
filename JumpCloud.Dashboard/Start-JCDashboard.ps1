@@ -272,4 +272,4 @@ $randomport = Get-RandomUsablePort
 
 }
 }
-Catch {Write-error $_}
+Catch {Write-error $error}
