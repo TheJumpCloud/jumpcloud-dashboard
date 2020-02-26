@@ -1,8 +1,10 @@
 function UDElement-UsersMFA ()
 {
     param (
-        $refreshInterval,
-        $unDrawColor
+        [Parameter(Mandatory=$False)]
+        $refreshInterval = 600,
+        [Parameter(Mandatory =$False)]
+        $unDrawColor = "#006cac"
     )
 
     New-UDElement -Tag "UsersMFA" -Id "UsersMFA" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {

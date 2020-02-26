@@ -2,8 +2,10 @@
 function UDElement-UserState ()
 {
     param (
-        $refreshInterval,
-        $unDrawColor
+        [Parameter(Mandatory=$False)]
+        $refreshInterval = 600,
+        [Parameter(Mandatory =$False)]
+        $unDrawColor = "#006cac"
     )
 
     New-UDElement -Tag "UserState" -Id "UserState" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {

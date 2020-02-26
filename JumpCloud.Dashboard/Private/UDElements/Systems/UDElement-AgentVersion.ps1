@@ -1,9 +1,12 @@
 function UDElement-AgentVersion
 {
     param (
-        $refreshInterval,
-        $lastContactDays,
-        $unDrawColor
+        [Parameter(Mandatory=$False)]
+        $refreshInterval = 600,
+        [Parameter(Mandatory=$False)]
+        $lastContactDays = 90,
+        [Parameter(Mandatory =$False)]
+        $unDrawColor = "#006cac"
     )
 
     New-UDElement -Tag "AgentVersion" -Id "AgentVersion"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {

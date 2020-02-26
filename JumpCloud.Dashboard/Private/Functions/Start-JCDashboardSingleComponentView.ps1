@@ -1,9 +1,56 @@
 Function Start-JCDashboardSingleComponentView() {
     param (
-        [Parameter(Mandatory=$true)]
-        $OrgName
+        [Parameter(Mandatory = $true)]
+        $OrgName,
+        [Parameter(Mandatory = $true)]
+        $DashboardSettings
     )
+
+    $unDrawColor = "#006cac"
 
     ## Declare container variables for dashboard items
     $UDPages = @()
+
+    ## Call functions to build dashboard
+    ##############################################################################################################
+    $Theme = Get-JCTheme
+    ##############################################################################################################
+
+    [int]$ProgressCounter = 0
+    $DashboardSettings.'Dashboard'.Components | ForEach-Object {
+
+        $UDPages += New-UDPage -Name:($_) -Content {
+            $PageLayout = '{"lg":[{"w":25,"h":24,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
+
+            New-UDGridLayout -Layout $PageLayout -Content {
+                Invoke-Expression "UDElement-$($_)"
+            }
+        }
+        
+        $ProgressCounter++
+
+        $PageProgressParams = @{
+
+            Activity        = "Loading the $_ dashboard components"
+            Status          = "Dashboard $ProgressCounter of $($DashboardSettings.'Dashboard'.Components.count)"
+            PercentComplete = ($ProgressCounter / $($DashboardSettings.'Dashboard'.Components.count)) * 100
+
+        }
+
+        Write-Progress @PageProgressParams
+
+    }
+    $Navigation = New-UDSideNav -None
+    $Pages = $UDPages
+    $Dashboard = New-UDDashboard `
+        -Title:("$($OrgName) Dashboard") `
+        -Theme:($Theme) `
+        -Navigation:($Navigation) `
+        -Pages:($Pages) `
+        -CyclePages `
+        -CyclePagesInterval:($DashboardSettings.'Dashboard'.Settings.cycleInterval) `
+        -NavBarLogo:(New-UDImage -Url:('/images/jumpcloud.svg') -Height 42 -Width 56)
+
+    ## Start the dashboard
+    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 }

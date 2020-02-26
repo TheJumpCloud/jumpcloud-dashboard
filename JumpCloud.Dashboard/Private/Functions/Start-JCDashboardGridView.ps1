@@ -1,8 +1,10 @@
 Function Start-JCDashboardGridView () {
 
     param (
-        [Parameter(Mandatory=$true)]
-        $OrgName
+        [Parameter(Mandatory = $true)]
+        $OrgName,
+        [Parameter(Mandatory = $true)]
+        $DashboardSettings
     )
     ## Declare container variables for dashboard items
     $UDPages = @()

@@ -1,15 +1,17 @@
 [
     {
-        "Components": {
-            "Systems": [
+        "Dashboard": {
+            "Settings": {
+                "cycleInterval": 30,
+                "lastContactDays": 30
+            },
+            "Components": [
                 "AgentVersion",
                 "LastContact",
                 "NewSystems",
                 "OS",
                 "OSVersion",
-                "SystemsMFA"
-            ],
-            "SystemUsers": [
+                "SystemsMFA",
                 "UsersMFA",
                 "NewUsers",
                 "PasswordChanges",
@@ -17,11 +19,6 @@
                 "PrivilegedUsers",
                 "UserState"
             ]
-        },
-        "Dashboard": {
-            "Settings":{
-                "cycleInterval": 30
-            }
         },
         "1Get-UDSystemUsers": {
             "Settings": {

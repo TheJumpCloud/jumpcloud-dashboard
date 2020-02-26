@@ -55,13 +55,13 @@ Function Start-JCDashboard {
         [ValidateSet("gridView", "singleComponent")]
         $Layout = "gridView",
 
-        [Parameter(Mandatory= $false)]
+        [Parameter(Mandatory = $false)]
         [ValidateSet("AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState")]
-        $IncludeComponent,
+        [array]$IncludeComponent,
 
-        [Parameter(Mandatory= $false)]
+        [Parameter(Mandatory = $false)]
         [ValidateSet("AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState")]
-        $ExcludeComponent,
+        [array]$ExcludeComponent,
 
         [Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')]
         [Int]$CycleInterval,
@@ -150,25 +150,38 @@ Function Start-JCDashboard {
     # ## Import Settings File
     $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + 'DashboardSettings.json') | ConvertFrom-Json
 
+    if ($CycleInterval) {
+        $DashboardSettings.'Dashboard'.Settings.cycleInterval = $CycleInterval
+    }
+
     if ($LastContactDays) {
         $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
+        $DashboardSettings.'Dashboard'.Settings.lastContactDays = $LastContactDays
     }
 
     if ($RefreshInterval) {
         $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
         $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
     }
-
+    if ($IncludeComponent) {
+        $DashboardSettings.'Dashboard'.Components = $IncludeComponent
+    }
+    if ($ExcludeComponent) {
+        $DashboardSettings.'Dashboard'.Components = $DashboardSettings.'Dashboard'.Components | Where-Object { $_ -notin $ExcludeComponent }
+    }
 
     #$UDSideNavItems = @()
     #$Scripts = @()
     #$Stylesheets = @()
 
     if ($Layout -eq "gridView") {
-        Start-JCDashboardGridView($OrgName)
+        Start-JCDashboardGridView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
+    }
+
+    if ($Layout -eq "singleComponent") {
+        Start-JCDashboardSingleComponentView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
     }
 
     ## Opens the dashboard
     Start-Process -FilePath 'http://127.0.0.1:8003'
-
 }
