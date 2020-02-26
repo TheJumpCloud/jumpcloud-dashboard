@@ -1,14 +1,14 @@
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
-        #$Driver = Start-SeFirefox
-        #Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
+        $Driver = Start-SeFirefox
+        Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
     Context "Verifying System Dashboard Components" {
 
-    #     It "Verifies the OS component" {
-    #         $Element = Find-SeElement -Driver $Driver -TagName "OS"
-    #         $Element.Displayed | Should -Be $true
-    #     }
+        It "Verifies the OS component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "OS"
+            $Element.Displayed | Should -Be $true
+        }
     #     $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
     #     $Element.Displayed | Should -Be $true
     # }
