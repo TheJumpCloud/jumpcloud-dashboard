@@ -14,6 +14,8 @@ if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
 
 $RootPath = Split-Path $PSScriptRoot -Parent
 
+choco upgrade firefox
+
 Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
 Get-UDDashboard | Stop-UDDashboard
 Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
