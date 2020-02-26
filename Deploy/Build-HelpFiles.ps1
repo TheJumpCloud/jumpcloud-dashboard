@@ -1,7 +1,7 @@
 #Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud",  "JumpCloud.Dashboard"  -Force -Scope CurrentUser
 ###########################################################################
 Write-Host ('[status]Importing current module: ' + $ModuleName)
-$FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard.psd1'
+$FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard\JumpCloud.Dashboard.psd1'
 Import-Module ($FilePath_psd1) -Force
 Write-Host ('[status]Installing module: PlatyPS')
 Install-Module -Name:('PlatyPS') -Force -Scope:('CurrentUser')
