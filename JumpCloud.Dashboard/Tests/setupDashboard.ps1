@@ -24,6 +24,7 @@ Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
 Get-UDDashboard
 Write-Host ('Test1: ' + $Error)
 Write-Host ('Test2: ' + $_)
+$Error.Clear()
 }
 Catch{
     Write-Error $Error
