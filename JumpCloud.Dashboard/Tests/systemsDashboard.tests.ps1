@@ -2,6 +2,14 @@
 
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
+
+        #TEST
+        $RootPath = Split-Path $PSScriptRoot -Parent
+        Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
+
+        Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate
+
+
         $Driver = Start-SeFirefox
         start-sleep -Seconds 30
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
