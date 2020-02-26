@@ -1,10 +1,3 @@
-[CmdletBinding()]
-param (
-    [Parameter()]
-    [String]
-    $JumpCloudAPIKEY
-)
-
 # Cheks For Required Modules - Selenium
 
 if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
