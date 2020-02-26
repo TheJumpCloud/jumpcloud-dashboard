@@ -1,5 +1,4 @@
-Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud",  "JumpCloud.Dashboard"  -Force -Scope CurrentUser
-. ($PSScriptRoot + '/' + 'Get-Config.ps1')
+#Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud",  "JumpCloud.Dashboard"  -Force -Scope CurrentUser
 ###########################################################################
 Write-Host ('[status]Importing current module: ' + $ModuleName)
 $FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard.psd1'
