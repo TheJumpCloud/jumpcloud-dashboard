@@ -14,7 +14,7 @@ if (-not $(Get-InstalledModule -Name Selenium -ErrorAction Ignore ))
 
 $RootPath = Split-Path $PSScriptRoot -Parent
 
-choco uninstall firefox
+choco uninstall firefox -y
 choco install firefox --version=60.0 -y
 
 Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
