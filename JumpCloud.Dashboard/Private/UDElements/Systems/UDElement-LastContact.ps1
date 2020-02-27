@@ -1,14 +1,10 @@
 function UDElement-LastContact
 {
     param (
-        [Parameter(Mandatory=$False)]
-        $refreshInterval = 600,
-        [Parameter(Mandatory=$False)]
-        $lastContactDays = 90,
-        [Parameter(Mandatory =$False)]
-        $unDrawColor = "#006cac"
+        $refreshInterval,
+        $lastContactDays,
+        $unDrawColor
     )
-
 
     New-UDElement -Tag "LastContact" -Id "LastContact"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {
 

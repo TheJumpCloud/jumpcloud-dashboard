@@ -162,12 +162,15 @@ Function Start-JCDashboard {
     if ($RefreshInterval) {
         $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
         $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
+        $DashboardSettings.'Dashboard'.Settings.refreshInterval = $RefreshInterval
     }
     if ($IncludeComponent) {
-        $DashboardSettings.'Dashboard'.Components = $IncludeComponent
+        $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -in $IncludeComponent }
+        $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -in $IncludeComponent }
     }
     if ($ExcludeComponent) {
-        $DashboardSettings.'Dashboard'.Components = $DashboardSettings.'Dashboard'.Components | Where-Object { $_ -notin $ExcludeComponent }
+        $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -notin $ExcludeComponent }
+        $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -notin $ExcludeComponent }
     }
 
     #$UDSideNavItems = @()

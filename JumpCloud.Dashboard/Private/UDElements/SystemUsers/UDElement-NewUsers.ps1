@@ -1,10 +1,8 @@
 function UDElement-NewUsers ()
 {
     param (
-        [Parameter(Mandatory=$False)]
-        $refreshInterval = 600,
-        [Parameter(Mandatory =$False)]
-        $unDrawColor = "#006cac"
+        $refreshInterval,
+        $unDrawColor
     )
 
     New-UDElement -Tag "NewUsers" -Id "NewUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {

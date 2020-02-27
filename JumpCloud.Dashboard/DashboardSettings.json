@@ -3,22 +3,28 @@
         "Dashboard": {
             "Settings": {
                 "cycleInterval": 30,
-                "lastContactDays": 30
+                "refreshInterval": 60,
+                "lastContactDays": 30,
+                "unDrawColor": "#006cac"
             },
-            "Components": [
-                "AgentVersion",
-                "LastContact",
-                "NewSystems",
-                "OS",
-                "OSVersion",
-                "SystemsMFA",
-                "UsersMFA",
-                "NewUsers",
-                "PasswordChanges",
-                "PasswordExpiration",
-                "PrivilegedUsers",
-                "UserState"
-            ]
+            "Components": {
+                "Systems": [
+                    "AgentVersion",
+                    "LastContact",
+                    "NewSystems",
+                    "OS",
+                    "OSVersion",
+                    "SystemsMFA"
+                ],
+                "Users": [
+                    "UsersMFA",
+                    "NewUsers",
+                    "PasswordChanges",
+                    "PasswordExpiration",
+                    "PrivilegedUsers",
+                    "UserState"
+                ]
+            }
         },
         "1Get-UDSystemUsers": {
             "Settings": {

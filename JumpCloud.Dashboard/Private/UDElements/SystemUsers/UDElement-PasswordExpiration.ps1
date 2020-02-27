@@ -1,10 +1,8 @@
 function UDElement-PasswordExpiration ()
 {
     param (
-        [Parameter(Mandatory=$False)]
-        $refreshInterval = 600,
-        [Parameter(Mandatory =$False)]
-        $unDrawColor = "#006cac"
+        $refreshInterval,
+        $unDrawColor
     )
     
     New-UDElement -Tag "PasswordExpiration" -Id "PasswordExpiration" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {

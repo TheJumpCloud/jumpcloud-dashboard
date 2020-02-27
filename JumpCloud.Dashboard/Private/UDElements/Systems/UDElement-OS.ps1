@@ -1,10 +1,9 @@
 function UDElement-OS
 {
     param (
-        [Parameter(Mandatory=$False)]
-        $refreshInterval = 600,
-        [Parameter(Mandatory=$False)]
-        $lastContactDays = 90
+        $refreshInterval,
+        $lastContactDays,
+        $unDrawColor
     )
 
     New-UDElement -Tag "OS" -Id "OS"  -RefreshInterval  $refreshInterval -AutoRefresh -Endpoint {

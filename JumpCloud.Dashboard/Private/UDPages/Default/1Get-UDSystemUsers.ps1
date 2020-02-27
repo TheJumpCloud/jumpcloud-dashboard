@@ -28,7 +28,7 @@ Function 1Get-UDSystemUsers ()
 
             UDElement-UserState -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
-            UDElement-PriviledgedUsers -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-PrivilegedUsers -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
             UDElement-UsersMFA -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
