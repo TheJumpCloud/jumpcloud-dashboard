@@ -3,26 +3,10 @@ Param(
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 2)][System.String[]]$ExcludeTagList,
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 3)][System.String[]]$IncludeTagList
 )
-$ModuleManifestName = 'JumpCloud.Dashboard.psd1'
-
-if (Get-Module -ListAvailable -Name PSScriptAnalyzer) {
-    Write-Host "psscriptanalyzer module installed"
-    } else {
-    Write-Host "Installing psscriptanalyzer"
-    Install-Module -Name:('psscriptanalyzer') -Force -Scope:('CurrentUser') -SkipPublisherCheck
-}
-
-if (Get-Module -ListAvailable -Name Pester) {
-    Write-Host "pester module installed"
-    } else {
-    Write-Host "Installing pester"
-    Install-Module -Name:('pester') -Force -Scope:('CurrentUser') -SkipPublisherCheck
-}
 #ud setup
-        $RootPath = Split-Path $PSScriptRoot -Parent
-        Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
-
-        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
+    $RootPath = Split-Path $PSScriptRoot -Parent
+    Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
+    Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
