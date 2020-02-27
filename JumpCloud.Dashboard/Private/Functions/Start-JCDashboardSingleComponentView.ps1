@@ -32,7 +32,7 @@ Function Start-JCDashboardSingleComponentView() {
 
                 Activity        = "Loading the $_ dashboard components"
                 Status          = "Dashboard $ProgressCounter of $($DashboardSettings.'Dashboard'.Components.Systems.count)"
-                PercentComplete = ($ProgressCounter / $($DashboardSettings.'Dashboard'.Components.count)) * 100
+                PercentComplete = ($ProgressCounter / $($DashboardSettings.'Dashboard'.Components.Systems.count)) * 100
 
             }
 
