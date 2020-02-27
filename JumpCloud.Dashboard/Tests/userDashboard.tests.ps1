@@ -1,5 +1,3 @@
-
-
 Describe "Testing JumpCloud Users Dashboard" {
     BeforeAll {
         $Driver = Start-SeFirefox
