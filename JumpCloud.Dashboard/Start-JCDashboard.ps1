@@ -35,6 +35,21 @@
 .DESCRIPTION
  Used to start the JumpCloud Dashboard instance.
 
+.EXAMPLE
+Start-JCDashboard
+
+Launches the JumpCloud Dashboard with the default settings.
+
+.EXAMPLE
+Start-JCDashboard -LastContactDays 30
+
+Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
+
+.EXAMPLE
+Start-JCDashboard -RefreshInterval 60
+
+Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
+
 #>
 Function Start-JCDashboard
 {
