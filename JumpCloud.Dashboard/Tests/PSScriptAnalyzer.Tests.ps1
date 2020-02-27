@@ -13,7 +13,3 @@ Else
 {
     Write-Host ('[success]ScriptAnalyzer returned no results')
 }
-
-
-
-Invoke-ScriptAnalyzer -Path:('C:\agent\_work\3\s\JumpCloud.Dashboard') -Recurse -ExcludeRule PSAvoidUsingWMICmdlet,PSAvoidUsingPlainTextForPassword,PSAvoidUsingUsernameAndPasswordParams,PSAvoidUsingInvokeExpression,PSUseDeclaredVarsMoreThanAssignments,PSUseSingularNouns,PSAvoidGlobalVars,PSUseShouldProcessForStateChangingFunctions,PSAvoidUsingWriteHost,PSAvoidUsingPositionalParameters,PSUseApprovedVerbs
