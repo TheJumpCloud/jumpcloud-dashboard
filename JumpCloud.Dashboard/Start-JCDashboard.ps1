@@ -52,6 +52,8 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
+        #[Switch]$Beta,
+
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate
     )
@@ -143,17 +145,17 @@ Function Start-JCDashboard
     $Scripts = @()
     $Stylesheets = @()
 
-    ## Get files from "UDPages" folder
+    ## Get files from "Content-Pages" folder
     $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
 
     if ($Beta)
     {
-        # If Beta Selected Then Load All UDPages
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/*.ps1') -Recurse
+        # If Beta Selected Then Load All Content-Pages
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Content-Pages/*.ps1') -Recurse
     }
     else
     {
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/Default/*.ps1') -Recurse
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Content-Pages/Default/*.ps1') -Recurse
     }
     ## Call functions to build dashboard
     ##############################################################################################################
@@ -166,7 +168,7 @@ Function Start-JCDashboard
     $ContentPagesFiles | ForEach-Object {
 
 
-        ## Load functions from "UDPages" folder
+        ## Load functions from "Content-Pages" folder
         .($_.FullName)
         Write-Verbose "Loading $($_.BaseName)"
 
