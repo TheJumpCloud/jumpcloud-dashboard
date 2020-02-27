@@ -52,8 +52,6 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        #[Switch]$Beta,
-
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate
     )

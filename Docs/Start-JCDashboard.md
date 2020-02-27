@@ -23,10 +23,24 @@ Used to start the JumpCloud Dashboard instance.
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+Start-JCDashboard
 ```
 
-{{ Add example description here }}
+Launches the JumpCloud Dashboard with the default settings.
+
+### Example 2
+```powershell
+Start-JCDashboard -LastContactDays 30
+```
+
+Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
+
+### Example 3
+```powershell
+Start-JCDashboard -RefreshInterval 60
+```
+
+Launches the JumpCloud Dashboard
 
 ## PARAMETERS
 
