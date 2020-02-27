@@ -8,7 +8,7 @@ Write-Host ('[status]PowerShell Gallery Name:' + $PSGalleryInfo.Name + ';Current
 # EndRegion Checking PowerShell Gallery module version
 # Region Building New-JCModuleManifest
 Write-Host ('[status]Building New-JCModuleManifest')
-New-JCModuleManifest -Path:($FilePath_psd1) `
+New-ModuleManifest -Path:($FilePath_psd1) `
     -FunctionsToExport:($Functions_Public.BaseName | Sort-Object) `
     -RootModule:((Get-Item -Path:($FilePath_psm1)).Name) `
     -ModuleVersion:($ModuleVersion)
