@@ -1,39 +1,37 @@
 #Vars
-$FunctionName = 'Start-JCDashboard'
-$FolderPath_Docs = (Split-Path ($PSScriptRoot).ToString()) + '\Docs\'
-$FolderPath_enUS = (Split-Path ($PSScriptRoot).ToString()) + '\en-US\'
-$FilePath_Md = $FolderPath_Docs + 'Start-JCDashboard.md'
-$FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard\JumpCloud.Dashboard.psd1'
-
-# Checks For Required Modules
-if (Get-Module -ListAvailable -Name PSScriptAnalyzer) {
-    Write-Host "psscriptanalyzer module installed"
-    } else {
-    Write-Host "Installing psscriptanalyzer"
-    Install-Module -Name:('psscriptanalyzer') -Force -Scope:('CurrentUser') -SkipPublisherCheck
-}
-
-if (Get-Module -ListAvailable -Name Pester) {
-    Write-Host "pester module installed"
-    } else {
-    Write-Host "Installing pester"
-    Install-Module -Name:('pester') -Force -Scope:('CurrentUser') -SkipPublisherCheck
-}
-
-if (Get-Module -ListAvailable -Name Selenium) {
-    Write-Host "selenium module installed"
-    } else {
-    Write-Host "Installing selenium"
-    Install-Module -Name:('selenium') -Force -Scope:('CurrentUser') -SkipPublisherCheck
-}
-
-if ((Get-Module -Name JumpCloud.Dashboard -ErrorAction Ignore ))
+$ModuleName = 'JumpCloud.Dashboard'
+$ModuleFolderPath = (Get-Item -Path:($PSScriptRoot)).Parent.FullName + '\' + $ModuleName
+$FilePath_psd1 = $ModuleFolderPath + '\' + $ModuleName + '.psd1'
+$FolderPath_Docs = $ModuleFolderPath + '\Docs\'
+$FolderPath_enUS = $ModuleFolderPath + '\en-US\'
+$GitHubWikiUrl = 'https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/'
+# Install required modules
+$RequiredModules = ('PSScriptAnalyzer', 'Pester', 'platyPS', 'Selenium', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw', 'JumpCloud')
+ForEach ($RequiredModule In $RequiredModules)
 {
-    remove-Module -Name JumpCloud.Dashboard
+    # Check to see if the module is imported
+    If ((Get-Module -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
+    {
+        Remove-Module -Name:($RequiredModule) -Force
+    }
+    # Check to see if the module is installed
+    If (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue'))
+    {
+        Write-Host ('Updating module: ' + $RequiredModule)
+        Update-Module -Name:($RequiredModule) -Force
+    }
+    # Check to see if the module exists on the PSGallery
+    ElseIf (Find-Module -Name:($RequiredModule))
+    {
+        Write-Host ('Installing module: ' + $RequiredModule)
+        Install-Module -Name:($RequiredModule) -Force -SkipPublisherCheck
+    }
+    Import-Module -Name:($RequiredModule) -Force
 }
-
-# Install Required Modules
-Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud"  -Force -Scope CurrentUser
-
-# Import JCDashboard Module
+# Remove the module that is being developed if it exists in the current session
+If ((Get-Module -Name:($ModuleName) -ErrorAction:('SilentlyContinue')))
+{
+    Remove-Module -Name:($ModuleName) -Force
+}
+# Import the current version of the module that is in development
 Import-Module ($FilePath_psd1) -Force
