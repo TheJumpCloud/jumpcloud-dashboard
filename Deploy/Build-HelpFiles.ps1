@@ -1,16 +1,10 @@
-Install-Module  "UniversalDashboard.Community", "UniversalDashboard.UDunDraw", "JumpCloud" -Force -Scope CurrentUser
+. ($PSScriptRoot + '/' + 'setupDashboard.ps1')
 ###########################################################################
 Write-Host ('[status]Importing current module: ' + $ModuleName)
-$FilePath_psd1 = (Split-Path ($PSScriptRoot).ToString()) + '\JumpCloud.Dashboard\JumpCloud.Dashboard.psd1'
 Import-Module ($FilePath_psd1) -Force
 Write-Host ('[status]Installing module: PlatyPS')
 Install-Module -Name:('PlatyPS') -Force -Scope:('CurrentUser')
 Write-Host ('[status]Creating/Updating help files')
-    $FunctionName = 'Start-JCDashboard'
-    $FolderPath_Docs = (Split-Path ($PSScriptRoot).ToString()) + '\Docs\'
-    $FolderPath_enUS = (Split-Path ($PSScriptRoot).ToString()) + '\en-US\'
-    $FilePath_Md = $FolderPath_Docs + 'Start-JCDashboard.md'
-
     If (Test-Path -Path:($FilePath_Md))
     {
         # Write-Host ('Updating: ' + $FunctionName + '.md')
