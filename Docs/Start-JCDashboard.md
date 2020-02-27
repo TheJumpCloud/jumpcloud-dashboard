@@ -91,7 +91,6 @@ Accept wildcard characters: False
 ```
 
 ### -NoUpdate
-\[Switch\]$Beta,
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
