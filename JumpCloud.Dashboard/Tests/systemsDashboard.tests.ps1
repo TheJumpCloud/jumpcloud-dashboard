@@ -68,20 +68,20 @@ Describe "Testing JumpCloud Systems Dashboard" {
         }
     }
     Context "Testing the cases where no systems are to be displayed" {
-        It "No MFA Systems"{
-            $MFASystems = Get-SystemsWithLastContactWithinXDays -days 7
-            If ($MFASystems.Length -eq 0) {
-                $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
-                $Element.Text | Should BeLike "*None of your systems have MFA enabled."
-            }
-        }
-        It "No New Systems" {
-            $MFASystems = Get-SystemsWithLastContactWithinXDays -days 7
-            If ($MFASystems.Length -eq 0) {
-                $Element = Find-SeElement -Driver $Driver -TagName "NewSystems"
-                $Element.Text | Should BeLike "*No new systems have been added to your JumpCloud Organization*"
-            }
-        }
+        # It "No MFA Systems"{
+        #     $MFASystems = Get-SystemsWithLastContactWithinXDays -days 7
+        #     If ($MFASystems.Length -eq 0) {
+        #         $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
+        #         $Element.Text | Should BeLike "*None of your systems have MFA enabled."
+        #     }
+        # }
+        # It "No New Systems" {
+        #     $MFASystems = Get-SystemsWithLastContactWithinXDays -days 7
+        #     If ($MFASystems.Length -eq 0) {
+        #         $Element = Find-SeElement -Driver $Driver -TagName "NewSystems"
+        #         $Element.Text | Should BeLike "*No new systems have been added to your JumpCloud Organization*"
+        #     }
+        # }
     }
     AfterAll {
         Stop-SeDriver $Driver
