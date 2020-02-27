@@ -4,9 +4,9 @@ Param(
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 3)][System.String[]]$IncludeTagList
 )
 #ud setup
-    $RootPath = Split-Path $PSScriptRoot -Parent
-    Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
-    Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
+$RootPath = Split-Path $PSScriptRoot -Parent
+Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
+Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
