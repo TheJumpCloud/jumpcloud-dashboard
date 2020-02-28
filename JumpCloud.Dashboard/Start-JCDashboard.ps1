@@ -35,21 +35,6 @@
 .DESCRIPTION
  Used to start the JumpCloud Dashboard instance.
 
-.EXAMPLE
-Start-JCDashboard
-
-Launches the JumpCloud Dashboard with the default settings.
-
-.EXAMPLE
-Start-JCDashboard -LastContactDays 30
-
-Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
-
-.EXAMPLE
-Start-JCDashboard -RefreshInterval 60
-
-Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
-
 #>
 Function Start-JCDashboard
 {
@@ -61,13 +46,15 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
-        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud Directory within this number of days')]
+        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
         [Int]$LastContactDays,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        [Parameter(HelpMessage = 'Prevents the dashboard module from auto updating when launched')]
+        #[Switch]$Beta,
+
+        [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate
     )
 
@@ -158,17 +145,17 @@ Function Start-JCDashboard
     $Scripts = @()
     $Stylesheets = @()
 
-    ## Get files from "Content-Pages" folder
+    ## Get files from "UDPages" folder
     $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
 
     if ($Beta)
     {
-        # If Beta Selected Then Load All Content-Pages
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Content-Pages/*.ps1') -Recurse
+        # If Beta Selected Then Load All UDPages
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/*.ps1') -Recurse
     }
     else
     {
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'Content-Pages/Default/*.ps1') -Recurse
+        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/Default/*.ps1') -Recurse
     }
     ## Call functions to build dashboard
     ##############################################################################################################
@@ -181,7 +168,7 @@ Function Start-JCDashboard
     $ContentPagesFiles | ForEach-Object {
 
 
-        ## Load functions from "Content-Pages" folder
+        ## Load functions from "UDPages" folder
         .($_.FullName)
         Write-Verbose "Loading $($_.BaseName)"
 
@@ -208,7 +195,7 @@ Function Start-JCDashboard
         $($PageSettings).PSObject.Properties | ForEach-Object {
             $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
         }
-        Write-Debug $commandParams
+        Write-Debug "Invoking $($_.BaseName) $commandParams"
 
         ## Run function to load the page
         $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"
@@ -236,6 +223,7 @@ Function Start-JCDashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
     ## Opens the dashboard
+    Write-Debug "Launching dashboard $(Get-Date)"
     Start-Process -FilePath 'http://127.0.0.1:8003'
 
 }
