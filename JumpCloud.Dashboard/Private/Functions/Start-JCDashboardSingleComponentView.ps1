@@ -77,7 +77,7 @@ Function Start-JCDashboardSingleComponentView() {
         -Pages:($Pages) `
         -CyclePages `
         -CyclePagesInterval:($DashboardSettings.'Dashboard'.Settings.cycleInterval) `
-        -NavBarLogo:(New-UDImage -Url:('../Images/jumpcloud.svg') -Height 42 -Width 56)
+        -NavBarLogo:(New-UDImage -Url:('/Images/jumpcloud.svg') -Height 42 -Width 56)
 
     ## Start the dashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
