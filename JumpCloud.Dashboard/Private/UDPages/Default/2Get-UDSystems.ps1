@@ -22,20 +22,37 @@ Function 2Get-UDSystems ()
         $unDrawColor = "#006cac"
 
 
+        New-UDElement -Tag "SystemCache" -Id "SystemCache" -Content {
+            Write-Debug "Loading system Content cache $(Get-Date)"
+            $Cache:DisplaySystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays
+        }
+
+        New-UDElement -Tag "SystemEndpointCache" -Id "SystemEndpointCache" -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {
+            Write-Debug "Loading system Endpoint cache $(Get-Date)"
+            $Cache:DisplaySystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays
+        }
+
         New-UDGridLayout -Layout $PageLayout -Content {
 
-            UDCard-SystemsDownload -lastContactDays $lastContactDays
+            Write-Debug "Loading SystemsDownload $(Get-Date)"
+            UDCard-SystemsDownload -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
+            Write-Debug "Loading OS $(Get-Date)"
             UDElement-OS -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
+            Write-Debug "Loading SystemsMFA $(Get-Date)"
             UDElement-SystemsMFA -RefreshInterval $refreshInterval -lastContactDays $lastContactDays -unDrawColor $unDrawColor
 
+            Write-Debug "Loading AgentVersion $(Get-Date)"
             UDElement-AgentVersion -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
+            Write-Debug "Loading OSVersion $(Get-Date)"
             UDElement-OSVersion -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
+            Write-Debug "Loading LastContact $(Get-Date)"
             UDElement-LastContact -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
+            Write-Debug "Loading NewSystems $(Get-Date)"
             UDElement-NewSystems -RefreshInterval $refreshInterval -lastContactDays $lastContactDays -unDrawColor $unDrawColor
         }
 

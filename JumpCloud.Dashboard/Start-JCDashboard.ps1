@@ -195,7 +195,7 @@ Function Start-JCDashboard
         $($PageSettings).PSObject.Properties | ForEach-Object {
             $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
         }
-        Write-Debug $commandParams
+        Write-Debug "Invoking $($_.BaseName) $commandParams"
 
         ## Run function to load the page
         $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"
@@ -223,6 +223,7 @@ Function Start-JCDashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 
     ## Opens the dashboard
+    Write-Debug "Launching dashboard $(Get-Date)"
     Start-Process -FilePath 'http://127.0.0.1:8003'
 
 }
