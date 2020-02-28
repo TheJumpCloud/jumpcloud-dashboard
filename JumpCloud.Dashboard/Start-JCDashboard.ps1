@@ -61,7 +61,7 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
-        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
+        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud Directory within this number of days')]
         [Int]$LastContactDays,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
