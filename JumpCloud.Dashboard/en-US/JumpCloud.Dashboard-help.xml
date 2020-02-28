@@ -18,11 +18,11 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>JumpCloudApiKey</maml:name>
           <maml:Description>
-            <maml:para>A JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.</maml:para>
+            <maml:para>Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>System.String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -32,32 +32,32 @@
           <maml:Description>
             <maml:para>Include systems that have contacted the JumpCloud directory within this number of days</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
-            <maml:name>Int32</maml:name>
+            <maml:name>System.Int32</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>90</dev:defaultValue>
+          <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>RefreshInterval</maml:name>
           <maml:Description>
             <maml:para>Refresh the components on the dashboard measured in seconds</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
-            <maml:name>Int32</maml:name>
+            <maml:name>System.Int32</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>30</dev:defaultValue>
+          <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoUpdate</maml:name>
           <maml:Description>
-            <maml:para>Prevent the module from auto updating</maml:para>
+            <maml:para>Prevents the dashboard module from auto updating when launched</maml:para>
           </maml:Description>
           <dev:type>
-            <maml:name>SwitchParameter</maml:name>
+            <maml:name>System.Management.Automation.SwitchParameter</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
@@ -68,11 +68,11 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>JumpCloudApiKey</maml:name>
         <maml:Description>
-          <maml:para>A JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.</maml:para>
+          <maml:para>Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>System.String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -82,33 +82,33 @@
         <maml:Description>
           <maml:para>Include systems that have contacted the JumpCloud directory within this number of days</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
-          <maml:name>Int32</maml:name>
+          <maml:name>System.Int32</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>90</dev:defaultValue>
+        <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>RefreshInterval</maml:name>
         <maml:Description>
           <maml:para>Refresh the components on the dashboard measured in seconds</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
-          <maml:name>Int32</maml:name>
+          <maml:name>System.Int32</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>30</dev:defaultValue>
+        <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>
         <maml:Description>
-          <maml:para>Prevent the module from auto updating</maml:para>
+          <maml:para>Prevents the dashboard module from auto updating when launched</maml:para>
         </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwitchParameter</maml:name>
+          <maml:name>System.Management.Automation.SwitchParameter</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
@@ -117,25 +117,27 @@
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
-      <maml:alert />
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Start-JCDashboard</dev:code>
         <dev:remarks>
           <maml:para>Launches the JumpCloud Dashboard with the default settings.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>Start-JCDashboard -LastContactDays 30</dev:code>
         <dev:remarks>
           <maml:para>Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>Start-JCDashboard -RefreshInterval 60</dev:code>
         <dev:remarks>
           <maml:para>Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.</maml:para>
@@ -144,8 +146,8 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Start-JCDashboard Online Help</maml:linkText>
-        <maml:uri>https://github.com/TheJumpCloud/support/wiki/Start-JCDashboard</maml:uri>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/Start-JCDashboard</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

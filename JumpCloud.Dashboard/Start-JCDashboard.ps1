@@ -35,6 +35,21 @@
 .DESCRIPTION
  Used to start the JumpCloud Dashboard instance.
 
+.EXAMPLE
+Start-JCDashboard
+
+Launches the JumpCloud Dashboard with the default settings.
+
+.EXAMPLE
+Start-JCDashboard -LastContactDays 30
+
+Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
+
+.EXAMPLE
+Start-JCDashboard -RefreshInterval 60
+
+Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
+
 #>
 Function Start-JCDashboard
 {
@@ -46,15 +61,13 @@ Function Start-JCDashboard
         [System.String]
         $JumpCloudApiKey,
 
-        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
+        [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud Directory within this number of days')]
         [Int]$LastContactDays,
 
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        #[Switch]$Beta,
-
-        [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
+        [Parameter(HelpMessage = 'Prevents the dashboard module from auto updating when launched')]
         [Switch]$NoUpdate
     )
 
