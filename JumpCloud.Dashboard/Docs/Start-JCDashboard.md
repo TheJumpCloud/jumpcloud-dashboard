@@ -1,7 +1,7 @@
 ---
 external help file: JumpCloud.Dashboard-help.xml
 Module Name: JumpCloud.Dashboard
-online version:
+online version: https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/Start-JCDashboard
 schema: 2.0.0
 ---
 
@@ -21,22 +21,22 @@ Used to start the JumpCloud Dashboard instance.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
+### EXAMPLE 1
+```
 Start-JCDashboard
 ```
 
 Launches the JumpCloud Dashboard with the default settings.
 
-### Example 2
-```powershell
+### EXAMPLE 2
+```
 Start-JCDashboard -LastContactDays 30
 ```
 
 Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
 
-### Example 3
-```powershell
+### EXAMPLE 3
+```
 Start-JCDashboard -RefreshInterval 60
 ```
 
@@ -45,7 +45,8 @@ Launches the JumpCloud Dashboard and sets the component refresh interval to 60 s
 ## PARAMETERS
 
 ### -JumpCloudApiKey
-A JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.
+Please enter your JumpCloud API key.
+This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.
 
 ```yaml
 Type: System.String
@@ -69,7 +70,7 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: 90
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -84,13 +85,13 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: 30
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -NoUpdate
-Prevent the module from auto updating
+Prevents the dashboard module from auto updating when launched
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -114,5 +115,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
-[Start-JCDashboard Online Help](https://github.com/TheJumpCloud/support/wiki/Start-JCDashboard)
