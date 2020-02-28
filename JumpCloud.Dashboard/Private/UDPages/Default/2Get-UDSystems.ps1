@@ -22,7 +22,7 @@ Function 2Get-UDSystems ()
         $unDrawColor = "#006cac"
 
 
-        New-UDElement -Tag "SystemCache" -Id "SystemCache" -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {
+        New-UDElement -Tag "SystemCache" -Id "SystemCache" -AutoRefresh -RefreshInterval $refreshInterval -Content {
             Write-Debug "Loading system cache $(Get-Date)"
             $Cache:DisplaySystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays
         }
@@ -34,10 +34,10 @@ Function 2Get-UDSystems ()
 
             Write-Debug "Loading OS $(Get-Date)"
             UDElement-OS -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
-            
+
             Write-Debug "Loading SystemsMFA $(Get-Date)"
             UDElement-SystemsMFA -RefreshInterval $refreshInterval -lastContactDays $lastContactDays -unDrawColor $unDrawColor
-            
+
             Write-Debug "Loading AgentVersion $(Get-Date)"
             UDElement-AgentVersion -RefreshInterval $refreshInterval -lastContactDays $lastContactDays
 
