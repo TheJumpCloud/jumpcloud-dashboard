@@ -75,7 +75,7 @@ Function Start-JCDashboardGridView () {
         -Pages:($Pages) `
         -Navigation:($Navigation) `
         -NavbarLinks:($NavBarLinks) `
-        -NavBarLogo:(New-UDImage -Url:('/images/jumpcloud.svg') -Height 42 -Width 56)
+        -NavBarLogo:(New-UDImage -Url:('/Images/jumpcloud.svg') -Height 42 -Width 56)
 
     # -Scripts:($Scripts) `
     # -Stylesheets:($Stylesheets) `
