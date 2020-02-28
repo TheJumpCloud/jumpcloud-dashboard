@@ -195,7 +195,7 @@ Function Start-JCDashboard
         $($PageSettings).PSObject.Properties | ForEach-Object {
             $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
         }
-        Write-Debug $commandParams
+        Write-Debug "Invoking $($_.BaseName) $commandParams"
 
         ## Run function to load the page
         $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"

@@ -22,8 +22,13 @@ Function 2Get-UDSystems ()
         $unDrawColor = "#006cac"
 
 
-        New-UDElement -Tag "SystemCache" -Id "SystemCache" -AutoRefresh -RefreshInterval $refreshInterval -Content {
-            Write-Debug "Loading system cache $(Get-Date)"
+        New-UDElement -Tag "SystemCache" -Id "SystemCache" -Content {
+            Write-Debug "Loading system Content cache $(Get-Date)"
+            $Cache:DisplaySystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays
+        }
+
+        New-UDElement -Tag "SystemEndpointCache" -Id "SystemEndpointCache" -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {
+            Write-Debug "Loading system Endpoint cache $(Get-Date)"
             $Cache:DisplaySystems = Get-SystemsWithLastContactWithinXDays -days $lastContactDays
         }
 
