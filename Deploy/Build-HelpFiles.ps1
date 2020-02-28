@@ -2,18 +2,21 @@
 ###########################################################################
 Write-Host ('[status]Importing current module: ' + $ModuleName)
 Import-Module ($FilePath_psd1) -Force
-Write-Host ('[status]Installing module: PlatyPS')
-Install-Module -Name:('PlatyPS') -Force -Scope:('CurrentUser')
-Write-Host ('[status]Creating/Updating help files')
-If (Test-Path -Path:($FilePath_Md))
+# Clear out existing docs
+If (Test-Path -Path:($FolderPath_Docs))
 {
-    # Write-Host ('Updating: ' + $FunctionName + '.md')
-    Update-MarkdownHelp -Path:($FilePath_Md) -Force -ExcludeDontShow -UpdateInputOutput -UseFullTypeName
+    Remove-Item -Path:($FolderPath_Docs) -Recurse -Force
 }
-Else
+If (Test-Path -Path:($FolderPath_enUS))
 {
-    # Write-Host ('Creating: ' + $FunctionName + '.md')
-    New-MarkdownHelp  -Command:($FunctionName) -OutputFolder:($FolderPath_Docs) -Force -ExcludeDontShow -UseFullTypeName
+    Remove-Item -Path:($FolderPath_enUS) -Recurse -Force
+}
+Write-Host ('[status]Creating help files')
+$Files = Get-ChildItem -Path:($ModuleFolderPath) -File | Where-Object { $_.Extension -eq '.ps1' }
+$Files | ForEach-Object {
+    $FunctionName = $_.BaseName
+        Write-Host ('Creating: ' + $FunctionName + '.md')
+        New-MarkdownHelp -Command:($FunctionName) -OutputFolder:($FolderPath_Docs) -Force -ExcludeDontShow -OnlineVersionUrl:($GitHubWikiUrl + $FunctionName) -UseFullTypeName
 }
 # Create new ExternalHelp file.
 Write-Host ('[status]Creating new external help file')
