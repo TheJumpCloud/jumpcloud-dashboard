@@ -56,7 +56,7 @@ function UDElement-LastContact
                         New-UDTab -Text $TabName.Name -Content {
                             $script:LastContact = $TabName.Name
                             New-UDGrid -Header @("Hostname", "Operating System", "Last Contact Date", "System ID") -Properties @("Hostname", "OS", "LastContactDate", "SystemID") -Endpoint {
-                                $Cache:DisplaySystems | ? { (Get-Date($_.lastContact)).ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
+                                $Cache:DisplaySystems | Where-Object { (Get-Date($_.lastContact)).ToString("yyyy-MM-dd") -like $LastContact } | ForEach-Object {
                                     [PSCustomObject]@{
                                         Hostname        = $_.hostname;
                                         OS              = $_.os + " " + $_.version;

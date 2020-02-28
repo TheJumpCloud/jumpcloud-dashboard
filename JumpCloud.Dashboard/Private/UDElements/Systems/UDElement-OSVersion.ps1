@@ -65,5 +65,4 @@ function UDElement-OSVersion
             }
         }
     }
-   
 }

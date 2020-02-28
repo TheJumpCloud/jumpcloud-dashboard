@@ -18,8 +18,6 @@ Function 1Get-UDSystemUsers ()
         $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-MFAConfigured"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-PasswordChanges"}]}'
         $unDrawColor = "#006cac"
 
-    
-
         New-UDGridLayout -Layout $PageLayout -Content {
 
             # Functions defining elements can be found in the /Private/UDElements/SytemUsers folder
@@ -46,5 +44,4 @@ Function 1Get-UDSystemUsers ()
         'UDPage' = $UDPage;
         #    'UDSideNavItem' = $UDSideNavItem;
     }
-
 }
