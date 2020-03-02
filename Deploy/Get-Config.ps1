@@ -10,6 +10,7 @@ $GitSourceBranch = $env:BUILD_SOURCEBRANCHNAME
 $GitSourceRepo = $env:BUILD_REPOSITORY_URI
 $StagingDirectory = $env:BUILD_ARTIFACTSTAGINGDIRECTORY
 $GitHubWikiUrl = 'https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/'
+$RequiredModules = ('PSScriptAnalyzer', 'Pester', 'platyPS', 'Selenium', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw', 'JumpCloud')
 Switch ($env:DEPLOYFOLDER) { $true { $env:DEPLOYFOLDER } Default { $env:DEPLOYFOLDER = $PSScriptRoot } }
 # Validate that variables have been populated
 @('MODULENAME', 'MODULEFOLDERNAME', 'DEPLOYFOLDER', 'RELEASETYPE') | ForEach-Object {
@@ -67,5 +68,17 @@ If (!(Get-PackageProvider -Name:('NuGet') -ListAvailable -ErrorAction:('Silently
 # Get module function names
 $Functions_Public = If (Test-Path -Path:($FolderPath_Public)) { Get-ChildItem -Path:($FolderPath_Public + '/' + '*.ps1') -Recurse }
 $Functions_Private = If (Test-Path -Path:($FolderPath_Private)) { Get-ChildItem -Path:($FolderPath_Private + '/' + '*.ps1') -Recurse }
+# Import additional required modules
+ForEach ($RequiredModule In $RequiredModules)
+{
+    # Check to see if the module is installed
+    If (-not (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
+    {
+        Write-Host ('Installing module: ' + $RequiredModule)
+        Install-Module -Name:($RequiredModule) -Force
+    }
+    Write-Host ('Importing module: ' + $RequiredModule)
+    Import-Module -Name:($RequiredModule) -Force
+}
 # Import module in development
 Import-Module $FilePath_psd1 -Force
