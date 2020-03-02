@@ -80,6 +80,9 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
             Write-Host ('Installing module: ' + $RequiredModule)
             Install-Module -Name:($RequiredModule) -Force
         }
+    }
+    ForEach ($RequiredModule In $RequiredModules)
+    {
         Write-Host ('Importing module: ' + $RequiredModule)
         Import-Module -Name:($RequiredModule) -Force
     }
