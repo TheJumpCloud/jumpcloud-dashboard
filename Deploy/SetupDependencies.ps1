@@ -11,5 +11,5 @@ ForEach ($RequiredModule In $RequiredModules)
     {
         Install-Module -Name:($RequiredModule) -Force
     }
-    Import-Module -Name:($RequiredModule) -Force
+    Import-Module -Name:($RequiredModule) -Force -Scope:('Global')
 }
