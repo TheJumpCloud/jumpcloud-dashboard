@@ -4,9 +4,7 @@ Param(
 . ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 #ud setup
-Import-Module $FilePath_psd1
 Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
-
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru -ExcludeTag:('PSScriptAnalyzer')
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
