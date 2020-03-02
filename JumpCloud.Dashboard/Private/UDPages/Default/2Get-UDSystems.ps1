@@ -10,7 +10,6 @@ Function 2Get-UDSystems ()
         $refreshInterval
     )
 
-    $PageText = 'Systems'
     $PageName = 'Systems'
     $UDPage = New-UDPage -Name:($PageName) -AutoRefresh -RefreshInterval $refreshInterval -Content {
 
@@ -56,9 +55,7 @@ Function 2Get-UDSystems ()
 
     }
 
-    #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Laptop')
     Return [PSCustomObject]@{
         'UDPage' = $UDPage;
-        #    'UDSideNavItem' = $UDSideNavItem;
     }
 }

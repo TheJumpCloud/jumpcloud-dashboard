@@ -8,7 +8,7 @@ Function 1Get-UDSystemUsers ()
         $refreshInterval
     )
 
-    $PageText = 'Users'
+
     $PageName = 'SystemUsers'
 
     $UDPage = New-UDPage -Name:($PageName) -Content {
@@ -39,9 +39,7 @@ Function 1Get-UDSystemUsers ()
         }
     }
 
-    #$UDSideNavItem = New-UDSideNavItem -Text:($PageText) -PageName:($PageName) -Icon:('Users')
     Return [PSCustomObject]@{
         'UDPage' = $UDPage;
-        #    'UDSideNavItem' = $UDSideNavItem;
     }
 }
