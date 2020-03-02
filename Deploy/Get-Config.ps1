@@ -3,12 +3,6 @@ $ModuleName = $env:MODULENAME
 $ModuleFolderName = $env:MODULEFOLDERNAME
 $DEPLOYFOLDER = $env:DEPLOYFOLDER
 $RELEASETYPE = $env:RELEASETYPE
-$XAPIKEY_PESTER = $env:XAPIKEY_PESTER
-$XAPIKEY_MTP = $env:XAPIKEY_MTP
-$NUGETAPIKEY = $env:NUGETAPIKEY
-$GitSourceBranch = $env:BUILD_SOURCEBRANCHNAME
-$GitSourceRepo = $env:BUILD_REPOSITORY_URI
-$StagingDirectory = $env:BUILD_ARTIFACTSTAGINGDIRECTORY
 $GitHubWikiUrl = 'https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/'
 $RequiredModules = ('PSScriptAnalyzer', 'Pester', 'platyPS', 'Selenium', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw', 'JumpCloud')
 Switch ($env:DEPLOYFOLDER) { $true { $env:DEPLOYFOLDER } Default { $env:DEPLOYFOLDER = $PSScriptRoot } }
@@ -29,7 +23,6 @@ Write-Host ('[status]Host: ' + (Get-Host).Name)
 Write-Host ('[status]UserName: ' + $env:USERNAME)
 Write-Host ('[status]Loaded config: ' + $MyInvocation.MyCommand.Path)
 # Set misc. variables
-$GitSourceRepoWiki = $GitSourceRepo + '.wiki'
 $FolderPath_ModuleRootPath = (Get-Item -Path:($DEPLOYFOLDER)).Parent.FullName
 # Define required files and folders variables
 $RequiredFiles = ('LICENSE', 'psm1', 'psd1')
@@ -88,4 +81,5 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
     }
 }
 # Import module in development
+Write-Host ('Importing module: ' + $FilePath_psd1)
 Import-Module $FilePath_psd1 -Force
