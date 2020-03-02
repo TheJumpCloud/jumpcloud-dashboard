@@ -71,13 +71,13 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
         If (-not (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
         {
             Write-Host ('Installing module: ' + $RequiredModule)
-            Install-Module -Name:($RequiredModule) -Force
+            Install-Module -Name:($RequiredModule) -Force -Scope:('AllUsers')
         }
     }
     ForEach ($RequiredModule In $RequiredModules)
     {
         Write-Host ('Importing module: ' + $RequiredModule)
-        Import-Module -Name:($RequiredModule) -Force
+        Import-Module -Name:($RequiredModule) -Force -Scope:('Global')
     }
 }
 # Import module in development
