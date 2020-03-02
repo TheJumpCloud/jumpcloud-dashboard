@@ -1,6 +1,6 @@
-$JumpCloudAPIKEY = "enter your key"
+$JumpCloudAPIKEY = ""
 Import-Module ../JumpCloud.Dashboard.psd1
-$testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA" -cycleInterval 5
+$testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
 
@@ -8,7 +8,7 @@ Describe "Testing JumpCloud Systems Dashboard" {
         # REQUIRED: Firefox must be installed
 
         $Driver = Start-SeFirefox -Headless
-        Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
+        Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     }
     Context "Verify Dashboard is running" {
         It "Test that the dashboard is actually running" {
