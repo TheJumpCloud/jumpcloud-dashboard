@@ -8,7 +8,7 @@ Import-Module $FilePath_psd1
 Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 
 # Run Pester tests
-$PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru -ExcludeTag:('Invoke-Pester')
+$PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru -ExcludeTag:('PSScriptAnalyzer')
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
 If ($FailedTests)
 {
