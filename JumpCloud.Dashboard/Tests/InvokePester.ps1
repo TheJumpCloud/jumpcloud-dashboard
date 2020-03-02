@@ -3,7 +3,7 @@ Param(
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 2)][System.String[]]$ExcludeTagList,
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 3)][System.String[]]$IncludeTagList
 )
-. ($PSScriptRoot + '/' + 'Get-Config.ps1')
+. ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 #ud setup
 Import-Module $FilePath_psd1
