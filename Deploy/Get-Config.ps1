@@ -26,6 +26,7 @@ Switch ($env:DEPLOYFOLDER) { $true { $env:DEPLOYFOLDER } Default { $env:DEPLOYFO
 Write-Host ('[status]Platform: ' + [environment]::OSVersion.Platform)
 Write-Host ('[status]PowerShell Version: ' + ($PSVersionTable.PSVersion -join '.'))
 Write-Host ('[status]Host: ' + (Get-Host).Name)
+Write-Host ('[status]UserName: ' + $env:USERNAME)
 Write-Host ('[status]Loaded config: ' + $MyInvocation.MyCommand.Path)
 # Set misc. variables
 $GitSourceRepoWiki = $GitSourceRepo + '.wiki'
