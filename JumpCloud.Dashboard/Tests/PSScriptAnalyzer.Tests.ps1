@@ -1,9 +1,6 @@
-$FolderPath_Module = (Split-Path ($PSScriptRoot).ToString())
-
+$FolderPath_Module = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 Write-Host ('[status]Running PSScriptAnalyzer on: ' + $FolderPath_Module)
-$ScriptAnalyzerResults = Invoke-ScriptAnalyzer -Path:($FolderPath_Module) -Recurse -ExcludeRule PSAvoidUsingWMICmdlet,PSAvoidUsingPlainTextForPassword,PSAvoidUsingUsernameAndPasswordParams,PSAvoidUsingInvokeExpression,PSUseDeclaredVarsMoreThanAssignments,PSUseSingularNouns,PSAvoidGlobalVars,PSUseShouldProcessForStateChangingFunctions,PSAvoidUsingWriteHost,PSAvoidUsingPositionalParameters,PSUseApprovedVerbs,PSUseToExportFieldsInManifest,PSUseOutputTypeCorrectly
-
-
+$ScriptAnalyzerResults = Invoke-ScriptAnalyzer -Path:($FolderPath_Module) -Recurse -ExcludeRule PSAvoidUsingWMICmdlet, PSAvoidUsingPlainTextForPassword, PSAvoidUsingUsernameAndPasswordParams, PSAvoidUsingInvokeExpression, PSUseDeclaredVarsMoreThanAssignments, PSUseSingularNouns, PSAvoidGlobalVars, PSUseShouldProcessForStateChangingFunctions, PSAvoidUsingWriteHost, PSAvoidUsingPositionalParameters, PSUseApprovedVerbs, PSUseToExportFieldsInManifest, PSUseOutputTypeCorrectly
 If ($ScriptAnalyzerResults)
 {
     $ScriptAnalyzerResults
