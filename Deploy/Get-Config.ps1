@@ -71,7 +71,7 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
         If (-not (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
         {
             Write-Host ('Installing module: ' + $RequiredModule)
-            Install-Module -Name:($RequiredModule) -Force
+            Install-Module -Name:('PSScriptAnalyzer') -Force -SkipPublisherCheck
         }
     }
     ForEach ($RequiredModule In $RequiredModules)
