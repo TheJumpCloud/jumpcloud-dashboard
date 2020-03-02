@@ -4,7 +4,6 @@ function UDElement-PasswordExpiration ()
         $refreshInterval,
         $unDrawColor
     )
-    
     New-UDElement -Tag "PasswordExpiration" -Id "PasswordExpiration" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
         if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays)

@@ -20,7 +20,7 @@ Function 1Get-UDSystemUsers ()
 
         New-UDGridLayout -Layout $PageLayout -Content {
 
-            #Functions defining elements can be found in the /Private/UDElements/SytemUsers folder
+            # Functions defining elements can be found in the /Private/UDElements/SytemUsers folder
 
             UDCard-UsersDownload
 
@@ -44,5 +44,4 @@ Function 1Get-UDSystemUsers ()
         'UDPage' = $UDPage;
         #    'UDSideNavItem' = $UDSideNavItem;
     }
-
 }

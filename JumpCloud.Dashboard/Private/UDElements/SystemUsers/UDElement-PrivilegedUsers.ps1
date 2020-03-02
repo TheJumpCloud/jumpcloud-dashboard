@@ -4,10 +4,8 @@ function UDElement-PrivilegedUsers ()
         $refreshInterval,
         $unDrawColor
     )
-    
     New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
-            
         $PrivilegedUsers = @()
 
         $Sudo = Get-JCUser -sudo $true
@@ -50,5 +48,4 @@ function UDElement-PrivilegedUsers ()
             }
         }
     }
-
 }

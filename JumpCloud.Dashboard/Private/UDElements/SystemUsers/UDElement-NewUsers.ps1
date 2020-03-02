@@ -28,5 +28,4 @@ function UDElement-NewUsers ()
             }
         }
     }
-    
 }
