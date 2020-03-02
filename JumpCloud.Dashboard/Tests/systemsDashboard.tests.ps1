@@ -1,7 +1,7 @@
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
 
-        # Run setupDashboardt.ps1
+        # Run Get-Config.ps1
         # REQUIRED: Firefox must be installed
 
         $Driver = Start-SeFirefox -Headless
