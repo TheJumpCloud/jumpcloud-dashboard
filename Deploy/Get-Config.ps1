@@ -29,11 +29,8 @@ Write-Host ('[status]Loaded config: ' + $MyInvocation.MyCommand.Path)
 # Set misc. variables
 $GitSourceRepoWiki = $GitSourceRepo + '.wiki'
 $FolderPath_ModuleRootPath = (Get-Item -Path:($DEPLOYFOLDER)).Parent.FullName
-$EnvironmentConfig = 'TestEnvironmentVariables.ps1'
-$FilePath_ModuleBanner = $FolderPath_ModuleRootPath + '/ModuleBanner.md'
-$FilePath_ModuleChangelog = $FolderPath_ModuleRootPath + '/ModuleChangelog.md'
 # Define required files and folders variables
-$RequiredFiles = ('LICENSE', 'psm1', 'psd1', 'PesterConfig')
+$RequiredFiles = ('LICENSE', 'psm1', 'psd1')
 $RequiredFolders = ('Docs', 'Private', 'Public', 'Tests', 'en-US')
 # Define folder path variables
 $FolderPath_Module = $FolderPath_ModuleRootPath + '/' + $ModuleFolderName
@@ -44,8 +41,8 @@ $RequiredFolders | ForEach-Object {
     New-Variable -Name:('FolderPath_' + $_.Replace('-', '')) -Value:($FolderPath) -Force
 }
 $RequiredFiles | ForEach-Object {
-    $FileName = If ($_ -in ('psm1', 'psd1')) { $ModuleName + '.' + $_ } ElseIf ($_ -eq 'PesterConfig') { $EnvironmentConfig } Else { $_ }
-    $FilePath = If ($_ -eq 'PesterConfig') { $FolderPath_Module + '/' + $FolderName_Tests + '/' + $FileName } Else { $FolderPath_Module + '/' + $FileName }
+    $FileName = If ($_ -in ('psm1', 'psd1')) { $ModuleName + '.' + $_ } Else { $_ }
+    $FilePath = $FolderPath_Module + '/' + $FileName
     New-Variable -Name:('FileName_' + $_) -Value:($FileName) -Force;
     New-Variable -Name:('FilePath_' + $_) -Value:($FilePath) -Force;
 }
