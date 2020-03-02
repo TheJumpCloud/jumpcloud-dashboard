@@ -1,7 +1,5 @@
 . ($PSScriptRoot + '/' + 'Get-Config.ps1')
 ###########################################################################
-Write-Host ('[status]Importing current module: ' + $ModuleName)
-Import-Module ($FilePath_psd1) -Force
 # Clear out existing docs
 If (Test-Path -Path:($FolderPath_Docs))
 {
