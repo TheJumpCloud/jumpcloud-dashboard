@@ -1,4 +1,5 @@
-function UDElement-SystemsMFA {
+function UDElement-SystemsMFA
+{
     param (
         $refreshInterval,
         $lastContactDays,
@@ -11,18 +12,22 @@ function UDElement-SystemsMFA {
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
 
         New-UDChart -Title "MFA Enabled Systems"  -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
-            try {
+            try
+            {
                 $Cache:DisplaySystems | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
             }
-            catch {
+            catch
+            {
                 0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
             }
         } -Options $CircleChartOptions -OnClick {
-            if ($EventData -ne "[]") {
+            if ($EventData -ne "[]")
+            {
                 $TabNames = $Cache:DisplaySystems | Group-Object allowMultiFactorAuthentication | Select-object Name
                 Show-UDModal -Content {
                     New-UDTabContainer -Tabs {
-                        foreach ($TabName in $TabNames) {
+                        foreach ($TabName in $TabNames)
+                        {
                             New-UDTab -Text $TabName.Name -Content {
                                 $script:MFAEnabled = [System.Convert]::ToBoolean($TabName.Name)
                                 New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {

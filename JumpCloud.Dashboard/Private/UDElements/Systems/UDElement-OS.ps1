@@ -6,7 +6,7 @@ function UDElement-OS
         $unDrawColor
     )
 
-    New-UDElement -Tag "OS" -Id "OS" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "OS" -Id "OS"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -45,5 +45,5 @@ function UDElement-OS
                 }
             }
         }
-    } 
+    }
 }
