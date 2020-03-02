@@ -2,14 +2,11 @@ $RequiredModules = ('PSScriptAnalyzer', 'Pester', 'platyPS', 'Selenium', 'Univer
 ForEach ($RequiredModule In $RequiredModules)
 {
     # Check to see if the module is installed
-    If (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue'))
+    If (-not (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
     {
-        Update-Module -Name:($RequiredModule) -Force -Scope:('CurrentUser')
-    }
-    # Check to see if the module exists on the PSGallery
-    ElseIf (Find-Module -Name:($RequiredModule))
-    {
+        Write-Host ('Installing module: ' + $RequiredModule)
         Install-Module -Name:($RequiredModule) -Force -Scope:('CurrentUser')
     }
+    Write-Host ('Importing module: ' + $RequiredModule)
     Import-Module -Name:($RequiredModule) -Force -Scope:('Global')
 }
