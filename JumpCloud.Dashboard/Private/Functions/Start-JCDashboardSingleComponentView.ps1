@@ -19,7 +19,7 @@ Function Start-JCDashboardSingleComponentView() {
         $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
 
             $UDPages += New-UDPage -Name:($_) -Content {
-                $PageLayout = '{"lg":[{"w":25,"h":24,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
+                $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
                 
                 New-UDGridLayout -Layout $PageLayout -Content {
                     Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
@@ -46,7 +46,7 @@ Function Start-JCDashboardSingleComponentView() {
         $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
 
             $UDPages += New-UDPage -Name:($_) -Content {
-                $PageLayout = '{"lg":[{"w":25,"h":24,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
+                $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
 
                 New-UDGridLayout -Layout $PageLayout -Content {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
