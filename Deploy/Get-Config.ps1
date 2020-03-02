@@ -76,8 +76,11 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
     }
     ForEach ($RequiredModule In $RequiredModules)
     {
-        Write-Host ('Importing module: ' + $RequiredModule)
-        Import-Module -Name:($RequiredModule) -Force
+        If (-not (Get-Module -Name:($ModuleName) -ErrorAction:('SilentlyContinue')))
+        {
+            Write-Host ('Importing module: ' + $RequiredModule)
+            Import-Module -Name:($RequiredModule) -Force
+        }
     }
 }
 # Import module in development
