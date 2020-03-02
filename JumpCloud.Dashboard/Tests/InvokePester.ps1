@@ -3,9 +3,10 @@ Param(
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 2)][System.String[]]$ExcludeTagList,
     [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 3)][System.String[]]$IncludeTagList
 )
+. ($PSScriptRoot + '/' + 'Get-Config.ps1')
+###########################################################################
 #ud setup
-$RootPath = Split-Path $PSScriptRoot -Parent
-Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
+Import-Module $FilePath_psd1
 Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 
 # Run Pester tests
