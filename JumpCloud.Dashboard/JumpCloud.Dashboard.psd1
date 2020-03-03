@@ -109,7 +109,8 @@
 
             # ReleaseNotes of this module
             ReleaseNotes = 'Welcome to the JumpCloud Dashboard.
-To get started run the command: Start-JCDashboard'
+To get started run the command: Start-JCDashboard
+Improved performance for loading System dashboard components'
 
         } # End of PSData hashtable
 
