@@ -1,5 +1,3 @@
-$JumpCloudAPIKEY = ""
-Import-Module ../JumpCloud.Dashboard.psd1
 $testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {

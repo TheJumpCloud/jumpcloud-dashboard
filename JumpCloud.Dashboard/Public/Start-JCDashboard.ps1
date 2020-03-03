@@ -69,7 +69,7 @@ Function Start-JCDashboard
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate
-        
+
         #[Switch]$Beta,
     )
 

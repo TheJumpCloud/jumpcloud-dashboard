@@ -20,12 +20,12 @@ Function Start-JCDashboardSingleComponentView() {
 
             $UDPages += New-UDPage -Name:($_) -Content {
                 $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
-                
+
                 New-UDGridLayout -Layout $PageLayout -Content {
                     Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }
-        
+
             $ProgressCounter++
 
             $PageProgressParams = @{
@@ -52,7 +52,7 @@ Function Start-JCDashboardSingleComponentView() {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }
-        
+
             $ProgressCounter++
 
             $PageProgressParams = @{
