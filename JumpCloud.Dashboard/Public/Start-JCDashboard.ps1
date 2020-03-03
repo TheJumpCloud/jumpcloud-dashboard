@@ -36,7 +36,8 @@
  Used to start the JumpCloud Dashboard instance.
 
 #>
-Function Start-JCDashboard {
+Function Start-JCDashboard
+{
     [CmdletBinding(HelpURI = "https://github.com/TheJumpCloud/support/wiki/Start-JCDashboard")]
     Param(
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, HelpMessage = 'Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.')]
@@ -73,57 +74,46 @@ Function Start-JCDashboard {
     )
 
     # Auto Update
-    #if (! $NoUpdate)
-    #
-    #    $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
-    #}
+    if (! $NoUpdate)
+    {
+        $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
+    }
 
     ## Authentication
-    if ($JumpCloudApiKey) {
+    if ($JumpCloudApiKey)
+    {
         Connect-JCOnline -JumpCloudApiKey:($JumpCloudApiKey) -force
     }
-    else {
+    else
+    {
         if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
     }
 
     ## Set Module Installed location
-    #if ($Updated -eq $true)
-    #{
-    #    $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
+    if ($Updated -eq $true)
+    {
+        $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
 
-    #    $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
+        $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
 
-    #    Foreach ($Function in $Private)
-    #    {
-    #        Try
-    #        {
-    #            . $Function.FullName
-    #            Write-Verbose "Imported $($Function.FullName)"
-    #        }
-    #        Catch
-    #        {
-    #            Write-Error -Message "Failed to import function $($Function.FullName): $_"
-    #        }
-    #    }
-
-    #}
-
-    #else
-    #{
-    $InstalledModuleLocation = $PSScriptRoot
-
-    $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
-
-    Foreach ($Function in $Private) {
-        Try {
-            . $Function.FullName
-            Write-Verbose "Imported $($Function.FullName)"
+        Foreach ($Function in $Private)
+        {
+            Try
+            {
+                . $Function.FullName
+                Write-Verbose "Imported $($Function.FullName)"
+            }
+            Catch
+            {
+                Write-Error -Message "Failed to import function $($Function.FullName): $_"
+            }
         }
-        Catch {
-            Write-Error -Message "Failed to import function $($Function.FullName): $_"
-        }
+
     }
-    #}
+    else
+    {
+        $InstalledModuleLocation = (Get-Item($PSScriptRoot)).Parent.FullName
+    }
 
     ## Gather org name
     ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
@@ -138,7 +128,8 @@ Function Start-JCDashboard {
         'X-API-KEY'    = $JCAPIKEY
     }
 
-    if ($JCOrgID) {
+    if ($JCOrgID)
+    {
         $hdrs.Add('x-org-id', "$($JCOrgID)")
     }
 

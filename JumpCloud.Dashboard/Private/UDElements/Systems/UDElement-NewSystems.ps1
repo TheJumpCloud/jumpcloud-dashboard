@@ -8,7 +8,7 @@ function UDElement-NewSystems
 
 
     New-UDElement -Tag "NewSystems" -Id "NewSystems" -RefreshInterval $refreshInterval -AutoRefresh -Content {
-                
+
         $Script:NewSystems = Get-JCSystem -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-7)
         if ($NewSystems)
         {

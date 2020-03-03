@@ -1,4 +1,4 @@
-function UDElement-AgentVersion 
+function UDElement-AgentVersion
 {
     param (
         $refreshInterval,

@@ -1,11 +1,13 @@
-function UDElement-LastContact {
+function UDElement-LastContact
+{
     param (
         $refreshInterval,
         $lastContactDays,
         $unDrawColor
     )
 
-    New-UDElement -Tag "LastContact" -Id "LastContact" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+
+    New-UDElement -Tag "LastContact" -Id "LastContact" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $VerticalBarChartOptions = @{
             legend = @{
@@ -49,7 +51,7 @@ function UDElement-LastContact {
             } | Group-Object -Property LastContactDate | Select-Object Name
             Show-UDModal -Content {
                 New-UDTabContainer -Tabs {
-                    foreach ($TabName in $TabNames) 
+                    foreach ($TabName in $TabNames)
                     {
                         New-UDTab -Text $TabName.Name -Content {
                             $script:LastContact = $TabName.Name

@@ -8,7 +8,6 @@ Function 1Get-UDSystemUsers ()
         $refreshInterval
     )
 
-
     $PageName = 'SystemUsers'
 
     $UDPage = New-UDPage -Name:($PageName) -Content {

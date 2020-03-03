@@ -5,7 +5,7 @@ function UDCard-SystemsDownload
     )
 
     New-UDCard -Horizontal -Title "Systems" -Id "SystemsDownload" -Content {
-        
+
         $ContentType = "application/json"
         $URL = 'https://console.jumpcloud.com/api/systems?limit=1&skip=0'
         $systemInfo = Invoke-RestMethod  -Method Get -Uri $URL -Header @{ "X-Api-Key" = $JCAPIKEY } -ContentType $ContentType
