@@ -4,34 +4,34 @@ Describe "Testing JumpCloud Systems Dashboard" {
         Enter-SeUrl "http://127.0.0.1:8004/" -Driver $Driver
     }
     Context "Tests of individual components" {
-        $timeout = $global:testDashboard.DashboardService.Dashboard.CyclePagesInterval
-        $timeout = $timeout * 2
-        $pagename = @()
-        $expected = $global:testDashboard.DashboardService.Dashboard.Pages
-        For ($i=0; $i -lt $expected.Count; $i++){
-            $pagename += $expected[$i].Name
-        }
-        It "Verifies the requested pages exist in the dashboard object" {
-            For ($i = 0; $i -lt $expected.Count; $i++) {
-                $expected[$i].Name | Should Be $pagename[$i]
-            }
-            # $Element = Find-SeElement -Driver $Driver -TagName "OS"
-            # $Element.Displayed | Should Be $true
-        }
-        For ($i = 0; $i -lt $expected.Count; $i++) {
-            $testname = $expected[$i].Name
-            It "Verify the individualComponent: $testname is displayed" {
-                For ($t = 0; $t -lt $timeout; $t++) {
-                    $Element = Find-SeElement -Driver $Driver -TagName $expected[$i].Name
-                    If ($Element -ne $null) {
-                        $Capture = $Element
-                        break
-                    }
-                }
-                # $Element = Find-SeElement -Driver $Driver -TagName $expected[$i].Name
-                $Capture.Displayed | Should Be $true
-            }
-        }
+        # $timeout = $testDashboard.DashboardService.Dashboard.CyclePagesInterval
+        # $timeout = $timeout * 2
+        # $pagename = @()
+        # $expected = $testDashboard.DashboardService.Dashboard.Pages
+        # For ($i=0; $i -lt $expected.Count; $i++){
+        #     $pagename += $expected[$i].Name
+        # }
+        # It "Verifies the requested pages exist in the dashboard object" {
+        #     For ($i = 0; $i -lt $expected.Count; $i++) {
+        #         $expected[$i].Name | Should Be $pagename[$i]
+        #     }
+        #     # $Element = Find-SeElement -Driver $Driver -TagName "OS"
+        #     # $Element.Displayed | Should Be $true
+        # }
+        # For ($i = 0; $i -lt $expected.Count; $i++) {
+        #     $testname = $expected[$i].Name
+        #     It "Verify the individualComponent: $testname is displayed" {
+        #         For ($t = 0; $t -lt $timeout; $t++) {
+        #             $Element = Find-SeElement -Driver $Driver -TagName $expected[$i].Name
+        #             If ($Element -ne $null) {
+        #                 $Capture = $Element
+        #                 break
+        #             }
+        #         }
+        #         # $Element = Find-SeElement -Driver $Driver -TagName $expected[$i].Name
+        #         $Capture.Displayed | Should Be $true
+        #     }
+        # }
     }
     #TODO:add mock or attach to org returning no results
     Context "Testing the cases where no systems are to be displayed" {
