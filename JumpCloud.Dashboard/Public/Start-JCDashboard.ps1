@@ -95,10 +95,9 @@ Function Start-JCDashboard
         }
 
     }
-
     else
     {
-        $InstalledModuleLocation = $PSScriptRoot
+        $InstalledModuleLocation = (Get-Item($PSScriptRoot)).Parent.FullName
     }
 
     ## Gather org name
@@ -125,7 +124,7 @@ Function Start-JCDashboard
     Get-UDDashboard | Stop-UDDashboard
 
     # ## Import Settings File
-    $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + 'DashboardSettings.json') | ConvertFrom-Json
+    $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/Public/DashboardSettings.json') | ConvertFrom-Json
 
     if ($LastContactDays)
     {

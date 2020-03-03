@@ -1,5 +1,5 @@
-. ($PSScriptRoot + '/' + 'setupDashboard.ps1')
 . ($PSScriptRoot + '/' + 'Get-Config.ps1')
+###########################################################################
 # Region Checking PowerShell Gallery module version
 Write-Host ('[status]Check PowerShell Gallery for module version info')
 $PSGalleryInfo = Get-PSGalleryModuleVersion -Name:($ModuleName) -ReleaseType:($RELEASETYPE) #('Major', 'Minor', 'Patch')
@@ -8,7 +8,8 @@ Write-Host ('[status]PowerShell Gallery Name:' + $PSGalleryInfo.Name + ';Current
 # EndRegion Checking PowerShell Gallery module version
 # Region Building New-JCModuleManifest
 Write-Host ('[status]Building New-JCModuleManifest')
-New-ModuleManifest -Path:($FilePath_psd1) `
+New-JCModuleManifest -Path:($FilePath_psd1) `
     -FunctionsToExport:($Functions_Public.BaseName | Sort-Object) `
     -RootModule:((Get-Item -Path:($FilePath_psm1)).Name) `
     -ModuleVersion:($ModuleVersion)
+# EndRegion Building New-JCModuleManifest
