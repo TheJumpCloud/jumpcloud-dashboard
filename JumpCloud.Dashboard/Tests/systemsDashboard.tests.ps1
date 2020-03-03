@@ -1,11 +1,5 @@
 Describe "Testing JumpCloud Systems Dashboard" {
-    #ud setup
-    Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     BeforeAll {
-
-        # Run Get-Config.ps1
-        # REQUIRED: Firefox must be installed
-
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
@@ -56,6 +50,5 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     AfterAll {
         Stop-SeDriver $Driver
-        Get-UDDashboard | Stop-UDDashboard
     }
 }

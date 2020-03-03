@@ -3,6 +3,10 @@ Param(
 )
 . ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
+#Start UDDashbaord
+Start-JCDashboard -port 8004 -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
+Start-JCDashboard -port 8003 -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
+
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
