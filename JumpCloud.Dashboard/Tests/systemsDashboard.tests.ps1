@@ -1,4 +1,6 @@
 Describe "Testing JumpCloud Systems Dashboard" {
+    #ud setup
+    Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     BeforeAll {
 
         # Run Get-Config.ps1
@@ -54,5 +56,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     AfterAll {
         Stop-SeDriver $Driver
+        Get-UDDashboard | Stop-UDDashboard
     }
 }

@@ -1,5 +1,5 @@
-$testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
 Describe "Testing JumpCloud Systems Dashboard" {
+    $testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
     BeforeAll {
 
         # Run setupDashboardt.ps1
@@ -63,6 +63,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     AfterAll {
         Stop-SeDriver $Driver
-        Stop-UDDashboard -port 8003
+        Get-UDDashboard | Stop-UDDashboard
     }
 }
