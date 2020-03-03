@@ -21,26 +21,12 @@ Used to start the JumpCloud Dashboard instance.
 
 ## EXAMPLES
 
-### EXAMPLE 1
-```
-Start-JCDashboard
-```
-
-Launches the JumpCloud Dashboard with the default settings.
-
-### EXAMPLE 2
-```
-Start-JCDashboard -LastContactDays 30
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
-
-### EXAMPLE 3
-```
-Start-JCDashboard -RefreshInterval 60
-```
-
-Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -91,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoUpdate
-Prevents the dashboard module from auto updating when launched
+\[Switch\]$Beta,
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

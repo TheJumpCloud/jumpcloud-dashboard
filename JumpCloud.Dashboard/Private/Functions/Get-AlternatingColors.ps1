@@ -1,7 +1,6 @@
 function Get-AlternatingColors
 {
     [CmdletBinding()]
-    [OutputType([System.Object[]])]
     param (
         [int]$Rows,
         [string]$Color1,
@@ -14,4 +13,3 @@ function Get-AlternatingColors
 
     return $ColorArray
 }
-

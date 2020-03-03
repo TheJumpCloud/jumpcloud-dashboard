@@ -1,27 +1,31 @@
+# Populate variables
+$ModuleName = $env:MODULENAME
+$ModuleFolderName = $env:MODULEFOLDERNAME
+$DEPLOYFOLDER = $env:DEPLOYFOLDER
+$RELEASETYPE = $env:RELEASETYPE
+$GitHubWikiUrl = 'https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/'
+$RequiredModules = ('PSScriptAnalyzer', 'Pester', 'platyPS', 'Selenium', 'UniversalDashboard.Community', 'UniversalDashboard.UDunDraw', 'JumpCloud')
+Switch ($env:DEPLOYFOLDER) { $true { $env:DEPLOYFOLDER } Default { $env:DEPLOYFOLDER = $PSScriptRoot } }
+# Validate that variables have been populated
+@('MODULENAME', 'MODULEFOLDERNAME', 'DEPLOYFOLDER', 'RELEASETYPE') | ForEach-Object {
+    $LocalVariable = (Get-Variable -Name:($_)).Value
+    $EnvVariable = [System.Environment]::GetEnvironmentVariable($_)
+    If (-not (-not [System.String]::IsNullOrEmpty($LocalVariable) -or -not [System.String]::IsNullOrEmpty($EnvVariable)))
+    {
+        Write-Error ('The env variable must be populated: $env:' + $_)
+        Break
+    }
+}
 # Log statuses
 Write-Host ('[status]Platform: ' + [environment]::OSVersion.Platform)
 Write-Host ('[status]PowerShell Version: ' + ($PSVersionTable.PSVersion -join '.'))
 Write-Host ('[status]Host: ' + (Get-Host).Name)
+Write-Host ('[status]UserName: ' + $env:USERNAME)
 Write-Host ('[status]Loaded config: ' + $MyInvocation.MyCommand.Path)
-# Set variables from Azure Pipelines
-$ModuleName = $env:MODULENAME
-$ModuleFolderName = $env:MODULEFOLDERNAME
-$GitSourceBranch = $env:BUILD_SOURCEBRANCHNAME
-$GitSourceRepo = $env:BUILD_REPOSITORY_URI
-$StagingDirectory = $env:BUILD_ARTIFACTSTAGINGDIRECTORY
-$GitSourceRepoWiki = $GitSourceRepo + '.wiki'
-$ScriptRoot = Switch ($env:DEPLOYFOLDER) { $true { $env:DEPLOYFOLDER } Default { $PSScriptRoot } }
-$FolderPath_ModuleRootPath = (Get-Item -Path:($ScriptRoot)).Parent.FullName
-$RELEASETYPE = $env:RELEASETYPE
-$XAPIKEY_PESTER = $env:XAPIKEY_PESTER
-$XAPIKEY_MTP = $env:XAPIKEY_MTP
-$NUGETAPIKEY = $env:NUGETAPIKEY
-$EnvironmentConfig = 'TestEnvironmentVariables.ps1'
-$GitHubWikiUrl = 'https://github.com/TheJumpCloud/support/wiki/'
-$FilePath_ModuleBanner = $FolderPath_ModuleRootPath + '/ModuleBanner.md'
-$FilePath_ModuleChangelog = $FolderPath_ModuleRootPath + '/ModuleChangelog.md'
+# Set misc. variables
+$FolderPath_ModuleRootPath = (Get-Item -Path:($DEPLOYFOLDER)).Parent.FullName
 # Define required files and folders variables
-$RequiredFiles = ('LICENSE', 'psm1', 'psd1', 'PesterConfig')
+$RequiredFiles = ('LICENSE', 'psm1', 'psd1')
 $RequiredFolders = ('Docs', 'Private', 'Public', 'Tests', 'en-US')
 # Define folder path variables
 $FolderPath_Module = $FolderPath_ModuleRootPath + '/' + $ModuleFolderName
@@ -32,14 +36,11 @@ $RequiredFolders | ForEach-Object {
     New-Variable -Name:('FolderPath_' + $_.Replace('-', '')) -Value:($FolderPath) -Force
 }
 $RequiredFiles | ForEach-Object {
-    $FileName = If ($_ -in ('psm1', 'psd1')) { $ModuleName + '.' + $_ } ElseIf ($_ -eq 'PesterConfig') { $EnvironmentConfig } Else { $_ }
-    $FilePath = If ($_ -eq 'PesterConfig') { $FolderPath_Module + '/' + $FolderName_Tests + '/' + $FileName } Else { $FolderPath_Module + '/' + $FileName }
+    $FileName = If ($_ -in ('psm1', 'psd1')) { $ModuleName + '.' + $_ } Else { $_ }
+    $FilePath = $FolderPath_Module + '/' + $FileName
     New-Variable -Name:('FileName_' + $_) -Value:($FileName) -Force;
     New-Variable -Name:('FilePath_' + $_) -Value:($FilePath) -Force;
 }
-# Get module function names
-$Functions_Public = If (Test-Path -Path:($FolderPath_Public)) { Get-ChildItem -Path:($FolderPath_Public + '/' + '*.ps1') -Recurse }
-$Functions_Private = If (Test-Path -Path:($FolderPath_Private)) { Get-ChildItem -Path:($FolderPath_Private + '/' + '*.ps1') -Recurse }
 # Load deploy functions
 $DeployFunctions = @(Get-ChildItem -Path:($PSScriptRoot + '/Functions/*.ps1') -Recurse)
 Foreach ($DeployFunction In $DeployFunctions)
@@ -58,3 +59,30 @@ If (!(Get-PackageProvider -Name:('NuGet') -ListAvailable -ErrorAction:('Silently
 {
     Write-Host ('[status]Installing package provider NuGet'); Install-PackageProvider -Name:('NuGet') -Scope:('CurrentUser') -Force
 }
+# Get module function names
+$Functions_Public = If (Test-Path -Path:($FolderPath_Public)) { Get-ChildItem -Path:($FolderPath_Public + '/' + '*.ps1') -Recurse }
+$Functions_Private = If (Test-Path -Path:($FolderPath_Private)) { Get-ChildItem -Path:($FolderPath_Private + '/' + '*.ps1') -Recurse }
+# Import additional required modules
+If (-not [System.String]::IsNullOrEmpty($RequiredModules))
+{
+    ForEach ($RequiredModule In $RequiredModules)
+    {
+        # Check to see if the module is installed
+        If (-not (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
+        {
+            Write-Host ('Installing module: ' + $RequiredModule)
+            Install-Module -Name:($RequiredModule) -Force -SkipPublisherCheck
+        }
+    }
+    ForEach ($RequiredModule In $RequiredModules)
+    {
+        If (-not (Get-Module -Name:($ModuleName) -ErrorAction:('SilentlyContinue')))
+        {
+            Write-Host ('Importing module: ' + $RequiredModule)
+            Import-Module -Name:($RequiredModule) -Force
+        }
+    }
+}
+# Import module in development
+Write-Host ('Importing module: ' + $FilePath_psd1)
+Import-Module $FilePath_psd1 -Force

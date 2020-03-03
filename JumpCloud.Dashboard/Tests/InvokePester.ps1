@@ -1,13 +1,10 @@
 Param(
-    [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)][ValidateNotNullOrEmpty()][System.String]$TestOrgAPIKey,
-    [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 2)][System.String[]]$ExcludeTagList,
-    [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true, Position = 3)][System.String[]]$IncludeTagList
+    [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)][ValidateNotNullOrEmpty()][System.String]$TestOrgAPIKey
 )
+. ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
+###########################################################################
 #ud setup
-$RootPath = Split-Path $PSScriptRoot -Parent
-Import-Module "$RootPath/JumpCloud.Dashboard.psd1"
 Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
-
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
