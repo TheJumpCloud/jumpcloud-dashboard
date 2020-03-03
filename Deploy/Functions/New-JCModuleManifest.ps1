@@ -97,6 +97,10 @@ Function New-JCModuleManifest
         Write-Debug ('Splatting Parameters');
         If ($DebugPreference -ne 'SilentlyContinue') { $FunctionParameters }
         New-ModuleManifest @FunctionParameters
+        # Remove trailing white space for PSScriptAnalyzer
+        $Psd1Content = Get-Content -Path:($FilePath_psd1.FullName) -Raw
+        $Psd1Content = $Psd1Content.Replace(" `n", "`n").Replace(" `r", "`r")
+        $Psd1Content | Set-Content -Path:($FilePath_psd1.FullName)
     }
     End
     {
