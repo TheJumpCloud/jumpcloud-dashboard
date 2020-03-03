@@ -1,7 +1,7 @@
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
-        $Driver = Start-SeFirefox -Headless
-        Enter-SeUrl "http://127.0.0.1:8004/" -Driver $Driver
+        #$Driver = Start-SeFirefox -Headless
+        #Enter-SeUrl "http://127.0.0.1:8004/" -Driver $Driver
     }
     Context "Tests of individual components" {
         # $timeout = $testDashboard.DashboardService.Dashboard.CyclePagesInterval
@@ -51,6 +51,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
         # }
     }
     AfterAll {
-        Stop-SeDriver $Driver
+        #Stop-SeDriver $Driver
     }
 }
