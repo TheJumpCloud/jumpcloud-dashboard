@@ -18,7 +18,7 @@ Describe "Testing JumpCloud Users Dashboard" {
             $Element.Displayed | Should Be $true
         }
         It "Verifies the MFAConfigured component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "MFAConfigured"
+            $Element = Find-SeElement -Driver $Driver -TagName "UsersMFA"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PasswordExpiration component" {
