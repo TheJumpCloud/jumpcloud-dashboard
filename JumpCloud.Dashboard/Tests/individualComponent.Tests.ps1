@@ -4,10 +4,10 @@ Describe "Testing JumpCloud Systems Dashboard" {
         Enter-SeUrl "http://127.0.0.1:8004/" -Driver $Driver
     }
     Context "Tests of individual components" {
-        $timeout = $testDashboard.DashboardService.Dashboard.CyclePagesInterval
+        $timeout = $global:testDashboard.DashboardService.Dashboard.CyclePagesInterval
         $timeout = $timeout * 2
         $pagename = @()
-        $expected = $testDashboard.DashboardService.Dashboard.Pages
+        $expected = $global:testDashboard.DashboardService.Dashboard.Pages
         For ($i=0; $i -lt $expected.Count; $i++){
             $pagename += $expected[$i].Name
         }
