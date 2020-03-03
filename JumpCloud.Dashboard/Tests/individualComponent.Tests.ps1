@@ -58,6 +58,5 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     AfterAll {
         Stop-SeDriver $Driver
-        Get-UDDashboard | Stop-UDDashboard
     }
 }
