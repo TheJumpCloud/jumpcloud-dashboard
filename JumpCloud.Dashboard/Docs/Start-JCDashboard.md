@@ -13,7 +13,8 @@ schema: 2.0.0
 
 ```
 Start-JCDashboard [[-JumpCloudApiKey] <String>] [[-LastContactDays] <Int32>] [[-RefreshInterval] <Int32>]
- [-NoUpdate] [<CommonParameters>]
+ [[-Layout] <Object>] [[-IncludeComponent] <Array>] [[-ExcludeComponent] <Array>] [[-CycleInterval] <Int32>]
+ [-NoUpdate] [[-Port] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -21,12 +22,26 @@ Used to start the JumpCloud Dashboard instance.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Start-JCDashboard
 ```
 
-{{ Add example description here }}
+Launches the JumpCloud Dashboard with the default settings.
+
+### EXAMPLE 2
+```
+Start-JCDashboard -LastContactDays 30
+```
+
+Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
+
+### EXAMPLE 3
+```
+Start-JCDashboard -RefreshInterval 60
+```
+
+Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
 
 ## PARAMETERS
 
@@ -76,8 +91,68 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Layout
+{{ Fill Layout Description }}
+
+```yaml
+Type: System.Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: GridView
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeComponent
+{{ Fill IncludeComponent Description }}
+
+```yaml
+Type: System.Array
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeComponent
+{{ Fill ExcludeComponent Description }}
+
+```yaml
+Type: System.Array
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CycleInterval
+Cycle between pages on the dashboard measured in seconds
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -NoUpdate
-\[Switch\]$Beta,
+Prevent the dashboard module from auto updating
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -87,6 +162,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Port
+\[Switch\]$Beta,
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
