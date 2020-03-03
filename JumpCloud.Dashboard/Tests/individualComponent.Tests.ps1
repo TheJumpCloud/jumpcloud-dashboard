@@ -3,12 +3,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8004/" -Driver $Driver
     }
-    Context "Verify Dashboard is running" {
-        It "Test that the dashboard is actually running" {
-            # variable from setupDashboard.ps1
-            $testDashboard.Running | Should Be $true
-        }
-    }
     Context "Tests of individual components" {
         $timeout = $testDashboard.DashboardService.Dashboard.CyclePagesInterval
         $timeout = $timeout * 2
