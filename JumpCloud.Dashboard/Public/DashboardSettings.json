@@ -5,7 +5,8 @@
                 "cycleInterval": 30,
                 "refreshInterval": 60,
                 "lastContactDays": 30,
-                "unDrawColor": "#006cac"
+                "unDrawColor": "#006cac",
+                "port":8003
             },
             "Components": {
                 "Systems": [

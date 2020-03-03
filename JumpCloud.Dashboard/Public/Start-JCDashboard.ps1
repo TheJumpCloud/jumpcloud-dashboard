@@ -68,7 +68,10 @@ Function Start-JCDashboard
         [Int]$CycleInterval,
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
-        [Switch]$NoUpdate
+        [Switch]$NoUpdate,
+
+        [Parameter(Mandatory = $false)]
+        [Int]$Port
 
         #[Switch]$Beta,
     )
@@ -163,6 +166,9 @@ Function Start-JCDashboard
         $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -notin $ExcludeComponent }
         $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -notin $ExcludeComponent }
     }
+    if ($Port) {
+        $DashboardSettings.'Dashboard'.Settings.Port = $Port
+    }
 
     #$UDSideNavItems = @()
     #$Scripts = @()
@@ -177,5 +183,5 @@ Function Start-JCDashboard
     }
 
     ## Opens the dashboard
-    Start-Process -FilePath 'http://127.0.0.1:8003'
+    Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
 }
