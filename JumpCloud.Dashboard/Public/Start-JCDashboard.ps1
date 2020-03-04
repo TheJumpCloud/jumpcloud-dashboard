@@ -92,7 +92,6 @@ Function Start-JCDashboard
 
     DynamicParam
     {
-      
         $dict = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
         If ($Layout -eq "singleComponent")

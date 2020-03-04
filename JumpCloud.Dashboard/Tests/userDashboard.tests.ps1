@@ -13,27 +13,27 @@ Describe "Testing JumpCloud Users Dashboard" {
     Context "Verifying SystemUsers Dashboard Components" {
 
         It "Verifies the NewUsers component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "NewUsers"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_newUsers"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the UserState component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "UserState"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_userStates"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PrivilegedUsers component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "PrivilegedUsers"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_privilegedUsers"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the UsersMFA component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "UsersMFA"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_mfaStatus"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PasswordExpiration component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "PasswordExpiration"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_passwordExpirations"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PasswordChanges component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "PasswordChanges"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_passwordChanges"
             $Element.Displayed | Should Be $true
         }
 

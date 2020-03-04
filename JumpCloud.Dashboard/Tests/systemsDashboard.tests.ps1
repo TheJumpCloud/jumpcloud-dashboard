@@ -8,27 +8,27 @@ Describe "Testing JumpCloud Systems Dashboard" {
     Context "Verifying System Dashboard Components" {
 
         It "Verifies the OS component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "OS"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_os"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the SystemsMFA component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_mfaStatus"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the NewSystems component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "NewSystems"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_newSystems"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the AgentVersion component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "AgentVersion"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_agentVersion"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the OSVersion component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "OSVersion"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_version"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the LastContact component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "LastContact"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_lastContact"
             $Element.Displayed | Should Be $true
         }
 
