@@ -1,12 +1,12 @@
 
-function UDElement-UserState ()
+function UDElement-user_userStates ()
 {
     param (
         $refreshInterval,
         $unDrawColor
     )
 
-    New-UDElement -Tag "UserState" -Id "UserState" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "user_userStates" -Id "user_userStates" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
         #SA-796 - User State Info
         $UserStates = @()

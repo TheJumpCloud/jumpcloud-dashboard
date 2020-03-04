@@ -14,7 +14,7 @@ Function 1Get-UDSystemUsers ()
 
         [int]$refreshInterval = $refreshInterval
 
-        $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-NewUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-UserState"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-PrivilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-UsersMFA"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-PasswordExpiration"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-PasswordChanges"}]}'
+        $PageLayout = '{"lg":[{"w":12,"h":3,"x":0,"y":0,"i":"grid-element-UsersDownload"},{"w":4,"h":10,"x":0,"y":4,"i":"grid-element-user_newUsers"},{"w":4,"h":10,"x":4,"y":4,"i":"grid-element-user_userStates"},{"w":4,"h":10,"x":9,"y":4,"i":"grid-element-user_privilegedUsers"},{"w":4,"h":10,"x":0,"y":15,"i":"grid-element-user_mfaStatus"},{"w":4,"h":10,"x":4,"y":15,"i":"grid-element-user_passwordExpirations"},{"w":4,"h":10,"x":9,"y":15,"i":"grid-element-user_passwordChanges"}]}'
         $unDrawColor = "#006cac"
 
         New-UDGridLayout -Layout $PageLayout -Content {
@@ -23,17 +23,17 @@ Function 1Get-UDSystemUsers ()
 
             UDCard-UsersDownload
 
-            UDElement-NewUsers -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-user_newUsers -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
-            UDElement-UserState -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-user_userStates -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
-            UDElement-PrivilegedUsers -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-user_privilegedUsers -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
-            UDElement-UsersMFA -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-user_mfaStatus -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
-            UDElement-PasswordExpiration -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-user_passwordExpirations -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
-            UDElement-PasswordChanges -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-user_passwordChanges -refreshInterval $refreshInterval -unDrawColor $unDrawColor
 
         }
     }

@@ -1,10 +1,10 @@
-function UDElement-PrivilegedUsers ()
+function UDElement-user_privilegedUsers ()
 {
     param (
         $refreshInterval,
         $unDrawColor
     )
-    New-UDElement -Tag "PrivilegedUsers" -Id "PrivilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "user_privilegedUsers" -Id "user_privilegedUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
         $PrivilegedUsers = @()
 

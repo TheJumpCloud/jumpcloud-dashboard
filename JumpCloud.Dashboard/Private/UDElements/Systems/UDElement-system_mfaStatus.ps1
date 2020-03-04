@@ -1,4 +1,4 @@
-function UDElement-OS
+function UDElement-system_mfaStatus
 {
     param (
         $refreshInterval,
@@ -6,15 +6,15 @@ function UDElement-OS
         $unDrawColor
     )
 
-    New-UDElement -Tag "OS" -Id "OS"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "system_mfaStatus" -Id "system_mfaStatus"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
 
-        New-UDChart -Title "Operating System" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
+        New-UDChart -Title "MFA Enabled Systems"  -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
             try
             {
-                $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+                $Cache:DisplaySystems | Group-Object allowMultiFactorAuthentication | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
             }
             catch
             {
@@ -23,15 +23,15 @@ function UDElement-OS
         } -Options $CircleChartOptions -OnClick {
             if ($EventData -ne "[]")
             {
-                $TabNames = $Cache:DisplaySystems | Group-Object -Property os | Select-object Name
+                $TabNames = $Cache:DisplaySystems | Group-Object allowMultiFactorAuthentication | Select-object Name
                 Show-UDModal -Content {
                     New-UDTabContainer -Tabs {
                         foreach ($TabName in $TabNames)
                         {
                             New-UDTab -Text $TabName.Name -Content {
-                                $script:OSType = $TabName.Name
+                                $script:MFAEnabled = [System.Convert]::ToBoolean($TabName.Name)
                                 New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {
-                                    $Cache:DisplaySystems | Where-Object { $_.os -eq $OSType } | ForEach-Object {
+                                    $Cache:DisplaySystems | Where-Object { $_.allowMultiFactorAuthentication -eq $MFAEnabled } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Hostname = $_.hostname;
                                             OS       = $_.os + " " + $_.version;

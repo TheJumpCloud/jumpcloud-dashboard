@@ -10,20 +10,20 @@
             },
             "Components": {
                 "Systems": [
-                    "AgentVersion",
-                    "LastContact",
-                    "NewSystems",
-                    "OS",
-                    "OSVersion",
-                    "SystemsMFA"
+                    "system_agentVersion",
+                    "system_lastContact",
+                    "system_newSystems",
+                    "system_os",
+                    "system_version",
+                    "system_mfaStatus"
                 ],
                 "Users": [
-                    "UsersMFA",
-                    "NewUsers",
-                    "PasswordChanges",
-                    "PasswordExpiration",
-                    "PrivilegedUsers",
-                    "UserState"
+                    "user_mfaStatus",
+                    "user_newUsers",
+                    "user_passwordChanges",
+                    "user_passwordExpirations",
+                    "user_privilegedUsers",
+                    "user_userStates"
                 ]
             }
         },
