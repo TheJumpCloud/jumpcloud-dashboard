@@ -13,8 +13,7 @@ schema: 2.0.0
 
 ```
 Start-JCDashboard [[-JumpCloudApiKey] <String>] [[-LastContactDays] <Int32>] [[-RefreshInterval] <Int32>]
- [[-Layout] <Object>] [[-IncludeComponent] <Array>] [[-ExcludeComponent] <Array>] [[-CycleInterval] <Int32>]
- [-NoUpdate] [[-Port] <Int32>] [<CommonParameters>]
+ [[-Layout] <Object>] [-NoUpdate] [[-Port] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,53 +105,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IncludeComponent
-{{ Fill IncludeComponent Description }}
-
-```yaml
-Type: System.Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExcludeComponent
-{{ Fill ExcludeComponent Description }}
-
-```yaml
-Type: System.Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CycleInterval
-Cycle between pages on the dashboard measured in seconds
-
-```yaml
-Type: System.Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -NoUpdate
-Prevent the dashboard module from auto updating
+\[Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')\]
+\[Int\]$CycleInterval,
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -175,7 +130,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 5
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -64,42 +64,6 @@
           <dev:defaultValue>GridView</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
-          <maml:name>IncludeComponent</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill IncludeComponent Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
-          <dev:type>
-            <maml:name>System.Array</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
-          <maml:name>ExcludeComponent</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill ExcludeComponent Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
-          <dev:type>
-            <maml:name>System.Array</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
-          <maml:name>CycleInterval</maml:name>
-          <maml:Description>
-            <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>System.Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
           <maml:name>Port</maml:name>
           <maml:Description>
             <maml:para>[Switch]$Beta,</maml:para>
@@ -114,7 +78,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoUpdate</maml:name>
           <maml:Description>
-            <maml:para>Prevent the dashboard module from auto updating</maml:para>
+            <maml:para>[Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')] [Int]$CycleInterval,</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>System.Management.Automation.SwitchParameter</maml:name>
@@ -173,46 +137,10 @@
         </dev:type>
         <dev:defaultValue>GridView</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
-        <maml:name>IncludeComponent</maml:name>
-        <maml:Description>
-          <maml:para>{{ Fill IncludeComponent Description }}</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
-        <dev:type>
-          <maml:name>System.Array</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
-        <maml:name>ExcludeComponent</maml:name>
-        <maml:Description>
-          <maml:para>{{ Fill ExcludeComponent Description }}</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
-        <dev:type>
-          <maml:name>System.Array</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
-        <maml:name>CycleInterval</maml:name>
-        <maml:Description>
-          <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>System.Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>0</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>
         <maml:Description>
-          <maml:para>Prevent the dashboard module from auto updating</maml:para>
+          <maml:para>[Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')] [Int]$CycleInterval,</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
         <dev:type>
@@ -221,7 +149,7 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>Port</maml:name>
         <maml:Description>
           <maml:para>[Switch]$Beta,</maml:para>
