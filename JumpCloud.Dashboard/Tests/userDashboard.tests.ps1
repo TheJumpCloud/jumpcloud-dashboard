@@ -6,7 +6,9 @@ Describe "Testing JumpCloud Users Dashboard" {
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/SystemUsers" -Driver $Driver
     }
-   Context "Verifying SystemUsers Dashboard Components" {
+    Context "Verifying SystemUsers Dashboard Components" {
+        # wait a moment to begin testing after spinning up a new dashboard
+        Start-Sleep -s 10
 
         It "Verifies the NewUsers component" {
             $Element = Find-SeElement -Driver $Driver -TagName "NewUsers"
