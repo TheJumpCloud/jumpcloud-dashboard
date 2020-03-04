@@ -1,7 +1,6 @@
 
 Describe "Testing JumpCloud Users Dashboard" {
     BeforeAll {
-        # Get-UDDashboard | Stop-UDDashboard
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/SystemUsers" -Driver $Driver
