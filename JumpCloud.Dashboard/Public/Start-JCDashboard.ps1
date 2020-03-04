@@ -92,6 +92,9 @@ Function Start-JCDashboard
 
     DynamicParam
     {
+        If ((Get-PSCallStack).Command -like '*MarkdownHelp') {
+            $Layout = "singleComponent"
+        }
         $dict = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
         If ($Layout -eq "singleComponent")
