@@ -13,12 +13,22 @@ Function Start-JCDashboardSingleComponentView() {
     ##############################################################################################################
     $Theme = Get-JCTheme
     ##############################################################################################################
+
     $Script:DashboardSettings = $DashboardSettings
     if ($DashboardSettings.'Dashboard'.Components.Systems) {
         [int]$ProgressCounter = 0
+
         $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
 
             $UDPages += New-UDPage -Name:($_) -Content {
+
+                if ($Cache:DisplaySystems) {
+                    Write-Debug "$($_): Cache exists"
+                } else {
+                    Write-Debug "$($_): Cache does not exist. Creating."
+                    $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
+                }
+
                 $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
 
                 New-UDGridLayout -Layout $PageLayout -Content {
