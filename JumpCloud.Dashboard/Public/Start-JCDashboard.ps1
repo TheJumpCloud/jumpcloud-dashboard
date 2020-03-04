@@ -70,29 +70,18 @@ Function Start-JCDashboard
         [ValidateSet("gridView", "singleComponent")]
         $Layout = "gridView",
 
-        # [Parameter(Mandatory = $false)]
-        # [ValidateSet("AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState")]
-        # [array]$IncludeComponent,
-
-        # [Parameter(Mandatory = $false)]
-        # [ValidateSet("AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState")]
-        # [array]$ExcludeComponent,
-
-        # [Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')]
-        # [Int]$CycleInterval,
-
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
 
         [Parameter(Mandatory = $false)]
         [Int]$Port
 
-        #[Switch]$Beta,
     )
 
     DynamicParam
     {
-        If ((Get-PSCallStack).Command -like '*MarkdownHelp') {
+        If ((Get-PSCallStack).Command -like '*MarkdownHelp')
+        {
             $Layout = "singleComponent"
         }
         $dict = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
