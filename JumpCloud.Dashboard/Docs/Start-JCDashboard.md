@@ -13,7 +13,8 @@ schema: 2.0.0
 
 ```
 Start-JCDashboard [[-JumpCloudApiKey] <String>] [[-LastContactDays] <Int32>] [[-RefreshInterval] <Int32>]
- [[-Layout] <Object>] [-NoUpdate] [[-Port] <Int32>] [<CommonParameters>]
+ [[-Layout] <Object>] [-NoUpdate] [[-Port] <Int32>] [-IncludeComponent <Array>] [-ExcludeComponent <Array>]
+ [-CycleInterval <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -133,6 +134,51 @@ Required: False
 Position: 5
 Default value: 0
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CycleInterval
+Cycle between pages on the dashboard measured in seconds
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExcludeComponent
+Dashboard Components to exclude
+
+```yaml
+Type: System.Array
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IncludeComponent
+Dashboard Components to include
+
+```yaml
+Type: System.Array
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

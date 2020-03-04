@@ -86,6 +86,42 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>CycleInterval</maml:name>
+          <maml:Description>
+            <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>ExcludeComponent</maml:name>
+          <maml:Description>
+            <maml:para>Dashboard Components to exclude</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Array</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>IncludeComponent</maml:name>
+          <maml:Description>
+            <maml:para>Dashboard Components to include</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Array</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -160,6 +196,42 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>CycleInterval</maml:name>
+        <maml:Description>
+          <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>ExcludeComponent</maml:name>
+        <maml:Description>
+          <maml:para>Dashboard Components to exclude</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Array</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>IncludeComponent</maml:name>
+        <maml:Description>
+          <maml:para>Dashboard Components to include</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Array</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
