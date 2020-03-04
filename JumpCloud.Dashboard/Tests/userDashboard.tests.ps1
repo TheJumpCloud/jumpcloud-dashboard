@@ -1,6 +1,9 @@
+
 Describe "Testing JumpCloud Users Dashboard" {
     BeforeAll {
-        $Driver = Start-SeFirefox
+        Get-UDDashboard | Stop-UDDashboard
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
+        $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/SystemUsers" -Driver $Driver
     }
    Context "Verifying SystemUsers Dashboard Components" {
@@ -18,7 +21,7 @@ Describe "Testing JumpCloud Users Dashboard" {
             $Element.Displayed | Should Be $true
         }
         It "Verifies the MFAConfigured component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "MFAConfigured"
+            $Element = Find-SeElement -Driver $Driver -TagName "UsersMFA"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PasswordExpiration component" {
@@ -32,6 +35,7 @@ Describe "Testing JumpCloud Users Dashboard" {
 
         AfterAll {
             Stop-SeDriver $Driver
+            Get-UDDashboard | Stop-UDDashboard
         }
     }
 

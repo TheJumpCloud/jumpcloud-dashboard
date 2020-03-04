@@ -1,12 +1,7 @@
-$JumpCloudAPIKEY = ""
-Import-Module ../JumpCloud.Dashboard.psd1
-$testDashboard = Start-JCDashboard -JumpCloudAPIKey $JumpCloudAPIKEY -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
-
-        # Run setupDashboardt.ps1
-        # REQUIRED: Firefox must be installed
-
+        Get-UDDashboard | Stop-UDDashboard
+        $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent "AgentVersion", "LastContact", "NewSystems", "OS", "OSVersion", "SystemsMFA", "UsersMFA", "NewUsers", "PasswordChanges", "PasswordExpiration", "PrivilegedUsers", "UserState" -cycleInterval 5
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     }
@@ -65,6 +60,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     AfterAll {
         Stop-SeDriver $Driver
-        Stop-UDDashboard -port 8003
+        Get-UDDashboard | Stop-UDDashboard
     }
 }
