@@ -1,14 +1,17 @@
 
 Describe "Testing JumpCloud Users Dashboard" {
     BeforeAll {
-        Get-UDDashboard | Stop-UDDashboard
+        # Get-UDDashboard | Stop-UDDashboard
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/SystemUsers" -Driver $Driver
+        # wait for large orgs
+        $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
+        if ($TotalUsers -gt 1000) {
+            Start-Sleep -s 30
+        }
     }
     Context "Verifying SystemUsers Dashboard Components" {
-        # wait a moment to begin testing after spinning up a new dashboard
-        Start-Sleep -s 10
 
         It "Verifies the NewUsers component" {
             $Element = Find-SeElement -Driver $Driver -TagName "NewUsers"
@@ -22,7 +25,7 @@ Describe "Testing JumpCloud Users Dashboard" {
             $Element = Find-SeElement -Driver $Driver -TagName "PrivilegedUsers"
             $Element.Displayed | Should Be $true
         }
-        It "Verifies the MFAConfigured component" {
+        It "Verifies the UsersMFA component" {
             $Element = Find-SeElement -Driver $Driver -TagName "UsersMFA"
             $Element.Displayed | Should Be $true
         }
