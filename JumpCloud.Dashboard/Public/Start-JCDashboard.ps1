@@ -129,6 +129,7 @@ Function Start-JCDashboard
 
     process
     {
+        # Setting vars for dynamic params
 
         if ($PSBoundParameters["IncludeComponent"])
         {
