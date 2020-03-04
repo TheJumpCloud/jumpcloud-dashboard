@@ -66,7 +66,7 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        [Parameter(HelpMessage = 'Dashboard view', Mandatory = $false)]
+        [Parameter(HelpMessage = 'Specify either gridview (default) or singleComponent to display dashboards by component individually', Mandatory = $false)]
         [ValidateSet("gridView", "singleComponent")]
         $Layout = "gridView",
 
