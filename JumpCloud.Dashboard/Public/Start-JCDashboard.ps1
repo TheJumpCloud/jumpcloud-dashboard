@@ -66,14 +66,14 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(HelpMessage = 'Dashboard view', Mandatory = $false)]
         [ValidateSet("gridView", "singleComponent")]
         $Layout = "gridView",
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(HelpMessage = 'Dashboard port to launch on localhost', Mandatory = $false)]
         [Int]$Port
 
     )
