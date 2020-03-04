@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -Layout
-{{ Fill Layout Description }}
+Specify either gridview (default) or singleComponent to display dashboards by component individually
 
 ```yaml
 Type: System.Object
@@ -107,8 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoUpdate
-\[Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')\]
-\[Int\]$CycleInterval,
+Prevent the dashboard module from auto updating
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -123,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -Port
-\[Switch\]$Beta,
+Dashboard port to launch on localhost
 
 ```yaml
 Type: System.Int32

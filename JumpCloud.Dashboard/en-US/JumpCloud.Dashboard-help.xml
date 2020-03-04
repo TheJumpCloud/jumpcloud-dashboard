@@ -54,7 +54,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>Layout</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Layout Description }}</maml:para>
+            <maml:para>Specify either gridview (default) or singleComponent to display dashboards by component individually</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
           <dev:type>
@@ -66,7 +66,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>Port</maml:name>
           <maml:Description>
-            <maml:para>[Switch]$Beta,</maml:para>
+            <maml:para>Dashboard port to launch on localhost</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
@@ -78,7 +78,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoUpdate</maml:name>
           <maml:Description>
-            <maml:para>[Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')] [Int]$CycleInterval,</maml:para>
+            <maml:para>Prevent the dashboard module from auto updating</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>System.Management.Automation.SwitchParameter</maml:name>
@@ -164,7 +164,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>Layout</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Layout Description }}</maml:para>
+          <maml:para>Specify either gridview (default) or singleComponent to display dashboards by component individually</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
         <dev:type>
@@ -176,7 +176,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>
         <maml:Description>
-          <maml:para>[Parameter(HelpMessage = 'Cycle between pages on the dashboard measured in seconds')] [Int]$CycleInterval,</maml:para>
+          <maml:para>Prevent the dashboard module from auto updating</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
         <dev:type>
@@ -188,7 +188,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>Port</maml:name>
         <maml:Description>
-          <maml:para>[Switch]$Beta,</maml:para>
+          <maml:para>Dashboard port to launch on localhost</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
