@@ -38,5 +38,4 @@ Describe "Testing JumpCloud Users Dashboard" {
             Get-UDDashboard | Stop-UDDashboard
         }
     }
-
 }

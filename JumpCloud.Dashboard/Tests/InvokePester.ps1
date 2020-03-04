@@ -6,7 +6,7 @@ Param(
 #ud setup
 # Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 # Run Pester tests
-$PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru -ExcludeTag:('PSScriptAnalyzer')
+$PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
 If ($FailedTests)
 {

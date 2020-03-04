@@ -51,10 +51,70 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>Layout</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Layout Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>GridView</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+          <maml:name>IncludeComponent</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill IncludeComponent Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Array</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+          <maml:name>ExcludeComponent</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill ExcludeComponent Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Array</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
+          <maml:name>CycleInterval</maml:name>
+          <maml:Description>
+            <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+          <maml:name>Port</maml:name>
+          <maml:Description>
+            <maml:para>[Switch]$Beta,</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoUpdate</maml:name>
           <maml:Description>
-            <maml:para>[Switch]$Beta,</maml:para>
+            <maml:para>Prevent the dashboard module from auto updating</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>System.Management.Automation.SwitchParameter</maml:name>
@@ -101,10 +161,58 @@
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>Layout</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Layout Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>GridView</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <maml:name>IncludeComponent</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill IncludeComponent Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Array</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+        <maml:name>ExcludeComponent</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill ExcludeComponent Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Array</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
+        <maml:name>CycleInterval</maml:name>
+        <maml:Description>
+          <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>
         <maml:Description>
-          <maml:para>[Switch]$Beta,</maml:para>
+          <maml:para>Prevent the dashboard module from auto updating</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
         <dev:type>
@@ -112,6 +220,18 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+        <maml:name>Port</maml:name>
+        <maml:Description>
+          <maml:para>[Switch]$Beta,</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -123,10 +243,24 @@
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Start-JCDashboard</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Launches the JumpCloud Dashboard with the default settings.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Start-JCDashboard -LastContactDays 30</dev:code>
+        <dev:remarks>
+          <maml:para>Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Start-JCDashboard -RefreshInterval 60</dev:code>
+        <dev:remarks>
+          <maml:para>Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

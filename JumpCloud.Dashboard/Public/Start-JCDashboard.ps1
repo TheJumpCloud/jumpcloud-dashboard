@@ -35,6 +35,20 @@
 .DESCRIPTION
  Used to start the JumpCloud Dashboard instance.
 
+.EXAMPLE
+Start-JCDashboard
+
+Launches the JumpCloud Dashboard with the default settings.
+
+.EXAMPLE
+Start-JCDashboard -LastContactDays 30
+
+Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
+
+.EXAMPLE
+Start-JCDashboard -RefreshInterval 60
+
+Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
 #>
 Function Start-JCDashboard
 {
@@ -68,8 +82,11 @@ Function Start-JCDashboard
         [Int]$CycleInterval,
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
-        [Switch]$NoUpdate
-        
+        [Switch]$NoUpdate,
+
+        [Parameter(Mandatory = $false)]
+        [Int]$Port
+
         #[Switch]$Beta,
     )
 
@@ -139,43 +156,54 @@ Function Start-JCDashboard
     Get-UDDashboard | Stop-UDDashboard
 
     # ## Import Settings File
-    $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + '/Public/DashboardSettings.json') | ConvertFrom-Json
+    $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + 'Public/DashboardSettings.json') | ConvertFrom-Json
 
-    if ($CycleInterval) {
+    if ($CycleInterval)
+    {
         $DashboardSettings.'Dashboard'.Settings.cycleInterval = $CycleInterval
     }
 
-    if ($LastContactDays) {
+    if ($LastContactDays)
+    {
         $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
         $DashboardSettings.'Dashboard'.Settings.lastContactDays = $LastContactDays
     }
 
-    if ($RefreshInterval) {
+    if ($RefreshInterval)
+    {
         $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
         $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
         $DashboardSettings.'Dashboard'.Settings.refreshInterval = $RefreshInterval
     }
-    if ($IncludeComponent) {
+    if ($IncludeComponent)
+    {
         $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -in $IncludeComponent }
         $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -in $IncludeComponent }
     }
-    if ($ExcludeComponent) {
+    if ($ExcludeComponent)
+    {
         $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -notin $ExcludeComponent }
         $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -notin $ExcludeComponent }
+    }
+    if ($Port)
+    {
+        $DashboardSettings.'Dashboard'.Settings.Port = $Port
     }
 
     #$UDSideNavItems = @()
     #$Scripts = @()
     #$Stylesheets = @()
 
-    if ($Layout -eq "gridView") {
+    if ($Layout -eq "gridView")
+    {
         Start-JCDashboardGridView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
     }
 
-    if ($Layout -eq "singleComponent") {
+    if ($Layout -eq "singleComponent")
+    {
         Start-JCDashboardSingleComponentView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
     }
 
     ## Opens the dashboard
-    Start-Process -FilePath 'http://127.0.0.1:8003'
+    Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
 }

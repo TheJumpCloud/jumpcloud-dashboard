@@ -19,13 +19,13 @@ Function Start-JCDashboardSingleComponentView() {
         $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
 
             $UDPages += New-UDPage -Name:($_) -Content {
-                $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
-                
+                $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
+
                 New-UDGridLayout -Layout $PageLayout -Content {
                     Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }
-        
+
             $ProgressCounter++
 
             $PageProgressParams = @{
@@ -46,13 +46,13 @@ Function Start-JCDashboardSingleComponentView() {
         $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
 
             $UDPages += New-UDPage -Name:($_) -Content {
-                $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}' 
+                $PageLayout = '{"lg":[{"w":10,"h":22,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
 
                 New-UDGridLayout -Layout $PageLayout -Content {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }
-        
+
             $ProgressCounter++
 
             $PageProgressParams = @{
@@ -80,5 +80,5 @@ Function Start-JCDashboardSingleComponentView() {
         -NavBarLogo:(New-UDImage -Url:('/Images/jumpcloud.svg') -Height 42 -Width 56)
 
     ## Start the dashboard
-    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
+    Start-UDDashboard -Dashboard:($Dashboard) -Port:($DashboardSettings.'Dashboard'.Settings.Port) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
 }
