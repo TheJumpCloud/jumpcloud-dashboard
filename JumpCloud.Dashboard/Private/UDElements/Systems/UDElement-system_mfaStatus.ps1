@@ -1,4 +1,4 @@
-function UDElement-SystemsMFA
+function UDElement-system_mfaStatus
 {
     param (
         $refreshInterval,
@@ -6,7 +6,7 @@ function UDElement-SystemsMFA
         $unDrawColor
     )
 
-    New-UDElement -Tag "SystemsMFA" -Id "SystemsMFA"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "system_mfaStatus" -Id "system_mfaStatus"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
@@ -45,8 +45,5 @@ function UDElement-SystemsMFA
                 }
             }
         }
-
     }
-
-
 }

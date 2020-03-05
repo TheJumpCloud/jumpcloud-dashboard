@@ -1,11 +1,11 @@
-function UDElement-NewUsers ()
+function UDElement-user_newUsers ()
 {
     param (
         $refreshInterval,
         $unDrawColor
     )
 
-    New-UDElement -Tag "NewUsers" -Id "NewUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "user_newUsers" -Id "user_newUsers" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
         $Script:NewUsers = Get-JCUser -filterDateProperty created -dateFilter after  -date (Get-Date).AddDays(-14)
         if ($NewUsers)

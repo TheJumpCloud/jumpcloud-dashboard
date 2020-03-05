@@ -1,4 +1,4 @@
-function UDElement-AgentVersion
+function UDElement-system_agentVersion
 {
     param (
         $refreshInterval,
@@ -6,7 +6,7 @@ function UDElement-AgentVersion
         $unDrawColor
     )
 
-    New-UDElement -Tag "AgentVersion" -Id "AgentVersion" -RefreshInterval $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "system_agentVersion" -Id "system_agentVersion" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $HorizontalBarChartOptions = @{
             legend = @{

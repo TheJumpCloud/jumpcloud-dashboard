@@ -1,4 +1,4 @@
-function UDElement-LastContact
+function UDElement-system_lastContact
 {
     param (
         $refreshInterval,
@@ -7,7 +7,7 @@ function UDElement-LastContact
     )
 
 
-    New-UDElement -Tag "LastContact" -Id "LastContact" -RefreshInterval $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "system_lastContact" -Id "system_lastContact" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $VerticalBarChartOptions = @{
             legend = @{
@@ -71,5 +71,4 @@ function UDElement-LastContact
             }
         }
     }
-
 }

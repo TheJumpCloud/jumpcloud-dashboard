@@ -19,5 +19,4 @@ function UDCard-SystemsDownload
             Show-UDToast -Message "System Information Downloaded To CSV In Downloads" -Duration 10000;
         }
     }
-
 }

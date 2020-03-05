@@ -1,36 +1,34 @@
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
-
-        # Run Get-Config.ps1
-        # REQUIRED: Firefox must be installed
-
+        Get-UDDashboard | Stop-UDDashboard
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
     }
     Context "Verifying System Dashboard Components" {
 
         It "Verifies the OS component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "OS"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_os"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the SystemsMFA component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "SystemsMFA"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_mfaStatus"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the NewSystems component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "NewSystems"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_newSystems"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the AgentVersion component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "AgentVersion"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_agentVersion"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the OSVersion component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "OSVersion"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_version"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the LastContact component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "LastContact"
+            $Element = Find-SeElement -Driver $Driver -TagName "system_lastContact"
             $Element.Displayed | Should Be $true
         }
 
@@ -54,5 +52,6 @@ Describe "Testing JumpCloud Systems Dashboard" {
     }
     AfterAll {
         Stop-SeDriver $Driver
+        Get-UDDashboard | Stop-UDDashboard
     }
 }
