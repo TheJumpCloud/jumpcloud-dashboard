@@ -51,7 +51,7 @@ Start-JCDashboard -RefreshInterval 60
 Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
 
 .EXAMPLE
-Start-JCDashboard -Layout singleComponenet -CycleInterval 90
+Start-JCDashboard -Layout singleComponent -CycleInterval 90
 
 Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles between pages every 90 seconds
 #>
