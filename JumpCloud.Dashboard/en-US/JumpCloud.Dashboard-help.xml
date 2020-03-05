@@ -265,9 +265,9 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
-        <dev:code>Start-JCDashboard -Layout singleComponenet -CycleInterval 90</dev:code>
+        <dev:code>Start-JCDashboard -Layout singleComponent -CycleInterval 90</dev:code>
         <dev:remarks>
-          <maml:para>Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles</maml:para>
+          <maml:para>Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles between pages every 90 seconds</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
