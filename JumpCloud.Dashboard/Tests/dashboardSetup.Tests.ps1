@@ -1,4 +1,8 @@
 Describe 'Build Tests' {
+    BeforeAll {
+        Get-UDDashboard | Stop-UDDashboard
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
+    }
     Context 'Check Files Exist' {
         $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
         It 'README.md exists' {
@@ -10,5 +14,8 @@ Describe 'Build Tests' {
         It 'Start-JCDashboard.ps1 exists' {
             (Test-Path -Path:($ModuleRootPath + '/Public/Start-JCDashboard.ps1') | Should Be $true)
         }
+    }
+    AfterAll {
+        Get-UDDashboard | Stop-UDDashboard
     }
 }

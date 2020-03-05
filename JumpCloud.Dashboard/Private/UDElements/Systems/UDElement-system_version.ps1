@@ -1,4 +1,4 @@
-function UDElement-OSVersion
+function UDElement-system_version
 {
     param (
         $refreshInterval,
@@ -6,7 +6,7 @@ function UDElement-OSVersion
         $unDrawColor
     )
 
-    New-UDElement -Tag "OSVersion" -Id "OSVersion"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "system_version" -Id "system_version"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $HorizontalBarChartOptions = @{
             legend = @{

@@ -3,8 +3,6 @@ Param(
 )
 . ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
-#ud setup
-Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
 # Run Pester tests
 $PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }

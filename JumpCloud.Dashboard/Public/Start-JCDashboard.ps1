@@ -35,6 +35,25 @@
 .DESCRIPTION
  Used to start the JumpCloud Dashboard instance.
 
+.EXAMPLE
+Start-JCDashboard
+
+Launches the JumpCloud Dashboard with the default settings.
+
+.EXAMPLE
+Start-JCDashboard -LastContactDays 30
+
+Launches the JumpCloud Dashboard and only displays systems that have contacted JumpCloud in the last 30 days.
+
+.EXAMPLE
+Start-JCDashboard -RefreshInterval 60
+
+Launches the JumpCloud Dashboard and sets the component refresh interval to 60 seconds.
+
+.EXAMPLE
+Start-JCDashboard -Layout singleComponent -CycleInterval 90
+
+Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles between pages every 90 seconds
 #>
 Function Start-JCDashboard
 {
@@ -52,177 +71,195 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        #[Switch]$Beta,
+        [Parameter(HelpMessage = 'Specify either gridview (default) or singleComponent to display dashboards by component individually', Mandatory = $false)]
+        [ValidateSet("gridView", "singleComponent")]
+        $Layout = "gridView",
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
-        [Switch]$NoUpdate
+        [Switch]$NoUpdate,
+
+        [Parameter(HelpMessage = 'Dashboard port to launch on localhost', Mandatory = $false)]
+        [Int]$Port
+
     )
 
-    # Auto Update
-    if (! $NoUpdate)
+    DynamicParam
     {
-        $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
-    }
-
-    ## Authentication
-    if ($JumpCloudApiKey)
-    {
-        Connect-JCOnline -JumpCloudApiKey:($JumpCloudApiKey) -force
-    }
-    else
-    {
-        if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
-    }
-
-    ## Set Module Installed location
-    if ($Updated -eq $true)
-    {
-        $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
-
-        $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
-
-        Foreach ($Function in $Private)
+        If ((Get-PSCallStack).Command -like '*MarkdownHelp')
         {
-            Try
+            $Layout = "singleComponent"
+        }
+        $dict = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+
+        If ($Layout -eq "singleComponent")
+        {
+            $attr = New-Object System.Management.Automation.ParameterAttribute
+            $attr.HelpMessage = "Dashboard Components to include"
+            $attr.ValueFromPipelineByPropertyName = $true
+            $attrColl = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+            $attrColl.Add($attr)
+            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates")))
+            $param = New-Object System.Management.Automation.RuntimeDefinedParameter('IncludeComponent', [array], $attrColl)
+            $dict.Add('IncludeComponent', $param)
+
+            $attr1 = New-Object System.Management.Automation.Parameterattribute
+            $attr1.HelpMessage = "Dashboard Components to exclude"
+            $attr1.ValueFromPipelineByPropertyName = $true
+            $attr1Coll = New-Object System.Collections.ObjectModel.Collection[System.attribute]
+            $attr1Coll.Add($attr1)
+            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates")))
+            $param1 = New-Object System.Management.Automation.RuntimeDefinedParameter('ExcludeComponent', [array], $attr1Coll)
+            $dict.Add('ExcludeComponent', $param1)
+
+            $attr2 = New-Object System.Management.Automation.Parameterattribute
+            $attr2.HelpMessage = "Cycle between pages on the dashboard measured in seconds"
+            $attr2.ValueFromPipelineByPropertyName = $true
+            $attr2Coll = New-Object System.Collections.ObjectModel.Collection[System.attribute]
+            $attr2Coll.Add($attr2)
+            $param2 = New-Object System.Management.Automation.RuntimeDefinedParameter('CycleInterval', [Int], $attr2Coll)
+            $dict.Add('CycleInterval', $param2)
+
+        }
+        return $dict
+    }
+
+    process
+    {
+        # Setting vars for dynamic params
+
+        if ($PSBoundParameters["IncludeComponent"])
+        {
+            $IncludeComponent = $PSBoundParameters["IncludeComponent"]
+
+        }
+
+        if ($PSBoundParameters["ExcludeComponent"])
+        {
+            $ExcludeComponent = $PSBoundParameters["ExcludeComponent"]
+
+        }
+
+        if ($PSBoundParameters["CycleInterval"])
+        {
+            $CycleInterval = $PSBoundParameters["CycleInterval"]
+
+        }
+
+        # Auto Update
+        if (! $NoUpdate)
+        {
+            $Updated = Update-ModuleToLatest -Name:($MyInvocation.MyCommand.Module.Name)
+        }
+
+        ## Authentication
+        if ($JumpCloudApiKey)
+        {
+            Connect-JCOnline -JumpCloudApiKey:($JumpCloudApiKey) -force
+        }
+        else
+        {
+            if ($JCAPIKEY.length -ne 40) { Connect-JCOnline }
+        }
+
+        ## Set Module Installed location
+        if ($Updated -eq $true)
+        {
+            $InstalledModuleLocation = Get-InstalledModule JumpCloud.Dashboard | Select-Object -ExpandProperty InstalledLocation
+
+            $Private = @( Get-ChildItem -Path "$InstalledModuleLocation/Private/*.ps1" -Recurse)
+
+            Foreach ($Function in $Private)
             {
-                . $Function.FullName
-                Write-Verbose "Imported $($Function.FullName)"
+                Try
+                {
+                    . $Function.FullName
+                    Write-Verbose "Imported $($Function.FullName)"
+                }
+                Catch
+                {
+                    Write-Error -Message "Failed to import function $($Function.FullName): $_"
+                }
             }
-            Catch
-            {
-                Write-Error -Message "Failed to import function $($Function.FullName): $_"
-            }
-        }
-
-    }
-    else
-    {
-        $InstalledModuleLocation = (Get-Item($PSScriptRoot)).Parent.FullName
-    }
-
-    ## Gather org name
-    ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
-    $OrgName = $JCSettings.SETTINGS.name
-
-    ## Call API
-    $SettingsURL = "$JCUrlBasePath" + '/api/settings'
-    $hdrs = @{
-
-        'Content-Type' = 'application/json'
-        'Accept'       = 'application/json'
-        'X-API-KEY'    = $JCAPIKEY
-    }
-
-    if ($JCOrgID)
-    {
-        $hdrs.Add('x-org-id', "$($JCOrgID)")
-    }
-
-    $APICall = Invoke-RestMethod -Method GET -Uri  $SettingsURL -Headers $hdrs -UserAgent:(Get-JCUserAgent)
-
-    ## Stop existing dashboards
-    Get-UDDashboard | Stop-UDDashboard
-
-    # ## Import Settings File
-    $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/Public/DashboardSettings.json') | ConvertFrom-Json
-
-    if ($LastContactDays)
-    {
-        $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
-    }
-
-    if ($RefreshInterval)
-    {
-        $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
-        $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
-
-    }
-
-    ## Declare container variables for dashboard items
-    $UDPages = @()
-    #$UDSideNavItems = @()
-    $Scripts = @()
-    $Stylesheets = @()
-
-    ## Get files from "UDPages" folder
-    $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
-
-    if ($Beta)
-    {
-        # If Beta Selected Then Load All UDPages
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/*.ps1') -Recurse
-    }
-    else
-    {
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/Default/*.ps1') -Recurse
-    }
-    ## Call functions to build dashboard
-    ##############################################################################################################
-    $Theme = Get-JCTheme
-    $NavBarLinks = Get-JCNavBarLinks
-    ##############################################################################################################
-
-    [int]$ProgressCounter = 0
-
-    $ContentPagesFiles | ForEach-Object {
-
-
-        ## Load functions from "UDPages" folder
-        .($_.FullName)
-        Write-Verbose "Loading $($_.BaseName)"
-
-        ## Write progress logic
-        $PageName = ($($_.BaseName) -split '-UD')[1]
-        $ProgressCounter++
-
-        $PageProgressParams = @{
-
-            Activity        = "Loading the $PageName dashboard components"
-            Status          = "Dashboard $ProgressCounter of $($ContentPagesFiles.count)"
-            PercentComplete = ($ProgressCounter / $($ContentPagesFiles.count)) * 100
 
         }
-
-        Write-Progress @PageProgressParams
-
-        ## Load the Page Settings
-        $PageSettings = $($DashboardSettings."$($_.BaseName)".'Settings')
-
-        ## Compile the parameters
-        $commandParams = ''
-
-        $($PageSettings).PSObject.Properties | ForEach-Object {
-            $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
+        else
+        {
+            $InstalledModuleLocation = (Get-Item($PSScriptRoot)).Parent.FullName
         }
-        Write-Debug "Invoking $($_.BaseName) $commandParams"
 
-        ## Run function to load the page
-        $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"
+        ## Gather org name
+        ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
+        $OrgName = $JCSettings.SETTINGS.name
 
-        ## Add the output to the container variable
-        $UDPages += $CommandResults.UDPage
-        #$UDSideNavItems += $CommandResults.UDSideNavItem
+        ## Call API
+        $SettingsURL = "$JCUrlBasePath" + '/api/settings'
+        $hdrs = @{
+
+            'Content-Type' = 'application/json'
+            'Accept'       = 'application/json'
+            'X-API-KEY'    = $JCAPIKEY
+        }
+
+        if ($JCOrgID)
+        {
+            $hdrs.Add('x-org-id', "$($JCOrgID)")
+        }
+
+        $APICall = Invoke-RestMethod -Method GET -Uri  $SettingsURL -Headers $hdrs -UserAgent:(Get-JCUserAgent)
+
+        ## Stop existing dashboards
+        Get-UDDashboard | Stop-UDDashboard
+
+        # ## Import Settings File
+        $DashboardSettings = Get-Content -Raw -Path:($InstalledModuleLocation + '/' + 'Public/DashboardSettings.json') | ConvertFrom-Json
+
+        if ($CycleInterval)
+        {
+            $DashboardSettings.'Dashboard'.Settings.cycleInterval = $CycleInterval
+        }
+
+        if ($LastContactDays)
+        {
+            $DashboardSettings.'2Get-UDsystems'.Settings.lastContactDays = $LastContactDays
+            $DashboardSettings.'Dashboard'.Settings.lastContactDays = $LastContactDays
+        }
+
+        if ($RefreshInterval)
+        {
+            $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
+            $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
+            $DashboardSettings.'Dashboard'.Settings.refreshInterval = $RefreshInterval
+        }
+        if ($IncludeComponent)
+        {
+            $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -in $IncludeComponent }
+            $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -in $IncludeComponent }
+        }
+        if ($ExcludeComponent)
+        {
+            $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -notin $ExcludeComponent }
+            $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -notin $ExcludeComponent }
+        }
+        if ($Port)
+        {
+            $DashboardSettings.'Dashboard'.Settings.Port = $Port
+        }
+
+        #$UDSideNavItems = @()
+        #$Scripts = @()
+        #$Stylesheets = @()
+
+        if ($Layout -eq "gridView")
+        {
+            Start-JCDashboardGridView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
+        }
+
+        if ($Layout -eq "singleComponent")
+        {
+            Start-JCDashboardSingleComponentView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
+        }
+
+        ## Opens the dashboard
+        Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
     }
-    # Build dashboard
-    $Navigation = New-UDSideNav -None
-    $Pages = $UDPages
-    $Dashboard = New-UDDashboard `
-        -Title:("$($OrgName) Dashboard") `
-        -Theme:($Theme) `
-        -Pages:($Pages) `
-        -Navigation:($Navigation) `
-        -NavbarLinks:($NavBarLinks) `
-        -NavBarLogo:(New-UDImage -Url:('/images/jumpcloud.svg') -Height 42 -Width 56)
-
-    # -Scripts:($Scripts) `
-    # -Stylesheets:($Stylesheets) `
-    # -Footer:($Footer)
-
-    ## Start the dashboard
-    Start-UDDashboard -Dashboard:($Dashboard) -Port:(8003) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force
-
-    ## Opens the dashboard
-    Write-Debug "Launching dashboard $(Get-Date)"
-    Start-Process -FilePath 'http://127.0.0.1:8003'
-
 }

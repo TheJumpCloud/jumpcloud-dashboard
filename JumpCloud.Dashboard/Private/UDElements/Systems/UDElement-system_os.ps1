@@ -1,11 +1,12 @@
-function UDElement-OS
+function UDElement-system_os
 {
     param (
         $refreshInterval,
-        $lastContactDays
+        $lastContactDays,
+        $unDrawColor
     )
 
-    New-UDElement -Tag "OS" -Id "OS"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "system_os" -Id "system_os"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions

@@ -109,8 +109,8 @@ PrivateData = @{
         IconUri = 'https://avatars1.githubusercontent.com/u/4927461?s=200&v=4'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Welcome to the JumpCloud Dashboard.
-To get started run the command: Start-JCDashboard
+        ReleaseNotes = 'To get started run the command: Start-JCDashboard
+v1.2.0 - Improved performance for loading System dashboard components
 v1.1.0 - Improved performance for loading System dashboard components'
 
     } # End of PSData hashtable

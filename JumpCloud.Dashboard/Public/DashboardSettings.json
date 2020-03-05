@@ -1,8 +1,35 @@
 [
     {
+        "Dashboard": {
+            "Settings": {
+                "cycleInterval": 30,
+                "refreshInterval": 60,
+                "lastContactDays": 30,
+                "unDrawColor": "#006cac",
+                "port":8003
+            },
+            "Components": {
+                "Systems": [
+                    "system_agentVersion",
+                    "system_lastContact",
+                    "system_newSystems",
+                    "system_os",
+                    "system_version",
+                    "system_mfaStatus"
+                ],
+                "Users": [
+                    "user_mfaStatus",
+                    "user_newUsers",
+                    "user_passwordChanges",
+                    "user_passwordExpirations",
+                    "user_privilegedUsers",
+                    "user_userStates"
+                ]
+            }
+        },
         "1Get-UDSystemUsers": {
             "Settings": {
-                "refreshInterval": 30
+                "refreshInterval": 60
             }
         },
         "2Get-UDSystems": {

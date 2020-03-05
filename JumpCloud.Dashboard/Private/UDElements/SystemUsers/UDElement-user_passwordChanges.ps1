@@ -1,11 +1,11 @@
-function UDElement-PasswordChanges ()
+function UDElement-user_passwordChanges ()
 {
     param (
         $refreshInterval,
         $unDrawColor
     )
 
-    New-UDElement -Tag "PasswordChanges" -Id "PasswordChanges" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
+    New-UDElement -Tag "user_passwordChanges" -Id "user_passwordChanges" -RefreshInterval $refreshInterval -AutoRefresh -Endpoint {
 
         if ($JCSettings.SETTINGS.passwordPolicy.enablePasswordExpirationInDays -eq "True")
         {
