@@ -61,7 +61,7 @@
             <maml:name>System.Object</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>GridView</dev:defaultValue>
+          <dev:defaultValue>Default</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>Port</maml:name>
@@ -171,7 +171,7 @@
           <maml:name>System.Object</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>GridView</dev:defaultValue>
+        <dev:defaultValue>Default</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>

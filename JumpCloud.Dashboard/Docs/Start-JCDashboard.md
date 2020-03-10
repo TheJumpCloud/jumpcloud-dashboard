@@ -108,7 +108,7 @@ Aliases:
 
 Required: False
 Position: 4
-Default value: GridView
+Default value: Default
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
