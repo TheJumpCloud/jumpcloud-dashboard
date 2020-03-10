@@ -72,8 +72,8 @@ Function Start-JCDashboard
         [Int]$RefreshInterval,
 
         [Parameter(HelpMessage = 'Specify either gridview (default) or singleComponent to display dashboards by component individually', Mandatory = $false)]
-        [ValidateSet("gridView", "singleComponent")]
-        $Layout = "gridView",
+        [ValidateSet("gridView", "singleComponent", "default")]
+        $Layout = "default",
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
@@ -249,9 +249,9 @@ Function Start-JCDashboard
         #$Scripts = @()
         #$Stylesheets = @()
 
-        if ($Layout -eq "gridView")
+        if ($Layout -eq "default")
         {
-            Start-JCDashboardGridView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
+            Start-JCDashboardDefault -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
         }
 
         if ($Layout -eq "singleComponent")
