@@ -37,8 +37,9 @@ Function Start-JCDashboardGridView() {
         if ($AllComponents.count -eq 1) {
             $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $AllComponents + '"}]}'
             Write-Host $PageLayout
-        }
-        else {
+        } elseif ($AllComponents.count -eq 2) {
+            
+        } else {
             $i = 0
             $y = 4
             $PageLayout = '{"lg":['
@@ -65,7 +66,7 @@ Function Start-JCDashboardGridView() {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }
-        } #-Draggable -Resizable
+        } -Draggable -Resizable -Persist
 
         #$ProgressCounter++
 
