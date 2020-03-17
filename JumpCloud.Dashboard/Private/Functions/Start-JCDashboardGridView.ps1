@@ -6,63 +6,79 @@ Function Start-JCDashboardGridView() {
         $DashboardSettings
     )
 
-    ## Declare container variables for dashboard items
-    $UDPages = @()
-
     ## Call functions to build dashboard
     ##############################################################################################################
     $Theme = Get-JCTheme
     ##############################################################################################################
 
-    $Script:AllComponents = @($DashboardSettings.'Dashboard'.Components.Users) + @($DashboardSettings.'Dashboard'.Components.Systems)
+    $Script:AllComponents = @()
+    if ($DashboardSettings.'Dashboard'.Components.Systems) {
+        $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
+            $AllComponents += $_.trim()
+        }
+    }
+    if ($DashboardSettings.'Dashboard'.Components.Users) {
+        $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
+            $AllComponents += $_.trim()
+        }
+    }
 
     $Script:DashboardSettings = $DashboardSettings
-    if ($AllComponents) {
-        [int]$ProgressCounter = 0
 
-        $UDPages = New-UDPage -Name "Custom" -Content {
+    #[int]$ProgressCounter = 0
 
-            $AllComponents | ForEach-Object {
+    $UDPages = New-UDPage -Name "Custom" -Content {
 
-                # $UDPages += New-Page -Name:($_) -Content {
-                $count = $AllComponents | Measure-Object
+        # Create cache
+        Write-Debug "$($_): Cache does not exist. Creating."
+        $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
 
-                if ($Cache:DisplaySystems) {
-                    Write-Debug "$($_): Cache exists"
-                }
-                else {
-                    Write-Debug "$($_): Cache does not exist. Creating."
-                    $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
-                }
-
-                if ($count.count -eq 1) {
-                    $Script:PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
-                } elseif ($count.count -eq 2) {
-                    $Script:PageLayout = '{"lg":[{"w":10,"x":0,"y":4,"i":"grid-element-' + $_[0] + '"},{"w":10,"x":4,"y":4,"i":"grid-element-' + $_[1] + '"}]}'
-                } else {
-
-                }
-            }
-        
-            New-UDGridLayout -Layout $PageLayout -Content {
-                $AllComponents | ForEach-Object {
-                    Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
-                } 
-            } -Draggable -Resizable
-
-            $ProgressCounter++
-
-            $PageProgressParams = @{
-
-                Activity        = "Loading the $_ dashboard components"
-                Status          = "Dashboard $ProgressCounter of $($AllComponents.count)"
-                PercentComplete = ($ProgressCounter / $($AllComponents.count)) * 100
-
-            }
-
-            Write-Progress @PageProgressParams
-
+        # Build out the PageLayout String
+        if ($AllComponents.count -eq 1) {
+            $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $AllComponents + '"}]}'
+            Write-Host $PageLayout
         }
+        else {
+            $i = 0
+            $y = 4
+            $PageLayout = '{"lg":['
+            $AllComponents | ForEach-Object {
+                $PageLayout += '{"w":4,"h":10,"x":' + [math]::Floor(($i % 3) * 4.51) + ',"y":' + $y + ',"i":"grid-element-' + $_ + '"}'
+                if ((++$i % 3) -eq 0) {
+                    $y += 11
+                }
+                if ($i -ne $AllComponents.count) {
+                    $PageLayout += ','
+                }
+            }
+            $PageLayout += ']}'
+        }
+
+        New-UDGridLayout -Layout $PageLayout -Content {
+            if ($DashboardSettings.'Dashboard'.Components.Systems) {
+                $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
+                    Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+            if ($DashboardSettings.'Dashboard'.Components.Users) {
+                $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
+                    Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+        } #-Draggable -Resizable
+
+        #$ProgressCounter++
+
+        #$PageProgressParams = @{
+
+        #    Activity        = "Loading the $_ dashboard components"
+        #    Status          = "Dashboard $ProgressCounter of $($AllComponents.count)"
+        #    PercentComplete = ($ProgressCounter / $($AllComponents.count)) * 100
+
+        #}
+
+        #Write-Progress @PageProgressParams
+
     }
 
     $Navigation = New-UDSideNav -None
@@ -71,8 +87,6 @@ Function Start-JCDashboardGridView() {
         -Theme:($Theme) `
         -Navigation:($Navigation) `
         -Pages:($UDPages) `
-        -CyclePages `
-        -CyclePagesInterval:($DashboardSettings.'Dashboard'.Settings.cycleInterval) `
         -NavBarLogo:(New-UDImage -Url:('/Images/jumpcloud.svg') -Height 42 -Width 56)
 
     ## Start the dashboard
