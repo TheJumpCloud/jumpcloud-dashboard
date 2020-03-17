@@ -14,16 +14,18 @@ Function Start-JCDashboardGridView() {
     $Theme = Get-JCTheme
     ##############################################################################################################
 
+    $AllComponents = $DashboardSettings.'Dashboard'.Components.Users + $DashboardSettings.'Dashboard'.Components.Systems
+
     $Script:DashboardSettings = $DashboardSettings
-    if ($DashboardSettings.'Dashboard'.Components.Systems) {
+    if ($AllComponents) {
         [int]$ProgressCounter = 0
 
-        $UDPages = New-UDPage -Name "something" -Content {
+        $UDPages = New-UDPage -Name "Custom" -Content {
 
-            $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
+            $AllComponents | ForEach-Object {
 
             # $UDPages += New-Page -Name:($_) -Content {
-                $count = $DashboardSettings.'Dashboard'.Components.Systems | Measure-Object
+                $count = $AllComponents | Measure-Object
 
                 if ($Cache:DisplaySystems) {
                     Write-Debug "$($_): Cache exists"
@@ -33,12 +35,12 @@ Function Start-JCDashboardGridView() {
                     $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
                 }
 
-                # if ($count.count -eq 1){
-                #     $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
-                # }
-                # if ($count.count -eq 2) {
-                #     $PageLayout = '{"lg":[{"w":10,"h":10,"x":0,"y":4,"i":"grid-element-' + $_[0] + '"},{"w":10,"h":10,"x":4,"y":4,"i":"grid-element-' + $_[1] + '"}]}'
-                # }
+                if ($count.count -eq 1){
+                     $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
+                 }
+                 if ($count.count -eq 2) {
+                     $PageLayout = '{"lg":[{"w":10,"h":10,"x":0,"y":4,"i":"grid-element-' + $_[0] + '"},{"w":10,"h":10,"x":4,"y":4,"i":"grid-element-' + $_[1] + '"}]}'
+                 }
 
                 New-UDGridLayout -Content {
                     Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
