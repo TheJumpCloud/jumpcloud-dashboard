@@ -4,6 +4,11 @@ Describe "Testing GridView" {
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
+
+        $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
+        if ($TotalUsers -gt 1000) {
+            Start-Sleep -s 30
+        }
     }
     Context "Verifying System Dashboard Components" {
         It "Verifies the OS component" {
@@ -33,11 +38,11 @@ Describe "Testing GridView" {
     }
     Context "Verifying SystemUsers Dashboard Components" {
         It "Verifies the NewUsers component" {
-            $Element = Find-SeElement -Driver $Driver -Wait -Timeout 20 -TagName "user_newUsers"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_newUsers"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the UserState component" {
-            $Element = Find-SeElement -Driver $Driver -Wait -Timeout 20 -TagName "user_userStates"
+            $Element = Find-SeElement -Driver $Driver -TagName "user_userStates"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PrivilegedUsers component" {
