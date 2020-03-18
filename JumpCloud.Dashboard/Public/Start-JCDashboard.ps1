@@ -73,7 +73,7 @@ Function Start-JCDashboard
 
         [Parameter(HelpMessage = 'Specify either gridview (default) or singleComponent to display dashboards by component individually', Mandatory = $false)]
         [ValidateSet("gridView", "singleComponent")]
-        $Layout = "gridView",
+        $Layout = "default",
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
