@@ -259,7 +259,7 @@ Function Start-JCDashboard
         {
             Start-JCDashboardSingleComponentView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
         }
-        
+
         ## Opens the dashboard
         Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
     }
