@@ -1,85 +1,77 @@
-Function Start-JCDashboardGridView () {
-
+Function Start-JCDashboardGridView() {
     param (
         [Parameter(Mandatory = $true)]
         $OrgName,
         [Parameter(Mandatory = $true)]
         $DashboardSettings
     )
-    ## Declare container variables for dashboard items
-    $UDPages = @()
 
-    ## Get files from "UDPages" folder
-    $PublishedFolder = Publish-UDFolder -Path:($InstalledModuleLocation + '/Private/' + 'Images') -RequestPath "/Images"
-
-    if ($Beta) {
-        # If Beta Selected Then Load All UDPages
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/*.ps1') -Recurse
-    }
-    else {
-        $ContentPagesFiles = Get-ChildItem -Path:($InstalledModuleLocation + '/Private/' + 'UDPages/Default/*.ps1') -Recurse
-    }
     ## Call functions to build dashboard
     ##############################################################################################################
     $Theme = Get-JCTheme
-    $NavBarLinks = Get-JCNavBarLinks
     ##############################################################################################################
 
-    [int]$ProgressCounter = 0
-
-    $ContentPagesFiles | ForEach-Object {
-
-
-        ## Load functions from "UDPages" folder
-        .($_.FullName)
-        Write-Verbose "Loading $($_.BaseName)"
-
-        ## Write progress logic
-        $PageName = ($($_.BaseName) -split '-UD')[1]
-        $ProgressCounter++
-
-        $PageProgressParams = @{
-
-            Activity        = "Loading the $PageName dashboard components"
-            Status          = "Dashboard $ProgressCounter of $($ContentPagesFiles.count)"
-            PercentComplete = ($ProgressCounter / $($ContentPagesFiles.count)) * 100
-
+    $Script:AllComponents = @()
+    if ($DashboardSettings.'Dashboard'.Components.Systems) {
+        $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
+            $AllComponents += $_.trim()
         }
-
-        Write-Progress @PageProgressParams
-
-        ## Load the Page Settings
-        $PageSettings = $($DashboardSettings."$($_.BaseName)".'Settings')
-
-        ## Compile the parameters
-        $commandParams = ''
-
-        $($PageSettings).PSObject.Properties | ForEach-Object {
-            $commandParams = $commandParams + '-' + "$($_.Name) " + "'$($_.Value)' "
-        }
-        Write-Debug $commandParams
-
-        ## Run function to load the page
-        $CommandResults = Invoke-Expression "$($_.BaseName) $commandParams"
-
-        ## Add the output to the container variable
-        $UDPages += $CommandResults.UDPage
-        #$UDSideNavItems += $CommandResults.UDSideNavItem
     }
-    # Build dashboard
+    if ($DashboardSettings.'Dashboard'.Components.Users) {
+        $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
+            $AllComponents += $_.trim()
+        }
+    }
+
+    $Script:DashboardSettings = $DashboardSettings
+
+    $UDPages = New-UDPage -Name "Custom" -Content {
+
+        # Create cache
+        Write-Debug "$($_): Cache does not exist. Creating."
+        $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
+
+        # Build out the PageLayout String
+        if ($AllComponents.count -eq 1) {
+            $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $AllComponents + '"}]}'
+            Write-Host $PageLayout
+        } else {
+            $i = 0
+            $y = 4
+            $PageLayout = '{"lg":['
+            $AllComponents | ForEach-Object {
+                $PageLayout += '{"w":4,"h":10,"x":' + [math]::Floor(($i % 3) * 4.51) + ',"y":' + $y + ',"i":"grid-element-' + $_ + '"}'
+                if ((++$i % 3) -eq 0) {
+                    $y += 11
+                }
+                if ($i -ne $AllComponents.count) {
+                    $PageLayout += ','
+                }
+            }
+            $PageLayout += ']}'
+        }
+
+        New-UDGridLayout -Layout $PageLayout -Content {
+            if ($DashboardSettings.'Dashboard'.Components.Systems) {
+                $DashboardSettings.'Dashboard'.Components.Systems | ForEach-Object {
+                    Invoke-Expression "UDElement-$($_) -LastContactDate $($DashboardSettings.'Dashboard'.Settings.lastContactDays) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+            if ($DashboardSettings.'Dashboard'.Components.Users) {
+                $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
+                    Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+        } -Draggable -Resizable
+    }
+
     $Navigation = New-UDSideNav -None
-    $Pages = $UDPages
     $Dashboard = New-UDDashboard `
         -Title:("$($OrgName) Dashboard") `
         -Theme:($Theme) `
-        -Pages:($Pages) `
         -Navigation:($Navigation) `
-        -NavbarLinks:($NavBarLinks) `
+        -Pages:($UDPages) `
         -NavBarLogo:(New-UDImage -Url:('/Images/jumpcloud.svg') -Height 42 -Width 56)
-
-    # -Scripts:($Scripts) `
-    # -Stylesheets:($Stylesheets) `
-    # -Footer:($Footer)
 
     ## Start the dashboard
     Start-UDDashboard -Dashboard:($Dashboard) -Port:($DashboardSettings.'Dashboard'.Settings.Port) -ListenAddress:('127.0.0.1') -PublishedFolder $PublishedFolder -Force

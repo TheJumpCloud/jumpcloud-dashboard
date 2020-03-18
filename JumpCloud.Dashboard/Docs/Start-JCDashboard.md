@@ -50,6 +50,13 @@ Start-JCDashboard -Layout singleComponent -CycleInterval 90
 
 Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles between pages every 90 seconds
 
+### EXAMPLE 5
+```
+Start-JCDashboard -Layout gridView
+```
+
+Launches the JumpCloud Dashboard in gridView view mode with all components
+
 ## PARAMETERS
 
 ### -JumpCloudApiKey
@@ -99,7 +106,8 @@ Accept wildcard characters: False
 ```
 
 ### -Layout
-Specify either gridview (default) or singleComponent to display dashboards by component individually
+Specify either gridview or singleComponent to display dashboards by component individually.
+GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter
 
 ```yaml
 Type: System.Object
@@ -108,7 +116,7 @@ Aliases:
 
 Required: False
 Position: 4
-Default value: GridView
+Default value: Default
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

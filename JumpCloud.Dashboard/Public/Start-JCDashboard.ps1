@@ -54,6 +54,11 @@ Launches the JumpCloud Dashboard and sets the component refresh interval to 60 s
 Start-JCDashboard -Layout singleComponent -CycleInterval 90
 
 Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles between pages every 90 seconds
+
+.EXAMPLE
+Start-JCDashboard -Layout gridView
+
+Launches the JumpCloud Dashboard in gridView view mode with all components
 #>
 Function Start-JCDashboard
 {
@@ -71,9 +76,9 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
-        [Parameter(HelpMessage = 'Specify either gridview (default) or singleComponent to display dashboards by component individually', Mandatory = $false)]
+        [Parameter(HelpMessage = 'Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter', Mandatory = $false)]
         [ValidateSet("gridView", "singleComponent")]
-        $Layout = "gridView",
+        $Layout = "default",
 
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
@@ -91,7 +96,7 @@ Function Start-JCDashboard
         }
         $dict = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
-        If ($Layout -eq "singleComponent")
+        If ($Layout -eq "singleComponent" -or $Layout -eq "gridView")
         {
             $attr = New-Object System.Management.Automation.ParameterAttribute
             $attr.HelpMessage = "Dashboard Components to include"
@@ -249,12 +254,13 @@ Function Start-JCDashboard
         #$Scripts = @()
         #$Stylesheets = @()
 
-        if ($Layout -eq "gridView")
+        if ($Layout -eq "default")
+        {
+            Start-JCDashboardDefault -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
+        } elseif ($Layout -eq "gridView")
         {
             Start-JCDashboardGridView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
-        }
-
-        if ($Layout -eq "singleComponent")
+        } elseif ($Layout -eq "singleComponent")
         {
             Start-JCDashboardSingleComponentView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
         }
