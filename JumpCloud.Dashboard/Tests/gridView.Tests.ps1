@@ -5,7 +5,6 @@ Describe "Testing GridView" {
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
     }
-
     Context "Verifying System Dashboard Components" {
         It "Verifies the OS component" {
             $Element = Find-SeElement -Driver $Driver -TagName "system_os"
@@ -31,32 +30,32 @@ Describe "Testing GridView" {
             $Element = Find-SeElement -Driver $Driver -TagName "system_lastContact"
             $Element.Displayed | Should Be $true
         }
-
-        Context "Verifying SystemUsers Dashboard Components" {
-            It "Verifies the NewUsers component" {
-                $Element = Find-SeElement -Driver $Driver -TagName "user_newUsers"
-                $Element.Displayed | Should Be $true
-            }
-            It "Verifies the UserState component" {
-                $Element = Find-SeElement -Driver $Driver -TagName "user_userStates"
-                $Element.Displayed | Should Be $true
-            }
-            It "Verifies the PrivilegedUsers component" {
-                $Element = Find-SeElement -Driver $Driver -TagName "user_privilegedUsers"
-                $Element.Displayed | Should Be $true
-            }
-            It "Verifies the UsersMFA component" {
-                $Element = Find-SeElement -Driver $Driver -TagName "user_mfaStatus"
-                $Element.Displayed | Should Be $true
-            }
-            It "Verifies the PasswordExpiration component" {
-                $Element = Find-SeElement -Driver $Driver -TagName "user_passwordExpirations"
-                $Element.Displayed | Should Be $true
-            }
-            It "Verifies the PasswordChanges component" {
-                $Element = Find-SeElement -Driver $Driver -TagName "user_passwordChanges"
-                $Element.Displayed | Should Be $true
-            }
+    }
+    Context "Verifying SystemUsers Dashboard Components" {
+        It "Verifies the NewUsers component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "user_newUsers"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the UserState component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "user_userStates"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the PrivilegedUsers component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "user_privilegedUsers"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the UsersMFA component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "user_mfaStatus"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the PasswordExpiration component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "user_passwordExpirations"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the PasswordChanges component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "user_passwordChanges"
+            $Element.Displayed | Should Be $true
+        }
     }
     AfterAll {
         Stop-SeDriver $Driver
