@@ -17,7 +17,7 @@ Describe "Testing JumpCloud Users Dashboard" {
             $Element.Displayed | Should Be $true
         }
         It "Verifies the UserState component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "user_userStates"
+            $Element = Find-SeElement -Driver -Wait -Timeout 20 $Driver -TagName "user_userStates"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the PrivilegedUsers component" {
