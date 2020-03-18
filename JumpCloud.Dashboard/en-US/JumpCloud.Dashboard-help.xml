@@ -54,7 +54,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>Layout</maml:name>
           <maml:Description>
-            <maml:para>Specify either gridview (default) or singleComponent to display dashboards by component individually</maml:para>
+            <maml:para>Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
           <dev:type>
@@ -164,7 +164,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>Layout</maml:name>
         <maml:Description>
-          <maml:para>Specify either gridview (default) or singleComponent to display dashboards by component individually</maml:para>
+          <maml:para>Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
         <dev:type>
@@ -268,6 +268,13 @@
         <dev:code>Start-JCDashboard -Layout singleComponent -CycleInterval 90</dev:code>
         <dev:remarks>
           <maml:para>Launches the JumpCloud Dashboard in singleComponent view mode with all components and cycles between pages every 90 seconds</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
+        <dev:code>Start-JCDashboard -Layout gridView</dev:code>
+        <dev:remarks>
+          <maml:para>Launches the JumpCloud Dashboard in gridView view mode with all components</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
