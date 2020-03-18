@@ -249,16 +249,17 @@ Function Start-JCDashboard
         #$Scripts = @()
         #$Stylesheets = @()
 
-        if ($Layout -eq "gridView")
+        if ($Layout -eq "default")
+        {
+            Start-JCDashboardDefault -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
+        } elseif ($Layout -eq "gridView")
         {
             Start-JCDashboardGridView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
-        }
-
-        if ($Layout -eq "singleComponent")
+        } elseif ($Layout -eq "singleComponent")
         {
             Start-JCDashboardSingleComponentView -OrgName:($OrgName) -DashboardSettings:($DashboardSettings)
         }
-
+        
         ## Opens the dashboard
         Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
     }
