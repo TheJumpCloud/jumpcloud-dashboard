@@ -33,7 +33,7 @@ Describe "Testing GridView" {
     }
     Context "Verifying SystemUsers Dashboard Components" {
         It "Verifies the NewUsers component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "user_newUsers"
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout 20 -TagName "user_newUsers"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the UserState component" {
