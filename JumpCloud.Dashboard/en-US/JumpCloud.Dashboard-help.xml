@@ -64,7 +64,7 @@
           <dev:defaultValue>Default</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
-          <maml:name>jcDashboardAutoLaunch</maml:name>
+          <maml:name>AutoLaunch</maml:name>
           <maml:Description>
             <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser when started.</maml:para>
           </maml:Description>
@@ -186,7 +186,7 @@
         <dev:defaultValue>Default</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
-        <maml:name>jcDashboardAutoLaunch</maml:name>
+        <maml:name>AutoLaunch</maml:name>
         <maml:Description>
           <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser when started.</maml:para>
         </maml:Description>
