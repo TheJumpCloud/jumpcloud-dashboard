@@ -80,6 +80,9 @@ Function Start-JCDashboard
         [ValidateSet("gridView", "singleComponent")]
         $Layout = "default",
 
+        [Parameter(HelpMessage = 'Specify $true or $false to autolaunch the Dashboard in a browser when started.', Mandatory = $false)]
+        [bool]$jcDashboardAutoLaunch = $true,
+
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
 
@@ -266,6 +269,8 @@ Function Start-JCDashboard
         }
 
         ## Opens the dashboard
-        Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
+        if ($jcDashboardAutoLaunch -eq $true){
+            Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
+        }
     }
 }
