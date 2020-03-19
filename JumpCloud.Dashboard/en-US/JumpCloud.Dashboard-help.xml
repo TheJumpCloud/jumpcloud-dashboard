@@ -64,6 +64,18 @@
           <dev:defaultValue>Default</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+          <maml:name>jcDashboardAutoLaunch</maml:name>
+          <maml:Description>
+            <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser when started.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>True</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
           <maml:name>Port</maml:name>
           <maml:Description>
             <maml:para>Dashboard port to launch on localhost</maml:para>
@@ -173,6 +185,18 @@
         </dev:type>
         <dev:defaultValue>Default</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <maml:name>jcDashboardAutoLaunch</maml:name>
+        <maml:Description>
+          <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser when started.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>True</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>
         <maml:Description>
@@ -185,7 +209,7 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
         <maml:name>Port</maml:name>
         <maml:Description>
           <maml:para>Dashboard port to launch on localhost</maml:para>

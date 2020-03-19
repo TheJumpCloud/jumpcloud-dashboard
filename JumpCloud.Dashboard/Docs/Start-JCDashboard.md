@@ -13,8 +13,8 @@ schema: 2.0.0
 
 ```
 Start-JCDashboard [[-JumpCloudApiKey] <String>] [[-LastContactDays] <Int32>] [[-RefreshInterval] <Int32>]
- [[-Layout] <Object>] [-NoUpdate] [[-Port] <Int32>] [-IncludeComponent <Array>] [-ExcludeComponent <Array>]
- [-CycleInterval <Int32>] [<CommonParameters>]
+ [[-Layout] <Object>] [[-jcDashboardAutoLaunch] <Boolean>] [-NoUpdate] [[-Port] <Int32>]
+ [-IncludeComponent <Array>] [-ExcludeComponent <Array>] [-CycleInterval <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -121,6 +121,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -jcDashboardAutoLaunch
+Specify $true or $false to autolaunch the Dashboard in a browser when started.
+
+```yaml
+Type: System.Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: True
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -NoUpdate
 Prevent the dashboard module from auto updating
 
@@ -145,7 +160,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
