@@ -24,6 +24,9 @@
                     "user_passwordExpirations",
                     "user_privilegedUsers",
                     "user_userStates"
+                ],
+                "Onboarding": [
+                    "onboarding_0356status"
                 ]
             }
         },
@@ -35,6 +38,11 @@
         "2Get-UDSystems": {
             "Settings": {
                 "lastContactDays": 30,
+                "refreshInterval": 60
+            }
+        },
+        "3Get-UDOnBoarding": {
+            "Settings": {
                 "refreshInterval": 60
             }
         }

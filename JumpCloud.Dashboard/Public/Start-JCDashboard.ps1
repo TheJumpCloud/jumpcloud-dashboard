@@ -189,7 +189,8 @@ Function Start-JCDashboard
         }
         else
         {
-            $InstalledModuleLocation = (Get-Item($PSScriptRoot)).Parent.FullName
+            $RootPath = (Split-Path $PSScriptRoot -Parent)
+            $InstalledModuleLocation = $RootPath
         }
 
         ## Gather org name
@@ -233,6 +234,7 @@ Function Start-JCDashboard
         {
             $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
+            $DashboardSettings.'3Get-UDonboarding'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'Dashboard'.Settings.refreshInterval = $RefreshInterval
         }
         if ($IncludeComponent)
