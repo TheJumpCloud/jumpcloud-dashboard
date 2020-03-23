@@ -22,6 +22,11 @@ Function Start-JCDashboardGridView() {
             $AllComponents += $_.trim()
         }
     }
+    if ($DashboardSettings.'Dashboard'.Components.Onboarding) {
+        $DashboardSettings.'Dashboard'.Components.Onboarding | ForEach-Object {
+            $AllComponents += $_.trim()
+        }
+    }
 
     $Script:DashboardSettings = $DashboardSettings
 

@@ -1,4 +1,4 @@
-function UDElement-onboarding_0365status {
+function UDElement-onboarding_0365Status {
     param (
         $refreshInterval,
         $lastContactDays,

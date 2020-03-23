@@ -83,6 +83,9 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Prevent the dashboard module from auto updating')]
         [Switch]$NoUpdate,
 
+        [Parameter(HelpMessage = 'Specify $true or $false to autolaunch the Dashboard in a browser once started.', Mandatory = $false)]
+        [bool]$AutoLaunch = $true,
+
         [Parameter(HelpMessage = 'Dashboard port to launch on localhost', Mandatory = $false)]
         [Int]$Port
 
@@ -268,6 +271,8 @@ Function Start-JCDashboard
         }
 
         ## Opens the dashboard
-        Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
+        if ($AutoLaunch -eq $true){
+            Start-Process -FilePath:('http://127.0.0.1:' + "$($DashboardSettings.'Dashboard'.Settings.Port)")
+        }
     }
 }
