@@ -1,11 +1,11 @@
-function UDElement-onboarding_ldap() {
+function UDElement-onboarding_gsuite() {
     param (
         $refreshInterval,
         $unDrawColor
     )
 
     $Users = Get-JCUser
-    $Selected = Get-JCAssociation -Type ldap_server -Name jumpcloud -TargetType User | Select-Object targetId
+    $Selected = Get-JCAssociation -Type g_suite -Name "G Suite" -TargetType User | Select-Object targetId
     $AllResults = @()
     $Users | ForEach-Object {
         $usrObject = [PSCustomObject]@{
@@ -23,12 +23,12 @@ function UDElement-onboarding_ldap() {
     }
 
 
-    New-UDElement -Tag "onboarding_ldap" -Id "onboarding_ldap"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "onboarding_gsuite" -Id "onboarding_gsuite"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
 
-        New-UDChart -Title "Ldap Binding Status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
+        New-UDChart -Title "G-Suite Binding Status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
             try {
                 # $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
                 $AllResults | Group-Object -Property Dir | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
@@ -49,8 +49,8 @@ function UDElement-onboarding_ldap() {
                                     $AllResults | Where-Object { $_.Dir -eq $DirType } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Name = $_.Name
-                                            Dir = $_.Dir
-                                            ID = $_.ID;
+                                            Dir  = $_.Dir
+                                            ID   = $_.ID;
                                         }
                                     } | Out-UDGridData
                                 }

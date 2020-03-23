@@ -13,7 +13,7 @@ Function 3Get-UDOnboarding() {
 
         [int]$refreshInterval = $refreshInterval
 
-        $PageLayout = '{"lg":[{"w":5,"h":14,"x":0,"y":0,"i":"grid-element-onboarding_ldap","moved":false,"static":false},{"w":5,"h":14,"x":5,"y":0,"i":"grid-element-useractivationstatus","moved":false,"static":false}]}'
+        $PageLayout = '{"lg":[{"w":4,"h":10,"x":0,"y":0,"i":"grid-element-onboarding_ldap","moved":false,"static":false},{"w":4,"h":10,"x":4,"y":0,"i":"grid-element-useractivationstatus","moved":false,"static":false},{"w":4,"h":10,"x":0,"y":1,"i":"grid-element-onboarding_gsuite","moved":false,"static":false}]}'
         $unDrawColor = "#006cac"
 
         New-UDGridLayout -Layout $PageLayout -Content {
@@ -21,6 +21,7 @@ Function 3Get-UDOnboarding() {
 
             UDElement-onboarding_ldap -refreshInterval $refreshInterval -unDrawColor $unDrawColor
             UDElement-onboarding_useractivationstatus -refreshInterval $refreshInterval -unDrawColor $unDrawColor
+            UDElement-onboarding_gsuite -refreshInterval $refreshInterval -unDrawColor $unDrawColor
         }
     }
 
