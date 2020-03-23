@@ -5,6 +5,11 @@ function UDElement-onboarding_0365status {
         $unDrawColor
     )
 
+    $Users = Get-JCUser
+    # 1. Get the id of the resource you want
+    # 2. Assign to a variabl
+    $Selected = Get-JCAssociation -Type ldap_server -Id 5d643a7745886d6f626593b7 -TargetType User
+
     New-UDElement -Tag "onboarding_0365status" -Id "onboarding_0365status"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
@@ -12,7 +17,9 @@ function UDElement-onboarding_0365status {
 
         New-UDChart -Title "onboarding_0365status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
             try {
-                $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+                # $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+                $Selected | Group-Object -Property Name | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+
             }
             catch {
                 0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"

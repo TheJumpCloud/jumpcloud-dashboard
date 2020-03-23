@@ -234,7 +234,7 @@ Function Start-JCDashboard
         {
             $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
-            $DashboardSettings.'3Get-UDonboarding'.Settings.refreshInterval = $RefreshInterval
+            $DashboardSettings.'3Get-UDOnboarding'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'Dashboard'.Settings.refreshInterval = $RefreshInterval
         }
         if ($IncludeComponent)
