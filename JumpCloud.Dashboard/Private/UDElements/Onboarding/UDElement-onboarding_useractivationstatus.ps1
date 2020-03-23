@@ -1,4 +1,4 @@
-function UDElement-onboarding_useractivationstatus ()
+function UDElement-onboarding_userActivationStatus ()
 {
     param (
         $refreshInterval,
@@ -31,10 +31,10 @@ function UDElement-onboarding_useractivationstatus ()
                             New-UDTab -Text $TabName.Name -Content {
                                 $script:UserActivateEnabled = [System.Convert]::ToBoolean($TabName.Name)
                                 New-UDGrid -Header @("Username", "Activated", "UserID") -Properties @("Username", "Activated", "UserID") -Endpoint {
-                                    $Cache:DisplayUsers |  Where-Object { $_.activated -eq $true } | ForEach-Object {
+                                    $Cache:DisplayUsers |  Where-Object { $_.activated -eq $UserActivateEnabled } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Username = $_.Username;
-                                            Activated = $_.activated
+                                            Activated = $_.activated;
                                             UserID = $_._id;
                                         }
                                     } | Out-UDGridData
