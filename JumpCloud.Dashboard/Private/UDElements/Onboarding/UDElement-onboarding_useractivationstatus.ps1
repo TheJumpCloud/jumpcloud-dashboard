@@ -1,36 +1,41 @@
-function UDElement-onboarding_useractivationstatus {
+function UDElement-onboarding_useractivationstatus ()
+{
     param (
         $refreshInterval,
         $lastContactDays,
         $unDrawColor
     )
 
-    New-UDElement -Tag "onboarding_useractivationstatus" -Id "onboarding_useractivationstatus"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "useractivationstatus" -Id "useractivationstatus"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
 
-        New-UDChart -Title "onboarding_useractivationstatus" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
-            try {
-                $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+        New-UDChart -Title "User Activation Status"  -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
+            try
+            {
+                $Cache:DisplayUsers | Group-Object activated | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
             }
-            catch {
+            catch
+            {
                 0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
             }
         } -Options $CircleChartOptions -OnClick {
-            if ($EventData -ne "[]") {
-                $TabNames = $Cache:DisplaySystems | Group-Object -Property os | Select-object Name
+            if ($EventData -ne "[]")
+            {
+                $TabNames = $Cache:DisplayUsers | Group-Object activated | Select-object Name
                 Show-UDModal -Content {
                     New-UDTabContainer -Tabs {
-                        foreach ($TabName in $TabNames) {
+                        foreach ($TabName in $TabNames)
+                        {
                             New-UDTab -Text $TabName.Name -Content {
-                                $script:OSType = $TabName.Name
-                                New-UDGrid -Header @("Hostname", "Operating System", "System ID") -Properties @("Hostname", "OS", "SystemID") -Endpoint {
-                                    $Cache:DisplaySystems | Where-Object { $_.os -eq $OSType } | ForEach-Object {
+                                $script:UserActivateEnabled = [System.Convert]::ToBoolean($TabName.Name)
+                                New-UDGrid -Header @("Username", "Activated", "UserID") -Properties @("Username", "Activated", "UserID") -Endpoint {
+                                    $Cache:DisplayUsers |  Where-Object { $_.activated -eq $true } | ForEach-Object {
                                         [PSCustomObject]@{
-                                            Hostname = $_.hostname;
-                                            OS       = $_.os + " " + $_.version;
-                                            SystemID = $_._id;
+                                            Username = $_.Username;
+                                            Activated = $_.activated
+                                            UserID = $_._id;
                                         }
                                     } | Out-UDGridData
                                 }

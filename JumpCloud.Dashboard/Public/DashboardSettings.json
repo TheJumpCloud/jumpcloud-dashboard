@@ -26,7 +26,8 @@
                     "user_userStates"
                 ],
                 "Onboarding": [
-                    "onboarding_0356status"
+                    "onboarding_0356status",
+                    "onboarding_useractivationstatus"
                 ]
             }
         },
