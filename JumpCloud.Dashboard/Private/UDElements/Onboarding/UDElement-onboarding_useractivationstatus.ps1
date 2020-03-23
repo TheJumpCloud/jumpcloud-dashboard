@@ -29,9 +29,9 @@ function UDElement-onboarding_userActivationStatus ()
                         foreach ($TabName in $TabNames)
                         {
                             New-UDTab -Text $TabName.Name -Content {
-                                $script:UserActivateEnabled = [System.Convert]::ToBoolean($TabName.Name)
+                                $script:UserActivationStatus = [System.Convert]::ToBoolean($TabName.Name)
                                 New-UDGrid -Header @("Username", "Activated", "UserID") -Properties @("Username", "Activated", "UserID") -Endpoint {
-                                    $Cache:DisplayUsers |  Where-Object { $_.activated -eq $UserActivateEnabled } | ForEach-Object {
+                                    $Cache:DisplayUsers |  Where-Object { $_.activated -eq $UserActivationStatus } | ForEach-Object {
                                         [PSCustomObject]@{
                                             Username = $_.Username;
                                             Activated = $_.activated;
