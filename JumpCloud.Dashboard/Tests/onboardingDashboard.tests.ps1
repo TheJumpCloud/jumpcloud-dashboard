@@ -13,7 +13,7 @@ Describe "Testing JumpCloud Onboarding Dashboard" {
     Context "Verifying Onboarding Dashboard Components" {
 
         It "Verifies the user activation status component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_useractivationstatus"
+            $Element = Find-SeElement -Driver $Driver -TagName "useractivationstatus"
             $Element.Displayed | Should Be $true
         }
 
