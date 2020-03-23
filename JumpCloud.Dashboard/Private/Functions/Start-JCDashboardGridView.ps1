@@ -35,11 +35,11 @@ Function Start-JCDashboardGridView() {
         # Create cache
         Write-Debug "$($_): Cache does not exist. Creating."
         $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
+        $UserCache = New-UserCache
 
         # Build out the PageLayout String
         if ($AllComponents.count -eq 1) {
             $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $AllComponents + '"}]}'
-            Write-Host $PageLayout
         } else {
             $i = 0
             $y = 4
@@ -64,6 +64,11 @@ Function Start-JCDashboardGridView() {
             }
             if ($DashboardSettings.'Dashboard'.Components.Users) {
                 $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
+                    Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+            if ($DashboardSettings.'Dashboard'.Components.Onboarding) {
+                $DashboardSettings.'Dashboard'.Components.Onboarding | ForEach-Object {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }

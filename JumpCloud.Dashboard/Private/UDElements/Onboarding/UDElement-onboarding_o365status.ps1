@@ -1,4 +1,4 @@
-function UDElement-onboarding_0365Status {
+function UDElement-onboarding_o365Status {
     param (
         $refreshInterval,
         $lastContactDays,
@@ -10,12 +10,12 @@ function UDElement-onboarding_0365Status {
     # 2. Assign to a variabl
     $Selected = Get-JCAssociation -Type ldap_server -Id 5d643a7745886d6f626593b7 -TargetType User
 
-    New-UDElement -Tag "onboarding_0365status" -Id "onboarding_0365status"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "onboarding_o365status" -Id "onboarding_o365status"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
 
-        New-UDChart -Title "onboarding_0365status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
+        New-UDChart -Title "onboarding_o365status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
             try {
                 # $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
                 $Selected | Group-Object -Property Name | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
