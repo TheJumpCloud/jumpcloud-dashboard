@@ -1,4 +1,3 @@
-
 Describe "Testing JumpCloud Onboarding Dashboard" {
     BeforeAll {
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
@@ -14,6 +13,11 @@ Describe "Testing JumpCloud Onboarding Dashboard" {
 
         It "Verifies the user activation status component" {
             $Element = Find-SeElement -Driver $Driver -TagName "useractivationstatus"
+            $Element.Displayed | Should Be $true
+        }
+
+        It "Verifies the system user associations component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "systemuserassociations"
             $Element.Displayed | Should Be $true
         }
 
