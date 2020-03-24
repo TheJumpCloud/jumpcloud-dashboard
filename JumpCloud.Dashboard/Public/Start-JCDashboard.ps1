@@ -106,7 +106,7 @@ Function Start-JCDashboard
             $attr.ValueFromPipelineByPropertyName = $true
             $attrColl = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
             $attrColl.Add($attr)
-            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates")))
+            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "onboarding_o365", "onboarding_ldap", "onbaording_gsuite", "onboarding_useractivationstatus")))
             $param = New-Object System.Management.Automation.RuntimeDefinedParameter('IncludeComponent', [array], $attrColl)
             $dict.Add('IncludeComponent', $param)
 
@@ -115,7 +115,7 @@ Function Start-JCDashboard
             $attr1.ValueFromPipelineByPropertyName = $true
             $attr1Coll = New-Object System.Collections.ObjectModel.Collection[System.attribute]
             $attr1Coll.Add($attr1)
-            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates")))
+            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "onboarding_o365", "onboarding_ldap", "onbaording_gsuite", "onboarding_useractivationstatus")))
             $param1 = New-Object System.Management.Automation.RuntimeDefinedParameter('ExcludeComponent', [array], $attr1Coll)
             $dict.Add('ExcludeComponent', $param1)
 
