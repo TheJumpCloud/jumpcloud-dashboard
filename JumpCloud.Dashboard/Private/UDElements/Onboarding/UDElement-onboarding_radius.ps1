@@ -4,30 +4,41 @@ function UDElement-onboarding_radius() {
         $unDrawColor
     )
 
-    $ServerHash = New-Object System.Collections.Specialized.OrderedDictionary
+    $ServerDict = New-Object System.Collections.Specialized.OrderedDictionary
     $pServers = Get-JCRadiusServer
     $rServers = Get-JCRadiusServer | Get-JCAssociation
     foreach ($server in $rServers) {
-        if ($ServerHash -notcontains ($server.id)) {
-            $ServerHash[$server.id] += @($server.targetID)
+        if ($ServerDict -notcontains ($server.id)) {
+            $ServerDict[$server.id] += @($server.targetID)
         }
         else {
-            $ServerHash.Add($server.id, @($server.targetID))
+            $ServerDict.Add($server.id, @($server.targetID))
         }
     }
     New-UDElement -Tag "onboarding_radius" -Id "onboarding_radius" -Endpoint {
-        New-UDGrid -Title "Radius Servers"  -Headers @("Server Name", "Bound Groups") -Properties @("Server Name", "Bound Groups") -NoFilter -Endpoint {
-            $ServerHash.Keys | ForEach-Object {
-                for ($i = 0; $i -le $pServers.Length; $i++) {
-                    if ($pServers[$i].id -eq $_) {
-                        # Write-Output "Server: " $pServers[$i].name $_
+        if ($pServers){
+            New-UDGrid -Title "Radius Servers"  -Headers @("Server Name", "Bound Groups") -Properties @("Server Name", "Bound Groups") -NoFilter -Endpoint {
+                $pServers | ForEach-Object {
+                    if ($_.id -in $ServerDict.Keys) {
                         [PSCustomObject]@{
-                            "Server Name"    = (New-UDLink -Text $pServers[$i].name -Url "https://console.jumpcloud.com/#/radius/$_/details" -OpenInNewWindow);
-                            "Bound Groups" = $ServerHash[$_].Length;
+                            "Server Name"  = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/radius/$($_._id)/details" -OpenInNewWindow);
+                            "Bound Groups" = $ServerDict[$_.id].Length;
                         }
                     }
-                }
-            } | Out-UDGridData
-        } -NoExport
+                    else{
+                        [PSCustomObject]@{
+                            "Server Name"  = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/radius/$($_._id)/details" -OpenInNewWindow);
+                            "Bound Groups" = 0;
+                        }
+                    }
+                } | Out-UDGridData
+            } -NoExport
+        }
+        else {
+            New-UDCard -Title "Radius Servers" -Content {
+                New-UDunDraw -Name "safe" -Color $unDrawColor
+                New-UDParagraph -Text "You have not configured any Radius Servers."
+            }
+        }
     }
 }
