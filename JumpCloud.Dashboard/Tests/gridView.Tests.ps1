@@ -1,7 +1,7 @@
 Describe "Testing GridView" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
-        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,onboarding_gsuite,onboarding_ldap,onboarding_o365,onboarding_radius,onboarding_systemuserassociations,onboarding_useractivationstatus -NoUpdate
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_systemuserassociations,associations_useractivationstatus -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
 
@@ -62,29 +62,29 @@ Describe "Testing GridView" {
             $Element.Displayed | Should Be $true
         }
     }
-    Context "Verifying Onboarding Dashboard Components" {
+    Context "Verifying associations Dashboard Components" {
         It "Verifies the gsuite component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_gsuite"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_gsuite"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the ldap component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_ldap"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_ldap"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the office365 component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_o365"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_o365"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the radius component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_radius"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_radius"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the systemuserassociation component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_systemuserassociations"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_systemuserassociations"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the userState component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_useractivationstatus"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_useractivationstatus"
             $Element.Displayed | Should Be $true
         }
     }

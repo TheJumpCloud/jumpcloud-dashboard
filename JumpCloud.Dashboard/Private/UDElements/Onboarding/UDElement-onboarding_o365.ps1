@@ -1,4 +1,4 @@
-function UDElement-onboarding_o365() {
+function UDElement-associations_o365() {
     param (
         $refreshInterval,
         $unDrawColor
@@ -21,7 +21,7 @@ function UDElement-onboarding_o365() {
         }
         $AllResults += $usrObject
     }
-    New-UDElement -Tag "onboarding_o365" -Id "onboarding_o365"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "associations_o365" -Id "associations_o365"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
         if ($Selected)
         {
 

@@ -25,13 +25,13 @@
                     "user_privilegedUsers",
                     "user_userStates"
                 ],
-                "Onboarding": [
-                    "onboarding_o365",
-                    "onboarding_gsuite",
-                    "onboarding_ldap",
-                    "onboarding_radius",
-                    "onboarding_useractivationstatus",
-                    "onboarding_systemuserassociations"
+                "associations": [
+                    "associations_o365",
+                    "associations_gsuite",
+                    "associations_ldap",
+                    "associations_radius",
+                    "associations_useractivationstatus",
+                    "associations_systemuserassociations"
                 ]
             }
         },
@@ -46,7 +46,7 @@
                 "refreshInterval": 60
             }
         },
-        "3Get-UDOnBoarding": {
+        "3Get-UDassociations": {
             "Settings": {
                 "refreshInterval": 60
             }

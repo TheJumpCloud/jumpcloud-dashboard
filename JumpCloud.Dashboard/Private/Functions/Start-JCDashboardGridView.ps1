@@ -22,8 +22,8 @@ Function Start-JCDashboardGridView() {
             $AllComponents += $_.trim()
         }
     }
-    if ($DashboardSettings.'Dashboard'.Components.Onboarding) {
-        $DashboardSettings.'Dashboard'.Components.Onboarding | ForEach-Object {
+    if ($DashboardSettings.'Dashboard'.Components.associations) {
+        $DashboardSettings.'Dashboard'.Components.associations | ForEach-Object {
             $AllComponents += $_.trim()
         }
     }
@@ -67,8 +67,8 @@ Function Start-JCDashboardGridView() {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }
-            if ($DashboardSettings.'Dashboard'.Components.Onboarding) {
-                $DashboardSettings.'Dashboard'.Components.Onboarding | ForEach-Object {
+            if ($DashboardSettings.'Dashboard'.Components.associations) {
+                $DashboardSettings.'Dashboard'.Components.associations | ForEach-Object {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }

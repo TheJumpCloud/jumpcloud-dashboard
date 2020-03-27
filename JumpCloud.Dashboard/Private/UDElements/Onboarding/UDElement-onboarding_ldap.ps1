@@ -1,4 +1,4 @@
-function UDElement-onboarding_ldap() {
+function UDElement-associations_ldap() {
     param (
         $refreshInterval,
         $unDrawColor
@@ -23,7 +23,7 @@ function UDElement-onboarding_ldap() {
     }
 
 
-    New-UDElement -Tag "onboarding_ldap" -Id "onboarding_ldap"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "associations_ldap" -Id "associations_ldap"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
         if ($Selected){
             $LegendOptions = New-UDChartLegendOptions -Position bottom
             $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions

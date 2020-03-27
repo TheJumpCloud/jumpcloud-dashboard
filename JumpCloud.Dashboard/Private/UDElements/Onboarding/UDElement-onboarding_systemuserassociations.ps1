@@ -1,4 +1,4 @@
-function UDElement-onboarding_systemuserassociations ()
+function UDElement-associations_systemuserassociations ()
 {
     param (
         $refreshInterval,
@@ -21,7 +21,7 @@ function UDElement-onboarding_systemuserassociations ()
     # }
     # $busers | Group-Object -Property HostName | Group-Object -Property Count| Select-Object Name, Count
 
-    New-UDElement -Tag "onboarding_systemuserassociations" -Id "onboarding_systemuserassociations"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "associations_systemuserassociations" -Id "associations_systemuserassociations"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions

@@ -1,4 +1,4 @@
-function UDElement-onboarding_gsuite() {
+function UDElement-associations_gsuite() {
     param (
         $refreshInterval,
         $unDrawColor
@@ -23,7 +23,7 @@ function UDElement-onboarding_gsuite() {
     }
 
 
-    New-UDElement -Tag "onboarding_gsuite" -Id "onboarding_gsuite"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "associations_gsuite" -Id "associations_gsuite"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
         if ($Selected){
             $LegendOptions = New-UDChartLegendOptions -Position bottom
             $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions

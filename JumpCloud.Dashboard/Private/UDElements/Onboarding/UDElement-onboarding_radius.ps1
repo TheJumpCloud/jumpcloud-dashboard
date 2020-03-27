@@ -1,4 +1,4 @@
-function UDElement-onboarding_radius() {
+function UDElement-associations_radius() {
     param (
         $refreshInterval,
         $unDrawColor
@@ -15,7 +15,7 @@ function UDElement-onboarding_radius() {
             $ServerDict.Add($server.id, @($server.targetID))
         }
     }
-    New-UDElement -Tag "onboarding_radius" -Id "onboarding_radius" -Endpoint {
+    New-UDElement -Tag "associations_radius" -Id "associations_radius" -Endpoint {
         if ($allServers){
             New-UDGrid -Title "Radius Servers"  -Headers @("Server Name", "IP Address", "Bound User Groups") -Properties @("Server Name", "IP Address", "Bound User Groups") -NoFilter -Endpoint {
                 $allServers | ForEach-Object {
