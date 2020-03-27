@@ -31,7 +31,7 @@ Describe "Testing JumpCloud Onboarding Dashboard" {
             $Element.Displayed | Should Be $true
         }
         It "Verifies the userState component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_userStates"
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_useractivationstatus"
             $Element.Displayed | Should Be $true
         }
     }

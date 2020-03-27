@@ -1,7 +1,7 @@
 Describe "Testing JumpCloud Systems Dashboard" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
-        $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent "system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "onboarding_gsuite", "onboarding_ldap", "onboarding_o365", "onboarding_radius". "onboarding_systemuserassociations", "onboarding_userStates"-cycleInterval 5
+        $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent "system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "onboarding_gsuite", "onboarding_ldap", "onboarding_o365", "onboarding_radius". "onboarding_systemuserassociations", "onboarding_useractivationstatus"-cycleInterval 5
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     }
