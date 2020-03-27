@@ -1,7 +1,7 @@
 Describe "Testing GridView" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
-        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_systemuserassociations,associations_useractivationstatus -NoUpdate
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_syspolicy,associations_useractivationstatus -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
 
@@ -80,7 +80,7 @@ Describe "Testing GridView" {
             $Element.Displayed | Should Be $true
         }
         It "Verifies the systemuserassociation component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "associations_systemuserassociations"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_syspolicy"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the userState component" {

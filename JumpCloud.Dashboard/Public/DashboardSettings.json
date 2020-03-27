@@ -31,7 +31,7 @@
                     "associations_ldap",
                     "associations_radius",
                     "associations_useractivationstatus",
-                    "associations_systemuserassociations"
+                    "associations_syspolicy"
                 ]
             }
         },

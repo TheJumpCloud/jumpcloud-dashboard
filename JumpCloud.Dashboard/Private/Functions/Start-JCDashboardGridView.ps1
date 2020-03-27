@@ -22,8 +22,8 @@ Function Start-JCDashboardGridView() {
             $AllComponents += $_.trim()
         }
     }
-    if ($DashboardSettings.'Dashboard'.Components.associations) {
-        $DashboardSettings.'Dashboard'.Components.associations | ForEach-Object {
+    if ($DashboardSettings.'Dashboard'.Components.Associations) {
+        $DashboardSettings.'Dashboard'.Components.Associations | ForEach-Object {
             $AllComponents += $_.trim()
         }
     }

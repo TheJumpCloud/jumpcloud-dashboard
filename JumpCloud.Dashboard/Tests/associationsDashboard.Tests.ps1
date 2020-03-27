@@ -27,7 +27,7 @@ Describe "Testing JumpCloud associations Dashboard" {
             $Element.Displayed | Should Be $true
         }
         It "Verifies the systemuserassociation component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "associations_systemuserassociations"
+            $Element = Find-SeElement -Driver $Driver -TagName "associations_syspolicy"
             $Element.Displayed | Should Be $true
         }
         It "Verifies the userState component" {
