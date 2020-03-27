@@ -17,18 +17,20 @@ function UDElement-onboarding_radius() {
     }
     New-UDElement -Tag "onboarding_radius" -Id "onboarding_radius" -Endpoint {
         if ($allServers){
-            New-UDGrid -Title "Radius Servers"  -Headers @("Server Name", "Bound Groups") -Properties @("Server Name", "Bound Groups") -NoFilter -Endpoint {
+            New-UDGrid -Title "Radius Servers"  -Headers @("Server Name", "IP Address", "Bound User Groups") -Properties @("Server Name", "IP Address", "Bound User Groups") -NoFilter -Endpoint {
                 $allServers | ForEach-Object {
                     if ($_.id -in $ServerDict.Keys) {
                         [PSCustomObject]@{
                             "Server Name"  = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/radius/$($_._id)/details" -OpenInNewWindow);
-                            "Bound Groups" = $ServerDict[$_.id].Length;
+                            "IP Address" = $_.networkSourceIp;
+                            "Bound User Groups" = $ServerDict[$_.id].Length;
                         }
                     }
                     else{
                         [PSCustomObject]@{
                             "Server Name"  = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/radius/$($_._id)/details" -OpenInNewWindow);
-                            "Bound Groups" = 0;
+                            "IP Address" = $_.networkSourceIp;
+                            "Bound User Groups" = 0;
                         }
                     }
                 } | Out-UDGridData
