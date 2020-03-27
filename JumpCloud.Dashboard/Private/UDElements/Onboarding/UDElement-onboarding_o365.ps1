@@ -63,9 +63,9 @@ function UDElement-onboarding_o365() {
         }
         else
         {
-            New-UDCard -Title "New O365 Binding Status" -Content {
+            New-UDCard -Title "O365 Binding Status" -Content {
                 New-UDunDraw -Name "add-user" -Color $unDrawColor
-                New-UDParagraph -Text "No Office 365 Users Exist"
+                New-UDParagraph -Text "No Office 365 users have been bound"
             }
         }
     }

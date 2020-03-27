@@ -5,9 +5,9 @@ function UDElement-onboarding_radius() {
     )
 
     $ServerDict = New-Object System.Collections.Specialized.OrderedDictionary
-    $pServers = Get-JCRadiusServer
-    $rServers = Get-JCRadiusServer | Get-JCAssociation
-    foreach ($server in $rServers) {
+    $allServers = Get-JCRadiusServer
+    $filteredServers = Get-JCRadiusServer | Get-JCAssociation
+    foreach ($server in $filteredServers) {
         if ($ServerDict -notcontains ($server.id)) {
             $ServerDict[$server.id] += @($server.targetID)
         }
@@ -16,9 +16,9 @@ function UDElement-onboarding_radius() {
         }
     }
     New-UDElement -Tag "onboarding_radius" -Id "onboarding_radius" -Endpoint {
-        if ($pServers){
+        if ($allServers){
             New-UDGrid -Title "Radius Servers"  -Headers @("Server Name", "Bound Groups") -Properties @("Server Name", "Bound Groups") -NoFilter -Endpoint {
-                $pServers | ForEach-Object {
+                $allServers | ForEach-Object {
                     if ($_.id -in $ServerDict.Keys) {
                         [PSCustomObject]@{
                             "Server Name"  = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/radius/$($_._id)/details" -OpenInNewWindow);
