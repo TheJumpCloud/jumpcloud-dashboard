@@ -29,6 +29,7 @@
                     "onboarding_o365",
                     "onboarding_gsuite",
                     "onboarding_ldap",
+                    "onboarding_radius",
                     "onboarding_useractivationstatus"
                 ]
             }

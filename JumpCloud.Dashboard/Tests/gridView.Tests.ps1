@@ -62,6 +62,32 @@ Describe "Testing GridView" {
             $Element.Displayed | Should Be $true
         }
     }
+    Context "Verifying Onboarding Dashboard Components" {
+        It "Verifies the gsuite component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_gsuite"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the ldap component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_ldap"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the office365 component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_o365"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the radius component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_radius"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the systemuserassociation component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_systemuserassociations"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the userState component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_userStates"
+            $Element.Displayed | Should Be $true
+        }
+    }
     AfterAll {
         Stop-SeDriver $Driver
         Get-UDDashboard | Stop-UDDashboard

@@ -10,20 +10,33 @@ Describe "Testing JumpCloud Onboarding Dashboard" {
         }
     }
     Context "Verifying Onboarding Dashboard Components" {
-
-        It "Verifies the user activation status component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "useractivationstatus"
+        It "Verifies the gsuite component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_gsuite"
             $Element.Displayed | Should Be $true
         }
-
-        It "Verifies the system user associations component" {
-            $Element = Find-SeElement -Driver $Driver -TagName "systemuserassociations"
+        It "Verifies the ldap component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_ldap"
             $Element.Displayed | Should Be $true
         }
-
-        AfterAll {
-            Stop-SeDriver $Driver
-            Get-UDDashboard | Stop-UDDashboard
+        It "Verifies the office365 component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_o365"
+            $Element.Displayed | Should Be $true
         }
+        It "Verifies the radius component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_radius"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the systemuserassociation component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_systemuserassociations"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the userState component" {
+            $Element = Find-SeElement -Driver $Driver -TagName "onboarding_userStates"
+            $Element.Displayed | Should Be $true
+        }
+    }
+    AfterAll {
+        Stop-SeDriver $Driver
+        Get-UDDashboard | Stop-UDDashboard
     }
 }
