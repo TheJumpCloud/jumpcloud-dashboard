@@ -1,7 +1,7 @@
 Describe "Testing GridView" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
-        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates -NoUpdate
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,onboarding_gsuite,onboarding_ldap,onboarding_o365,onboarding_radius,onboarding_systemuserassociations,onboarding_userStates -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
 
