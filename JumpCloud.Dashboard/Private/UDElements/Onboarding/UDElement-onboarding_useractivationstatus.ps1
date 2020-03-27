@@ -6,7 +6,7 @@ function UDElement-onboarding_userActivationStatus ()
         $unDrawColor
     )
 
-    New-UDElement -Tag "useractivationstatus" -Id "useractivationstatus"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
+    New-UDElement -Tag "onboarding_useractivationstatus" -Id "onboarding_useractivationstatus"  -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         $LegendOptions = New-UDChartLegendOptions -Position bottom
         $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
