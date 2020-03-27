@@ -30,7 +30,8 @@
                     "onboarding_gsuite",
                     "onboarding_ldap",
                     "onboarding_radius",
-                    "onboarding_useractivationstatus"
+                    "onboarding_useractivationstatus",
+                    "onboarding_systemuserassociations"
                 ]
             }
         },
