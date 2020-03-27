@@ -13,7 +13,7 @@ Function 3Get-UDOnboarding() {
 
         [int]$refreshInterval = $refreshInterval
 
-        $PageLayout = '{"lg":[{"w":4,"h":10,"x":0,"y":0,"i":"grid-element-onboarding_ldap","moved":false,"static":false},{"w":4,"h":10,"x":4,"y":0,"i":"grid-element-useractivationstatus","moved":false,"static":false},{"w":4,"h":10,"x":0,"y":1,"i":"grid-element-onboarding_gsuite","moved":false,"static":false},{"w":4,"h":10,"x":4,"y":1,"i":"grid-element-systemuserassociations","moved":false,"static":false},{"w":4,"h":10,"x":8,"y":0,"i":"grid-element-onboarding_radius","moved":false,"static":false},{"w":4,"h":10,"x":8,"y":1,"i":"grid-element-onboarding_o365","moved":false,"static":false}]}'
+        $PageLayout = '{"lg":[{"w":4,"h":10,"x":0,"y":0,"i":"grid-element-onboarding_ldap","moved":false,"static":false},{"w":4,"h":10,"x":4,"y":0,"i":"grid-element-onboarding_useractivationstatus","moved":false,"static":false},{"w":4,"h":10,"x":0,"y":1,"i":"grid-element-onboarding_gsuite","moved":false,"static":false},{"w":4,"h":10,"x":4,"y":1,"i":"grid-element-onboarding_systemuserassociations","moved":false,"static":false},{"w":4,"h":10,"x":8,"y":0,"i":"grid-element-onboarding_radius","moved":false,"static":false},{"w":4,"h":10,"x":8,"y":1,"i":"grid-element-onboarding_o365","moved":false,"static":false}]}'
         $unDrawColor = "#006cac"
 
         New-UDGridLayout -Layout $PageLayout -Content {
