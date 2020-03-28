@@ -106,7 +106,7 @@ Function Start-JCDashboard
             $attr.ValueFromPipelineByPropertyName = $true
             $attrColl = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
             $attrColl.Add($attr)
-            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_ldap", "associations_gsuite", "associations_radius", "associations_useractivationstatus", "associations_syspolicy")))
+            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_gsuite", "associations_ldap", "associations_radius", "associations_useractivationstatus", "associations_syspolicy")))
             $param = New-Object System.Management.Automation.RuntimeDefinedParameter('IncludeComponent', [array], $attrColl)
             $dict.Add('IncludeComponent', $param)
 
@@ -115,7 +115,7 @@ Function Start-JCDashboard
             $attr1.ValueFromPipelineByPropertyName = $true
             $attr1Coll = New-Object System.Collections.ObjectModel.Collection[System.attribute]
             $attr1Coll.Add($attr1)
-            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_ldap", "associations_gsuite", "associations_radius", "associations_useractivationstatus", "associations_syspolicy")))
+            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_gsuite", "associations_ldap", "associations_radius", "associations_useractivationstatus", "associations_syspolicy")))
             $param1 = New-Object System.Management.Automation.RuntimeDefinedParameter('ExcludeComponent', [array], $attr1Coll)
             $dict.Add('ExcludeComponent', $param1)
 
@@ -244,13 +244,13 @@ Function Start-JCDashboard
         {
             $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -in $IncludeComponent }
             $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -in $IncludeComponent }
-            $DashboardSettings.'Dashboard'.Components.associations = $DashboardSettings.'Dashboard'.Components.associations | Where-Object { $_ -in $IncludeComponent }
+            $DashboardSettings.'Dashboard'.Components.Associations = $DashboardSettings.'Dashboard'.Components.Associations | Where-Object { $_ -in $IncludeComponent }
         }
         if ($ExcludeComponent)
         {
             $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -notin $ExcludeComponent }
             $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -notin $ExcludeComponent }
-            $DashboardSettings.'Dashboard'.Components.associations = $DashboardSettings.'Dashboard'.Components.associations | Where-Object { $_ -notin $ExcludeComponent }
+            $DashboardSettings.'Dashboard'.Components.Associations = $DashboardSettings.'Dashboard'.Components.Associations | Where-Object { $_ -notin $ExcludeComponent }
         }
         if ($Port)
         {

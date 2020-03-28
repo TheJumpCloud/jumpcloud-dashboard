@@ -25,7 +25,7 @@
                     "user_privilegedUsers",
                     "user_userStates"
                 ],
-                "associations": [
+                "Associations": [
                     "associations_o365",
                     "associations_gsuite",
                     "associations_ldap",
@@ -46,7 +46,7 @@
                 "refreshInterval": 60
             }
         },
-        "3Get-UDassociations": {
+        "3Get-UDAssociations": {
             "Settings": {
                 "refreshInterval": 60
             }
