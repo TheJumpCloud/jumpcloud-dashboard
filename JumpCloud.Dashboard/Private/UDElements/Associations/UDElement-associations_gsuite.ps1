@@ -27,7 +27,7 @@ function UDElement-associations_gsuite() {
         if ($Selected){
             $LegendOptions = New-UDChartLegendOptions -Position bottom
             $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
-            New-UDChart -Title "G-Suite Binding Status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
+            New-UDChart -Title "G Suite Binding Status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
                 try {
                     # $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
                     $AllResults | Group-Object -Property Dir | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
@@ -62,7 +62,7 @@ function UDElement-associations_gsuite() {
         else {
             New-UDCard -Title "G-Suite Binding Status" -Content {
                 New-UDunDraw -Name "add-user" -Color $unDrawColor
-                New-UDParagraph -Text "No G-Suite users have been bound"
+                New-UDParagraph -Text "No G Suite users have been bound"
             }
         }
     }
