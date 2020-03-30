@@ -5,10 +5,12 @@ function UDElement-associations_syspolicy() {
     )
 
     $p = Get-JCPolicy
-    $spa = $p | Get-JCAssociation -Type policy -TargetType system
-    $sgpa = $p | Get-JCAssociation -Type policy -TargetType system_group
+    if ($p.Template.Length -gt 0) {
+        $spa = $p | Get-JCAssociation -Type policy -TargetType system
+        $sgpa = $p | Get-JCAssociation -Type policy -TargetType system_group
+    }
     New-UDElement -Tag "associations_syspolicy" -Id "associations_syspolicy" -Endpoint {
-        if ($p) {
+        if ($p.Template.Length -gt 0) {
             New-UDGrid -Title "Policy Associations"  -Headers @("Policy Name", "Bound Systems", "Bound Groups") -Properties @("Policy Name", "Bound Systems", "Bound Groups") -NoFilter -Endpoint {
                 $p | ForEach-Object {
                     $sysCount = 0
