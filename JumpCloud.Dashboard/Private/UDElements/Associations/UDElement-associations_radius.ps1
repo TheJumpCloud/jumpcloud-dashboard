@@ -38,7 +38,7 @@ function UDElement-associations_radius() {
         }
         else {
             New-UDCard -Title "Radius Servers" -Content {
-                New-UDunDraw -Name "safe" -Color $unDrawColor
+                New-UDunDraw -Name "broadcast" -Color $unDrawColor
                 New-UDParagraph -Text "You have not configured any Radius Servers."
             }
         }

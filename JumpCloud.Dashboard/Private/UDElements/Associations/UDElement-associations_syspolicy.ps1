@@ -24,7 +24,7 @@ function UDElement-associations_syspolicy() {
                         }
                     }
                     [PSCustomObject]@{
-                        "Policy Name"   = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/policies/$($_._id)/details" -OpenInNewWindow);
+                        "Policy Name"   = (New-UDLink -Text $_.name -Url "https://console.jumpcloud.com/#/policies/$($_.id)/details" -OpenInNewWindow);
                         "Bound Systems" = $sysCount;
                         "Bound Groups" = $grpCount;
                     }
@@ -34,8 +34,8 @@ function UDElement-associations_syspolicy() {
         }
         else {
             New-UDCard -Title "Policy Associations" -Content {
-                New-UDunDraw -Name "safe" -Color $unDrawColor
-                New-UDParagraph -Text "You have not configured any system Policies."
+                New-UDunDraw -Name "real-time-sync" -Color $unDrawColor
+                New-UDParagraph -Text "You have not configured any system policies."
             }
         }
     }
