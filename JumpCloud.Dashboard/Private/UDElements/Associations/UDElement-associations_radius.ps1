@@ -6,13 +6,15 @@ function UDElement-associations_radius() {
 
     $ServerDict = New-Object System.Collections.Specialized.OrderedDictionary
     $allServers = Get-JCRadiusServer
-    $filteredServers = Get-JCRadiusServer | Get-JCAssociation
-    foreach ($server in $filteredServers) {
-        if ($ServerDict -notcontains ($server.id)) {
-            $ServerDict[$server.id] += @($server.targetID)
-        }
-        else {
-            $ServerDict.Add($server.id, @($server.targetID))
+    if ($allServers){
+        $filteredServers = Get-JCRadiusServer | Get-JCAssociation
+        foreach ($server in $filteredServers) {
+            if ($ServerDict -notcontains ($server.id)) {
+                $ServerDict[$server.id] += @($server.targetID)
+            }
+            else {
+                $ServerDict.Add($server.id, @($server.targetID))
+            }
         }
     }
     New-UDElement -Tag "associations_radius" -Id "associations_radius" -Endpoint {
