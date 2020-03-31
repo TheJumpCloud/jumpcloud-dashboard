@@ -2,7 +2,7 @@ Describe "Testing JumpCloud associations Dashboard" {
     BeforeAll {
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
         $Driver = Start-SeFirefox -Headless
-        Enter-SeUrl "http://127.0.0.1:8003/associations" -Driver $Driver
+        Open-SeUrl "http://127.0.0.1:8003/associations" -Driver $Driver
         # wait for large orgs
         $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
         if ($TotalUsers -gt 1000) {
