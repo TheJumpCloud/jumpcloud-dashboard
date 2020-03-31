@@ -10,7 +10,7 @@ Function New-UserCache
         $Cache:DisplayUsers = Get-JCUser
     }
 
-    New-UDElement -Tag "UserCache" -Id "UserCache" -AutoRefresh $refreshInterval -Endpoint {
+    New-UDElement -Tag "UserCache" -Id "UserCache" -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {
         Write-Debug "Loading user Content cache $(Get-Date)"
         $Cache:DisplayUsers = Get-JCUser
     }

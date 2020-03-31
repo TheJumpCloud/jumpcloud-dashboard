@@ -30,7 +30,7 @@ function UDElement-associations_ldap() {
             New-UDChart -Title "LDAP Binding Status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
                 try {
                     # $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
-                    $AllResults | Group-Object -Property Dir | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+                    $AllResults | Group-Object -Property Dir | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
                 }
                 catch {
                     0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
