@@ -6,7 +6,7 @@ Function 3Get-UDAssociations() {
         [Parameter(ValueFromPipelineByPropertyName)]
         $refreshInterval
     )
-    $UserCache = New-UserCache
+    $UserCache = New-UserCache -refreshInterval $refreshInterval
     $PageName = 'associations'
 
     $UDPage = New-UDPage -Name:($PageName) -Content {

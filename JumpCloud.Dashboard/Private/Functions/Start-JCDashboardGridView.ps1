@@ -35,7 +35,7 @@ Function Start-JCDashboardGridView() {
         # Create cache
         Write-Debug "$($_): Cache does not exist. Creating."
         $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
-        $UserCache = New-UserCache
+        $UserCache = New-UserCache -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
 
         # Build out the PageLayout String
         if ($AllComponents.count -eq 1) {
