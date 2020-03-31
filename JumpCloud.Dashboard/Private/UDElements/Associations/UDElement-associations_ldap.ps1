@@ -1,0 +1,69 @@
+function UDElement-associations_ldap() {
+    param (
+        $refreshInterval,
+        $unDrawColor
+    )
+
+    $Users = Get-JCUser
+    $Selected = Get-JCAssociation -Type ldap_server -Name jumpcloud -TargetType User | Select-Object targetId
+    $AllResults = @()
+    $Users | ForEach-Object {
+        $usrObject = [PSCustomObject]@{
+            ID   = $_.id
+            Dir  = ''
+            Name = $_.username
+        }
+        if ($Selected.targetId -eq $_.id) {
+            $usrObject.Dir = "Bound"
+        }
+        else {
+            $usrObject.Dir = "Not Bound"
+        }
+        $AllResults += $usrObject
+    }
+
+
+    New-UDElement -Tag "associations_ldap" -Id "associations_ldap"  -RefreshInterval  $refreshInterval -AutoRefresh -Content {
+        if ($Selected){
+            $LegendOptions = New-UDChartLegendOptions -Position bottom
+            $CircleChartOptions = New-UDLineChartOptions -LegendOptions $LegendOptions
+            New-UDChart -Title "LDAP Binding Status" -Type Doughnut -AutoRefresh -RefreshInterval $refreshInterval  -Endpoint {
+                try {
+                    # $Cache:DisplaySystems | Group-Object -Property os | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0") -HoverBackgroundColor @("#2cc692", "#ffb000", "#006cac", "#e54852", "#9080e0")
+                    $AllResults | Group-Object -Property Dir | Select-object Count, Name | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -BackgroundColor @("#e54852", "#2cc692") -HoverBackgroundColor @("#e54852", "#2cc692")
+                }
+                catch {
+                    0 | Out-UDChartData -DataProperty "Count" -LabelProperty "Name"
+                }
+            } -Options $CircleChartOptions -OnClick {
+                if ($EventData -ne "[]") {
+                    $TabNames = $AllResults | Group-Object -Property Dir | Select-object Name
+                    Show-UDModal -Content {
+                        New-UDTabContainer -Tabs {
+                            foreach ($TabName in $TabNames) {
+                                New-UDTab -Text $TabName.Name -Content {
+                                    $script:DirType = $TabName.Name
+                                    New-UDGrid -Header @("Username", "Directory Binding Status", "User ID") -Properties @("Name", "Dir", "ID") -Endpoint {
+                                        $AllResults | Where-Object { $_.Dir -eq $DirType } | ForEach-Object {
+                                            [PSCustomObject]@{
+                                                Name = $_.Name
+                                                Dir = $_.Dir
+                                                ID = $_.ID;
+                                            }
+                                        } | Out-UDGridData
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            New-UDCard -Title "LDAP Binding Status" -Content {
+                New-UDunDraw -Name "add-user" -Color $unDrawColor
+                New-UDParagraph -Text "No LDAP users have been bound"
+            }
+        }
+    }
+}

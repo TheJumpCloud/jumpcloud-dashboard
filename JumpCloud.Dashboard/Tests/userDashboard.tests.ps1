@@ -7,7 +7,7 @@ Describe "Testing JumpCloud Users Dashboard" {
         # wait for large orgs
         $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
         if ($TotalUsers -gt 1000) {
-            Start-Sleep -s 30
+            Start-Sleep -s 45
         }
     }
     Context "Verifying SystemUsers Dashboard Components" {

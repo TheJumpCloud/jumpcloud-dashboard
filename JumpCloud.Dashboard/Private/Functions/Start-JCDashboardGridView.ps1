@@ -22,6 +22,11 @@ Function Start-JCDashboardGridView() {
             $AllComponents += $_.trim()
         }
     }
+    if ($DashboardSettings.'Dashboard'.Components.Associations) {
+        $DashboardSettings.'Dashboard'.Components.Associations | ForEach-Object {
+            $AllComponents += $_.trim()
+        }
+    }
 
     $Script:DashboardSettings = $DashboardSettings
 
@@ -30,11 +35,11 @@ Function Start-JCDashboardGridView() {
         # Create cache
         Write-Debug "$($_): Cache does not exist. Creating."
         $SystemCache = New-SystemCache -lastContactDays:($DashboardSettings.'Dashboard'.Settings.lastContactDays) -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
+        $UserCache = New-UserCache -refreshInterval:($DashboardSettings.'Dashboard'.Settings.refreshInterval)
 
         # Build out the PageLayout String
         if ($AllComponents.count -eq 1) {
             $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $AllComponents + '"}]}'
-            Write-Host $PageLayout
         } else {
             $i = 0
             $y = 4
@@ -59,6 +64,11 @@ Function Start-JCDashboardGridView() {
             }
             if ($DashboardSettings.'Dashboard'.Components.Users) {
                 $DashboardSettings.'Dashboard'.Components.Users | ForEach-Object {
+                    Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+            if ($DashboardSettings.'Dashboard'.Components.associations) {
+                $DashboardSettings.'Dashboard'.Components.associations | ForEach-Object {
                     Invoke-Expression "UDElement-$($_) -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
                 }
             }

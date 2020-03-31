@@ -24,6 +24,14 @@
                     "user_passwordExpirations",
                     "user_privilegedUsers",
                     "user_userStates"
+                ],
+                "Associations": [
+                    "associations_o365",
+                    "associations_gsuite",
+                    "associations_ldap",
+                    "associations_radius",
+                    "associations_useractivationstatus",
+                    "associations_syspolicy"
                 ]
             }
         },
@@ -35,6 +43,11 @@
         "2Get-UDSystems": {
             "Settings": {
                 "lastContactDays": 30,
+                "refreshInterval": 60
+            }
+        },
+        "3Get-UDAssociations": {
+            "Settings": {
                 "refreshInterval": 60
             }
         }
