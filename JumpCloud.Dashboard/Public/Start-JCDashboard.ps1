@@ -257,9 +257,6 @@ Function Start-JCDashboard
             $DashboardSettings.'Dashboard'.Settings.Port = $Port
         }
 
-        #$UDSideNavItems = @()
-        #$Scripts = @()
-        #$Stylesheets = @()
 
         if ($Layout -eq "default")
         {
