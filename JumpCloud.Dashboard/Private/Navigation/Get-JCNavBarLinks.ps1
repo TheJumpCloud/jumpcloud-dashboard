@@ -4,6 +4,7 @@ function Get-JCNavBarLinks ()
         (New-UDLink -Text "Users" -Url "../SystemUsers"),
         (New-UDLink -Text "Systems" -Url "../Systems"),
         (New-UDLink -Text "Associations" -Url "../Associations")
+        (New-UDLink -Text "Directory" -Url "../Directory")
     )
 }
 

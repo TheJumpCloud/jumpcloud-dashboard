@@ -50,6 +50,11 @@
             "Settings": {
                 "refreshInterval": 60
             }
+        },
+        "4Get-UDDirectoryInsights": {
+            "Settings": {
+                "refreshInterval": 60
+            }
         }
     }
 ]
