@@ -2,7 +2,6 @@ function UDElement-directoryinsights_count
 {
     param (
         $refreshInterval,
-        $eventDays,
         $unDrawColor
     )
 

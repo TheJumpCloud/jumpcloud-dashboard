@@ -32,6 +32,9 @@
                     "associations_radius",
                     "associations_useractivationstatus",
                     "associations_syspolicy"
+                ],
+                "DirectoryInsights": [
+                    "directoryinsights_count"
                 ]
             }
         },
@@ -53,7 +56,8 @@
         },
         "4Get-UDDirectoryInsights": {
             "Settings": {
-                "refreshInterval": 60
+                "refreshInterval": 60,
+                "eventDays": 7
             }
         }
     }
