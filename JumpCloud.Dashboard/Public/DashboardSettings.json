@@ -57,7 +57,7 @@
         "4Get-UDDirectoryInsights": {
             "Settings": {
                 "refreshInterval": 60,
-                "eventDays": 7
+                "eventDays": 14
             }
         }
     }
