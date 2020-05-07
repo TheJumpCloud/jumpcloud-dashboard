@@ -11,7 +11,7 @@ function Get-SingleEventModal
                 'Initiated By' = "$($SingleEvent.initiated_by)"
                 'GeoIP' = "$($SingleEvent.geoip)"
                 'Resource' = "$($SingleEvent.resource)"
-                'Changes' = "$($SingleEvent.changes | Out-String)"
+                'Changes' = "$($SingleEvent.changes | ConvertTo-Json)"
                 'Authentication Method' = $SingleEvent.auth_method
                 'Event Type' = $SingleEvent.event_type
                 'Organization' = $SingleEvent.organization
