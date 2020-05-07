@@ -10,7 +10,7 @@ function Get-GroupAssociationChange
     $targetType = $associationChangeEvent.association.connection.to.type
     $targetId = $associationChangeEvent.association.connection.to.object_id
     $operation = $associationChangeEvent.association.op
-
+    $timestamp = $associationChangeEvent.timestamp
     # Set operation syntax
     if ($operation -eq "add") {
         $operation = "added to"
@@ -18,7 +18,7 @@ function Get-GroupAssociationChange
         $operation = "removed from"
     }
 
-    # Set Group Name
+     # Set Group Name
     if ($groupType -eq "USER_GROUP") {
         $groupName = (Get-JCGroup -Type User | Where-Object { $_.id -eq $groupId }).name
     } elseif ($groupType -eq "SYSTEM_GROUP") {
@@ -45,6 +45,13 @@ function Get-GroupAssociationChange
         $targetName = $content.displayName
     }
 
-    $event = "$($targetType) `"$($targetName)`" $($operation) $($groupType) `"$($groupName)`""
-    $event
+    [PSCustomObject]@{
+       TargetType = $targetType;
+        TargetName = $targetName;
+        Action = $operation;
+        GroupName = $groupName;
+        Timestamp = $timestamp
+    }
+    #$event = "$($targetType) `"$($targetName)`" $($operation) $($groupType) `"$($groupName)`""
+    #$event
 }
