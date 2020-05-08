@@ -2,6 +2,7 @@ Describe 'Build Tests' {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
+        $Driver = Start-SeFirefox -Headless
     }
     Context 'Check Files Exist' {
         $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
@@ -16,7 +17,6 @@ Describe 'Build Tests' {
         }
     }
     Context "Verifying SystemUsers Dashboard Components" {
-        $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/SystemUsers" -Driver $Driver
         It "Verifies the NewUsers component" {
             waitForElement 'user_newUsers' $waitTime -byName
@@ -50,7 +50,6 @@ Describe 'Build Tests' {
         }
     }
     Context "Verifying System Dashboard Components" {
-        $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Systems" -Driver $Driver
         It "Verifies the OS component" {
             waitForElement 'system_os' $waitTime -byName
@@ -84,7 +83,6 @@ Describe 'Build Tests' {
         }
     }
     Context "Verifying associations Dashboard Components" {
-        $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/associations" -Driver $Driver
         It "Verifies the gsuite component" {
             waitForElement 'associations_gsuite' $waitTime -byName
@@ -118,7 +116,7 @@ Describe 'Build Tests' {
         }
     }
     AfterAll {
-        Stop-SeDriver $Driver
+        # Stop-SeDriver $Driver
         Get-UDDashboard | Stop-UDDashboard
     }
 }
