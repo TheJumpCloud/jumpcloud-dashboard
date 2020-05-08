@@ -30,6 +30,7 @@ Describe "Testing JumpCloud Systems Dashboard" {
             $testname = $expected[$i].Name
             It "Verify the individualComponent: $testname is displayed" {
                 For ($t = 0; $t -lt $timeout; $t++) {
+                    waitForElement $expected[$i].Name $waitTime -byName
                     $Element = Find-SeElement -Driver $Driver -TagName $expected[$i].Name
                     If ($Element -ne $null) {
                         $Capture = $Element
