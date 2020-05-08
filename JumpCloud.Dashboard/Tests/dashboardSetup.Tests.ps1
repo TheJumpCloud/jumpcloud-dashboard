@@ -116,7 +116,7 @@ Describe 'Build Tests' {
         }
     }
     AfterAll {
-        # Stop-SeDriver $Driver
+        Stop-SeDriver $Driver
         Get-UDDashboard | Stop-UDDashboard
     }
 }

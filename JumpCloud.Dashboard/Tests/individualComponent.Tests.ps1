@@ -60,7 +60,7 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
         # }
     }
     AfterAll {
-        # Stop-SeDriver $Driver
+        Stop-SeDriver $Driver
         Get-UDDashboard | Stop-UDDashboard
     }
 }

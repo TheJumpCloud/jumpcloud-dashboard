@@ -107,7 +107,7 @@ Describe "Testing GridView" {
         }
     }
     AfterAll {
-        # Stop-SeDriver $Driver
+        Stop-SeDriver $Driver
         Get-UDDashboard | Stop-UDDashboard
     }
 }
