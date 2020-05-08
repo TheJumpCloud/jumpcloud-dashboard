@@ -34,7 +34,12 @@
                     "associations_syspolicy"
                 ],
                 "DirectoryInsights": [
-                    "directoryinsights_count"
+                    "directoryinsights_count",
+                    "directoryinsights_userCreateDelete",
+                    "directoryinsights_dailyUserPortalLoginAttempts",
+                    "directoryinsights_userGroupChanges",
+                    "directoryinsights_systemGroupChanges",
+                    "directoryinsights_dailyAdminConsoleLoginAttempts"
                 ]
             }
         },
