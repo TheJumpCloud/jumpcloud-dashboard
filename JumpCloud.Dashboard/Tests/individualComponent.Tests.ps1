@@ -24,14 +24,11 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
             For ($i = 0; $i -lt $expected.Count; $i++) {
                 $expected[$i].Name | Should Be $pagename[$i]
             }
-            # $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "OS"
-            # $Element.Displayed | Should Be $true
         }
         For ($i = 0; $i -lt $expected.Count; $i++) {
             $testname = $expected[$i].Name
             It "Verify the individualComponent: $testname is displayed" {
                 For ($t = 0; $t -lt $timeout; $t++) {
-                    # waitForElement $expected[$i].Name $waitTime -byName
                     $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName $expected[$i].Name
                     If ($Element -ne $null) {
                         $Capture = $Element
