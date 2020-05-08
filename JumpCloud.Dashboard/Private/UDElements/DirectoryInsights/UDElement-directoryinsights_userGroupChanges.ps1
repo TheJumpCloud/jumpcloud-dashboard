@@ -2,7 +2,8 @@ function UDElement-directoryinsights_userGroupChanges
 {
     param(
         $refreshInterval,
-        $unDrawColor
+        $unDrawColor,
+        $eventDays
     )
 
     $Script:userGroupChangeEvents = $Cache:DirectoryInsightsEvents | Where-Object { $_.event_type -eq "association_change" -and $_.association.connection.from.type -eq "USER_GROUP"}

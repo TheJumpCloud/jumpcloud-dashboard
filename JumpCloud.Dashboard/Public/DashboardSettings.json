@@ -6,7 +6,8 @@
                 "refreshInterval": 60,
                 "lastContactDays": 30,
                 "unDrawColor": "#006cac",
-                "port":8003
+                "port":8003,
+                "eventDays":14
             },
             "Components": {
                 "Systems": [

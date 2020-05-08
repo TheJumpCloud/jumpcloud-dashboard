@@ -2,7 +2,8 @@ function UDElement-directoryinsights_count
 {
     param (
         $refreshInterval,
-        $unDrawColor
+        $unDrawColor,
+        $eventDays
     )
 
     New-UDElement -Tag "directoryinsights_count" -Id "directoryinsights_count" -refreshInterval $refreshInterval -AutoRefresh -Content {

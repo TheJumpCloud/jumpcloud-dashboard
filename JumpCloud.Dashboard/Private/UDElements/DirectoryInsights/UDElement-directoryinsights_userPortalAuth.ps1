@@ -2,7 +2,8 @@ function UDElement-directoryinsights_userPortalAuth
 {
     param (
         $refreshInterval,
-        $unDrawClor
+        $unDrawClor,
+        $eventDays
     )
 
     $Script:userPortalAuthEvents = $Cache:DirectoryInsightsEvents | Where-Object { $_.event_type -eq "user_login_attempt" }

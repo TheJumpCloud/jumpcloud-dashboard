@@ -2,7 +2,8 @@ function UDElement-directoryinsights_userCreateDelete
 {
     param (
         $refreshInterval,
-        $unDrawColor
+        $unDrawColor,
+        $eventDays
     )
 
     New-UDElement -Tag "directoryinsights_userCreateDelete" -Id "directoryinsights_userCreateDelete" -RefreshInterval $refreshInterval -Content {
