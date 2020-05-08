@@ -3,6 +3,8 @@ Describe 'Build Tests' {
         Get-UDDashboard | Stop-UDDashboard
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
         $Driver = Start-SeFirefox -Headless
+        $waitTime = 45
+
     }
     Context 'Check Files Exist' {
         $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
