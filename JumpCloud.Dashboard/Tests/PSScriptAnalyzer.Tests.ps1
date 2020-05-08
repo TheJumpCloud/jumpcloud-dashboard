@@ -1,7 +1,7 @@
 Describe -Tag:('PSScriptAnalyzer') 'Running PSScriptAnalyzer' {
     $FolderPath_Module = (Get-Item -Path($PSScriptRoot)).Parent.FullName
     Write-Host ('[status]Running PSScriptAnalyzer on: ' + $FolderPath_Module)
-    $ScriptAnalyzerResults = Invoke-ScriptAnalyzer -Path:($FolderPath_Module) -Recurse -ExcludeRule PSReviewUnusedParameter, PSAvoidUsingWMICmdlet, PSAvoidUsingPlainTextForPassword, PSAvoidUsingUsernameAndPasswordParams, PSAvoidUsingInvokeExpression, PSUseDeclaredVarsMoreThanAssignments, PSUseSingularNouns, PSAvoidGlobalVars, PSUseShouldProcessForStateChangingFunctions, PSAvoidUsingWriteHost, PSAvoidUsingPositionalParameters, PSUseApprovedVerbs, PSUseToExportFieldsInManifest, PSUseOutputTypeCorrectly, PSAvoidUsingCmdletAliases
+    $ScriptAnalyzerResults = Invoke-ScriptAnalyzer -Path:($FolderPath_Module) -Recurse -ExcludeRule PSAvoidUsingWMICmdlet, PSAvoidUsingPlainTextForPassword, PSAvoidUsingUsernameAndPasswordParams, PSAvoidUsingInvokeExpression, PSUseDeclaredVarsMoreThanAssignments, PSUseSingularNouns, PSAvoidGlobalVars, PSUseShouldProcessForStateChangingFunctions, PSAvoidUsingWriteHost, PSAvoidUsingPositionalParameters, PSUseApprovedVerbs, PSUseToExportFieldsInManifest, PSUseOutputTypeCorrectly, PSAvoidUsingCmdletAliases
     If (-not [System.String]::IsNullOrEmpty($ScriptAnalyzerResults))
     {
         $ScriptAnalyzerResults | ForEach-Object {
