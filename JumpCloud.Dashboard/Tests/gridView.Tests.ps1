@@ -5,11 +5,6 @@ Describe "Testing GridView" {
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
         $waitTime = 300
-
-        # $TotalUsers = Get-JCUser -returnProperties username | Measure-Object | Select-Object -ExpandProperty Count
-        # if ($TotalUsers -gt 1000) {
-        #     Start-Sleep -s 30
-        # }
     }
     Context "Verifying System Dashboard Components" {
         It "Verifies the OS component" {
