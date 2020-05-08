@@ -2,7 +2,8 @@ function UDElement-directoryinsights_systemGroupChanges
 {
     param(
         $refreshInterval,
-        $unDrawColor
+        $unDrawColor,
+        $eventDays
     )
 
     $Script:systemGroupChangeEvents = $Cache:DirectoryInsightsEvents | Where-Object { $_.event_type -eq "association_change" -and $_.association.connection.from.type -eq "SYSTEM_GROUP"}
