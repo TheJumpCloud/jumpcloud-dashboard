@@ -73,6 +73,9 @@ Function Start-JCDashboard
         [Parameter(HelpMessage = 'Include systems that have contacted the JumpCloud directory within this number of days')]
         [Int]$LastContactDays,
 
+        [Parameter(HelpMessage = 'Show JumpCloud Directory Insights events that have occurred withing this number of days')]
+        [Int]$EventDays,
+
         [Parameter(HelpMessage = 'Refresh the components on the dashboard measured in seconds')]
         [Int]$RefreshInterval,
 
@@ -106,7 +109,7 @@ Function Start-JCDashboard
             $attr.ValueFromPipelineByPropertyName = $true
             $attrColl = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
             $attrColl.Add($attr)
-            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_gsuite", "associations_ldap", "associations_radius", "associations_useractivationstatus", "associations_syspolicy", "directoryinsights_count", "directoryinsights_userCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts")))
+            $attrColl.Add((New-Object System.Management.Automation.ValidateSetAttribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_gsuite", "associations_ldap", "associations_radius", "associations_useractivationstatus", "associations_syspolicy", "directoryinsights_systemCreateDelete", "directoryinsights_userCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts")))
             $param = New-Object System.Management.Automation.RuntimeDefinedParameter('IncludeComponent', [array], $attrColl)
             $dict.Add('IncludeComponent', $param)
 
@@ -115,7 +118,7 @@ Function Start-JCDashboard
             $attr1.ValueFromPipelineByPropertyName = $true
             $attr1Coll = New-Object System.Collections.ObjectModel.Collection[System.attribute]
             $attr1Coll.Add($attr1)
-            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_gsuite", "associations_ldap", "associations_radius", "associations_useractivationstatus", "associations_syspolicy", "directoryinsights_count", "directoryinsights_userCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts")))
+            $attr1Coll.Add((New-Object System.Management.Automation.ValidateSetattribute("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_o365", "associations_gsuite", "associations_ldap", "associations_radius", "associations_useractivationstatus", "associations_syspolicy", "directoryinsights_systemCreateDelete", "directoryinsights_userCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts")))
             $param1 = New-Object System.Management.Automation.RuntimeDefinedParameter('ExcludeComponent', [array], $attr1Coll)
             $dict.Add('ExcludeComponent', $param1)
 
