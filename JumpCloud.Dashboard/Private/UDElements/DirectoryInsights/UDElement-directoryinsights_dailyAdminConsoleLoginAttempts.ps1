@@ -13,7 +13,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
         $startDate = $startDate.AddDays(-1)
     }
     
-    $Script:adminConsoleAuthEvents = $Cache:DirectoryInsightsEvents | Where-Object { $_.event_type -eq "admin_login_attempt" }
+    $Script:adminConsoleAuthEvents = Get-JCEvent -Service:('directory') -StartTime:((Get-Date).AddDays(-$eventDays)) -SearchTermAnd @{"event_type" = "admin_login_attempt"}
     New-UDElement -Tag "directoryinsights_dailyAdminConsoleLoginAttempts" -Id "directoryinsights_dailyAdminConsoleLoginAttempts" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         New-UDChart -Title "Daily Admin Console Authentication Attempts" -Type Bar -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {

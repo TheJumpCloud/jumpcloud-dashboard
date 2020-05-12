@@ -1,16 +1,17 @@
 function Get-GroupAssociationChange
 {
     param (
-        $eventId
+        $event
     )
 
-    $associationChangeEvent = $Cache:DirectoryInsightsEvents | Where-Object { $_.id -eq $eventId }
+    $associationChangeEvent = $event
     $groupType = $associationChangeEvent.association.connection.from.type
     $groupId = $associationChangeEvent.association.connection.from.object_id
     $targetType = $associationChangeEvent.association.connection.to.type
     $targetId = $associationChangeEvent.association.connection.to.object_id
     $operation = $associationChangeEvent.association.op
     $timestamp = $associationChangeEvent.timestamp
+    
     # Set operation syntax
     if ($operation -eq "add") {
         $operation = "added to"

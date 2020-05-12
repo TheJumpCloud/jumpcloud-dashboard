@@ -8,7 +8,7 @@ function UDElement-directoryinsights_count
 
     New-UDElement -Tag "directoryinsights_count" -Id "directoryinsights_count" -refreshInterval $refreshInterval -AutoRefresh -Content {
         New-UDCounter -Title "Events" -TextSize Large -Endpoint {
-            $Cache:DirectoryInsightsEvents.Length
+            50
         }
     }
 }

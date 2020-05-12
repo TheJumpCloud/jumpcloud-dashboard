@@ -13,7 +13,7 @@ function UDElement-directoryinsights_dailyUserPortalLoginAttempts
         $startDate = $startDate.AddDays(-1)
     }
     
-    $Script:userPortalAuthEvents = $Cache:DirectoryInsightsEvents | Where-Object { $_.event_type -eq "user_login_attempt" }
+    $Script:userPortalAuthEvents = Get-JCEvent -Service:('directory') -StartTime:((Get-Date).AddDays(-$eventDays)) -SearchTermAnd @{"event_type" = "user_login_attempt"}
     New-UDElement -Tag "directoryinsights_dailyUserPortalLoginAttempts" -Id "directoryinsights_dailyUserPortalLoginAttempts" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
         New-UDChart -Title "Daily User Portal Authentication Attempts" -Type Bar -AutoRefresh -RefreshInterval $refreshInterval -Endpoint {
