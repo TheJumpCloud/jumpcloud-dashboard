@@ -12,7 +12,7 @@
 RootModule = 'JumpCloud.Dashboard.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.3.2'
+ModuleVersion = '1.3.6'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -115,6 +115,8 @@ v1.3.0 - New Associations dashboard and Associations components
 v1.2.0 - Improved performance for loading System dashboard components
 v1.1.0 - Improved performance for loading System dashboard components'
 
+        prerelease = 'beta'
+        
     } # End of PSData hashtable
 
 } # End of PrivateData hashtable
