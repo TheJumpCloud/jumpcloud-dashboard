@@ -236,11 +236,18 @@ Function Start-JCDashboard
             $DashboardSettings.'Dashboard'.Settings.lastContactDays = $LastContactDays
         }
 
+        if ($EventDays)
+        {
+            $DashboardSettings.'Dashboard'.Settings.eventDays = $EventDays
+            $DashboardSettings.'4Get-UDDirectoryInsights'.Settings.eventDays = $EventDays
+        }
+
         if ($RefreshInterval)
         {
             $DashboardSettings.'1Get-UDSystemUsers'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'2Get-UDsystems'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'3Get-UDassociations'.Settings.refreshInterval = $RefreshInterval
+            $DashboardSettings.'4Get-UDDirectoryInsights'.Settings.refreshInterval = $RefreshInterval
             $DashboardSettings.'Dashboard'.Settings.refreshInterval = $RefreshInterval
         }
         if ($IncludeComponent)
