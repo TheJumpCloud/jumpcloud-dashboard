@@ -35,7 +35,7 @@
                     "associations_syspolicy"
                 ],
                 "DirectoryInsights": [
-                    "directoryinsights_count",
+                    "directoryinsights_systemCreateDelete",
                     "directoryinsights_userCreateDelete",
                     "directoryinsights_dailyUserPortalLoginAttempts",
                     "directoryinsights_userGroupChanges",
