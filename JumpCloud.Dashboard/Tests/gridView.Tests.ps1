@@ -1,5 +1,3 @@
-import-module "/Users/jworkman/Documents/GitHub/jumpcloud-dashboard/JumpCloud.Dashboard/JumpCloud.Dashboard.psd1"
-$TestOrgAPIKey = '6767637f02fb8b371d9d8d488b6902a9e3193d39'
 Describe "Testing GridView" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
