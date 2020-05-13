@@ -8,7 +8,6 @@ Function 4Get-UDDirectoryInsights() {
         [Parameter(ValueFromPipelineByPropertyName)]
         $refreshInterval
     )
-    
     $PageName = 'DirectoryInsights'
     $UDPage = New-UDPage -Name:($PageName) -Content {
 
