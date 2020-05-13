@@ -21,7 +21,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
                 $date = $_
                 $successCount = 0
                 $failureCount = 0
-                $adminConsoleAuthEvents | Where-Object { $_.timestamp -like "$($date)*" } | Foreach-Object {
+                $adminConsoleAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($date)*" } | Foreach-Object {
                     if ($_.success -eq $true) {
                         $successCount += 1
                     } elseif ($_.success -eq $false) {

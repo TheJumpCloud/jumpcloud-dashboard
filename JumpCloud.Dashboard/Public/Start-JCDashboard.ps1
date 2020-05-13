@@ -255,12 +255,14 @@ Function Start-JCDashboard
             $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -in $IncludeComponent }
             $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -in $IncludeComponent }
             $DashboardSettings.'Dashboard'.Components.Associations = $DashboardSettings.'Dashboard'.Components.Associations | Where-Object { $_ -in $IncludeComponent }
+            $DashboardSettings.'Dashboard'.Components.DirectoryInsights = $DashboardSettings.'Dashboard'.Components.DirectoryInsights | Where-Object { $_ -in $IncludeComponent }
         }
         if ($ExcludeComponent)
         {
             $DashboardSettings.'Dashboard'.Components.Systems = $DashboardSettings.'Dashboard'.Components.Systems | Where-Object { $_ -notin $ExcludeComponent }
             $DashboardSettings.'Dashboard'.Components.Users = $DashboardSettings.'Dashboard'.Components.Users | Where-Object { $_ -notin $ExcludeComponent }
             $DashboardSettings.'Dashboard'.Components.Associations = $DashboardSettings.'Dashboard'.Components.Associations | Where-Object { $_ -notin $ExcludeComponent }
+            $DashboardSettings.'Dashboard'.Components.DirectoryInsights = $DashboardSettings.'Dashboard'.Components.DirectoryInsights | Where-Object { $_ -notin $IncludeComponent }
         }
         if ($Port)
         {
