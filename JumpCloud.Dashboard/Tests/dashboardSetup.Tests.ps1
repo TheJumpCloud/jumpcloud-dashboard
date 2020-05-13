@@ -98,6 +98,33 @@ Describe 'Build Tests' {
             $Element.Displayed | Should Be $true
         }
     }
+    Context "Verifying Directory Insights Dashboard Components" {
+        Enter-SeUrl "http://127.0.0.1:8003/DirectoryInsights" -Driver $Driver
+        It "Verifies the user create / delete component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_userCreateDelete"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the system create / delete component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_systemCreateDelete"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the daily user portal auth component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_dailyUserPortalLoginAttempts"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the user group changes component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_userGroupChanges"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the system group changes component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_systemGroupChanges"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the daily admin portal auth component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_dailyAdminConsoleLoginAttempts"
+            $Element.Displayed | Should Be $true
+        }
+    }
     AfterAll {
         Stop-SeDriver $Driver
         Get-UDDashboard | Stop-UDDashboard
