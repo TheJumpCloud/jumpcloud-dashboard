@@ -44,6 +44,18 @@ function Get-GroupAssociationChange
         $response = Invoke-WebRequest @iwrParams
         $content = $response.content | ConvertFrom-json
         $targetName = $content.displayName
+    } elseif ($targetType -eq "LDAP_SERVER") {
+        $targetName = "LDAP"
+    } elseif ($targetType -eq "G_SUITE") {
+        $targetName = "G Suite"
+    } elseif ($targetType -eq "OFFICE_365") {
+        $targetName = "Office 365"
+    } elseif ($targetType -eq "SYSTEM_GROUP") {
+        $targetName = (Get-JCGroup -Type System | Where-Object { $_.id -eq $targetId }).name
+    }
+
+    if ($targetName -eq $NULL) {
+        $targetName = "[DELETED]"
     }
 
     [PSCustomObject]@{
