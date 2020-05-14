@@ -14,8 +14,6 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
         }
     }
     Context "Tests of individual components" {
-        $timeout = $testDashboard.DashboardService.Dashboard.CyclePagesInterval
-        $timeout = $timeout * 2
         $pagename = @()
         $expected = $testDashboard.DashboardService.Dashboard.Pages
         For ($i=0; $i -lt $expected.Count; $i++){
@@ -29,12 +27,10 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
         For ($i = 0; $i -lt $expected.Count; $i++) {
             $testname = $expected[$i].Name
             It "Verify the individualComponent: $testname is displayed" {
-                For ($t = 0; $t -lt $timeout; $t++) {
-                    $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName $expected[$i].Name
-                    If ($Element -ne $null) {
-                        $Capture = $Element
-                        break
-                    }
+                $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName $expected[$i].Name
+                If ($Element -ne $null) {
+                    $Capture = $Element
+                    break
                 }
                 # $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName $expected[$i].Name
                 $Capture.Displayed | Should Be $true
