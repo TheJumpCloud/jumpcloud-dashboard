@@ -1,10 +1,12 @@
+Import-Module "/Users/jworkman/Documents/GitHub/jumpcloud-dashboard/JumpCloud.Dashboard/JumpCloud.Dashboard.psd1"
+$TestOrgAPIKey = '5a9545808b4785f4c86505bfce7ce7ffb6ca11cb'
 Describe "Testing JumpCloud Individual Component Dashboard" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
-        $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent "system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_gsuite", "associations_ldap", "associations_o365", "associations_radius", "associations_syspolicy", "associations_useractivationstatus", "directoryinsights_userCreateDelete", "directoryinsights_systemCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts" -cycleInterval 5
+        $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent "system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_gsuite", "associations_ldap", "associations_o365", "associations_radius", "associations_syspolicy", "associations_useractivationstatus", "directoryinsights_userCreateDelete", "directoryinsights_systemCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts" -cycleInterval 2
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
-        Start-Sleep -s 20
+        # Start-Sleep -s 20
         $waitTime = 300
     }
     Context "Verify Dashboard is running" {
