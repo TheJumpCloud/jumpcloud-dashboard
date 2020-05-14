@@ -12,9 +12,9 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Start-JCDashboard [[-JumpCloudApiKey] <String>] [[-LastContactDays] <Int32>] [[-RefreshInterval] <Int32>]
- [[-Layout] <Object>] [-NoUpdate] [[-AutoLaunch] <Boolean>] [[-Port] <Int32>] [-IncludeComponent <Array>]
- [-ExcludeComponent <Array>] [-CycleInterval <Int32>] [<CommonParameters>]
+Start-JCDashboard [[-JumpCloudApiKey] <String>] [[-LastContactDays] <Int32>] [[-EventDays] <Int32>]
+ [[-RefreshInterval] <Int32>] [[-Layout] <Object>] [-NoUpdate] [[-AutoLaunch] <Boolean>] [[-Port] <Int32>]
+ [-IncludeComponent <Array>] [-ExcludeComponent <Array>] [-CycleInterval <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -90,6 +90,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EventDays
+Show JumpCloud Directory Insights events that have occurred withing this number of days
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RefreshInterval
 Refresh the components on the dashboard measured in seconds
 
@@ -99,7 +114,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -115,7 +130,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: Default
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -145,7 +160,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -160,7 +175,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False

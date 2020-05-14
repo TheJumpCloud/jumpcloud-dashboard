@@ -1,9 +1,10 @@
 Describe "Testing GridView" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
-        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_syspolicy,associations_useractivationstatus -NoUpdate
+        Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_syspolicy,associations_useractivationstatus,directoryinsights_userCreateDelete,directoryinsights_systemCreateDelete,directoryinsights_dailyUserPortalLoginAttempts,directoryinsights_userGroupChanges,directoryinsights_systemGroupChanges,directoryinsights_dailyAdminConsoleLoginAttempts -NoUpdate
         $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
+        Start-Sleep -s 20
         $waitTime = 300
     }
     Context "Verifying System Dashboard Components" {
@@ -81,6 +82,32 @@ Describe "Testing GridView" {
         }
         It "Verifies the userState component" {
             $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "associations_useractivationstatus"
+            $Element.Displayed | Should Be $true
+        }
+    }
+    Context "Verifying Directory Insights Dashboard Components" {
+        It "Verifies the user create / delete component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_userCreateDelete"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the system create / delete component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_systemCreateDelete"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the daily user portal auth component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_dailyUserPortalLoginAttempts"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the user group changes component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_userGroupChanges"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the system group changes component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_systemGroupChanges"
+            $Element.Displayed | Should Be $true
+        }
+        It "Verifies the daily admin portal auth component" {
+            $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName "directoryinsights_dailyAdminConsoleLoginAttempts"
             $Element.Displayed | Should Be $true
         }
     }
