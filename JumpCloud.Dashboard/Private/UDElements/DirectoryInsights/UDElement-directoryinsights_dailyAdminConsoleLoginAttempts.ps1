@@ -21,7 +21,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
                 $date = $_
                 $successCount = 0
                 $failureCount = 0
-                $adminConsoleAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($date)*" } | Foreach-Object {
+                $adminConsoleAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($date)" } | Foreach-Object {
                     if ($_.success -eq $true) {
                         $successCount += 1
                     } elseif ($_.success -eq $false) {
@@ -37,6 +37,30 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
                 New-UDChartDataset -Label "Success" -DataProperty "Success" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
                 New-UDChartDataset -Label "Failure" -DataProperty "Failure" -BackgroundColor "#e54852" -HoverBackgroundColor "#e54852"
             )
+        } -OnClick {
+            if ($EventData -ne "[]")
+            {
+                Show-UDModal -Content {
+                    New-UDTabContainer -Tabs {
+                        foreach ($TabName in $dateRange)
+                        {
+                            New-UDTab -Text $TabName -Content {
+                                $Script:TabDate = $TabName
+                                New-UDGrid -Headers @("Email", "Attempt", "IP Address", "Timestamp") -Properties @("Email", "Attempt", "IPAddress", "Timestamp") -Endpoint {
+                                    $adminConsoleAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($TabDate)" } | Foreach-Object {
+                                        [PSCustomObject]@{
+                                            Email = $_.resource.email;
+                                            Attempt = $(if ($_.success) { "Success" } elseif (!$_.success) { "Failure" });
+                                            IPAddress = $_.client_ip;
+                                            Timestamp = $_.timestamp;
+                                        }
+                                    } | Out-UDGridData
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

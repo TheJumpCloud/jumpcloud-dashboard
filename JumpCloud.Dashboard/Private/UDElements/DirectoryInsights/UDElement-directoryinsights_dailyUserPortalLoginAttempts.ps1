@@ -37,6 +37,30 @@ function UDElement-directoryinsights_dailyUserPortalLoginAttempts
                 New-UDChartDataset -Label "Success" -DataProperty "Success" -BackgroundColor "#2cc692" -HoverBackgroundColor "#2cc692"
                 New-UDChartDataset -Label "Failure" -DataProperty "Failure" -BackgroundColor "#e54852" -HoverBackgroundColor "#e54852"
             )
+        } -OnClick {
+            if ($EventData -ne "[]")
+            {
+                Show-UDModal -Content {
+                    New-UDTabContainer -Tabs {
+                        foreach ($TabName in $dateRange)
+                        {
+                            New-UDTab -Text $TabName -Content {
+                                $Script:TabDate = $TabName
+                                New-UDGrid -Headers @("Username", "Attempt", "IP Address", "Timestamp") -Properties @("Username", "Attempt", "IPAddress", "Timestamp") -Endpoint {
+                                    $userPortalAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($TabDate)" } | Foreach-Object {
+                                        [PSCustomObject]@{
+                                            Username = $_.initiated_by.username;
+                                            Attempt = $(if ($_.success) { "Success" } elseif (!$_.success) { "Failure" });
+                                            IPAddress = $_.client_ip;
+                                            Timestamp = $_.timestamp;
+                                        }
+                                    } | Out-UDGridData
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
