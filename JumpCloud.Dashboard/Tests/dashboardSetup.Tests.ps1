@@ -3,6 +3,7 @@ Describe 'Build Tests' {
         Get-UDDashboard | Stop-UDDashboard
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
         $Driver = Start-SeFirefox -Headless
+        Start-Sleep -s 20
         $waitTime = 300
     }
     Context 'Check Files Exist' {
