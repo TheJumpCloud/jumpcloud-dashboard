@@ -12,7 +12,7 @@
 RootModule = 'JumpCloud.Dashboard.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.3.7'
+ModuleVersion = '1.4.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -110,12 +110,11 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = 'To get started run the command: Start-JCDashboard
+v1.4.0 - New Directory Insights dashboard and Directory Insights components
 v1.3.1 - Fix for MTP Admins displaying the systems dashboard
 v1.3.0 - New Associations dashboard and Associations components
 v1.2.0 - Improved performance for loading System dashboard components
 v1.1.0 - Improved performance for loading System dashboard components'
-
-        prerelease = 'beta'
         
     } # End of PSData hashtable
 
