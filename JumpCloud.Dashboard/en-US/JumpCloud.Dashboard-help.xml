@@ -40,6 +40,18 @@
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>EventDays</maml:name>
+          <maml:Description>
+            <maml:para>Show JumpCloud Directory Insights events that have occurred withing this number of days</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>RefreshInterval</maml:name>
           <maml:Description>
             <maml:para>Refresh the components on the dashboard measured in seconds</maml:para>
@@ -51,7 +63,7 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>Layout</maml:name>
           <maml:Description>
             <maml:para>Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter</maml:para>
@@ -63,7 +75,7 @@
           </dev:type>
           <dev:defaultValue>Default</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
           <maml:name>AutoLaunch</maml:name>
           <maml:Description>
             <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser once started.</maml:para>
@@ -75,7 +87,7 @@
           </dev:type>
           <dev:defaultValue>True</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
           <maml:name>Port</maml:name>
           <maml:Description>
             <maml:para>Dashboard port to launch on localhost</maml:para>
@@ -162,6 +174,18 @@
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>EventDays</maml:name>
+        <maml:Description>
+          <maml:para>Show JumpCloud Directory Insights events that have occurred withing this number of days</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>RefreshInterval</maml:name>
         <maml:Description>
           <maml:para>Refresh the components on the dashboard measured in seconds</maml:para>
@@ -173,7 +197,7 @@
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>Layout</maml:name>
         <maml:Description>
           <maml:para>Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter</maml:para>
@@ -197,7 +221,7 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
         <maml:name>AutoLaunch</maml:name>
         <maml:Description>
           <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser once started.</maml:para>
@@ -209,7 +233,7 @@
         </dev:type>
         <dev:defaultValue>True</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
         <maml:name>Port</maml:name>
         <maml:Description>
           <maml:para>Dashboard port to launch on localhost</maml:para>

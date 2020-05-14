@@ -6,7 +6,8 @@
                 "refreshInterval": 60,
                 "lastContactDays": 30,
                 "unDrawColor": "#006cac",
-                "port":8003
+                "port":8003,
+                "eventDays":14
             },
             "Components": {
                 "Systems": [
@@ -32,6 +33,14 @@
                     "associations_radius",
                     "associations_useractivationstatus",
                     "associations_syspolicy"
+                ],
+                "DirectoryInsights": [
+                    "directoryinsights_systemCreateDelete",
+                    "directoryinsights_userCreateDelete",
+                    "directoryinsights_dailyUserPortalLoginAttempts",
+                    "directoryinsights_userGroupChanges",
+                    "directoryinsights_systemGroupChanges",
+                    "directoryinsights_dailyAdminConsoleLoginAttempts"
                 ]
             }
         },
@@ -49,6 +58,12 @@
         "3Get-UDAssociations": {
             "Settings": {
                 "refreshInterval": 60
+            }
+        },
+        "4Get-UDDirectoryInsights": {
+            "Settings": {
+                "refreshInterval": 60,
+                "eventDays": 14
             }
         }
     }
