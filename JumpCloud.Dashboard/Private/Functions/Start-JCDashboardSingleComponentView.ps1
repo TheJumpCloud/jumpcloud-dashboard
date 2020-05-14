@@ -105,6 +105,34 @@ Function Start-JCDashboardSingleComponentView() {
         }
     }
 
+    if ($DashboardSettings.'Dashboard'.Components.DirectoryInsights) {
+        [int]$ProgressCounter = 0
+        $DashboardSettings.'Dashboard'.Components.DirectoryInsights | ForEach-Object {
+
+            $UDPages += New-UDPage -Name:($_) -Content {
+                $PageLayout = '{"lg":[{"w":10,"x":1,"y":1,"i":"grid-element-' + $_ + '"}]}'
+
+                New-UDGridLayout -Layout $PageLayout -Content {
+                    Invoke-Expression "UDElement-$($_) -EventDays '$($DashboardSettings.'Dashboard'.Settings.eventDays)' -unDrawColor '$($DashboardSettings.'Dashboard'.Settings.unDrawColor)' -RefreshInterval $($DashboardSettings.'Dashboard'.Settings.refreshInterval)"
+                }
+            }
+
+            $ProgressCounter++
+
+            $PageProgressParams = @{
+
+                Activity        = "Loading the $_ dashboard components"
+                Status          = "Dashboard $ProgressCounter of $($DashboardSettings.'Dashboard'.Components.DirectoryInsights.count)"
+                PercentComplete = ($ProgressCounter / $($DashboardSettings.'Dashboard'.Components.DirectoryInsights.count)) * 100
+
+            }
+
+            Write-Progress @PageProgressParams
+
+        }
+    }
+
+
     $Navigation = New-UDSideNav -None
     $Pages = $UDPages
     $Dashboard = New-UDDashboard `
