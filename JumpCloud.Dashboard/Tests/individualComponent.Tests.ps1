@@ -1,5 +1,3 @@
-Import-Module "/Users/jworkman/Documents/GitHub/jumpcloud-dashboard/JumpCloud.Dashboard/JumpCloud.Dashboard.psd1"
-$TestOrgAPIKey = '5a9545808b4785f4c86505bfce7ce7ffb6ca11cb'
 Describe "Testing JumpCloud Individual Component Dashboard" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
