@@ -12,7 +12,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
         $dateRange += $startDate.ToString("yyyy-MM-dd")
         $startDate = $startDate.AddDays(-1)
     }
-    
+
     $Script:adminConsoleAuthEvents = Get-JCEvent -Service:('directory') -StartTime:((Get-Date).AddDays(-$eventDays)) -SearchTermAnd @{"event_type" = "admin_login_attempt"}
     New-UDElement -Tag "directoryinsights_dailyAdminConsoleLoginAttempts" -Id "directoryinsights_dailyAdminConsoleLoginAttempts" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 

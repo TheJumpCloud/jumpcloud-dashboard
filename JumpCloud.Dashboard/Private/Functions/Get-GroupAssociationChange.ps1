@@ -1,17 +1,28 @@
 function Get-GroupAssociationChange
 {
     param (
+<<<<<<< HEAD
         $event
     )
 
     $associationChangeEvent = $event
+=======
+        $assocEvent
+    )
+
+    $associationChangeEvent = $assocEvent
+>>>>>>> 8d51d3202cf2f83388cc2a53de07b8d95e8bdd1a
     $groupType = $associationChangeEvent.association.connection.from.type
     $groupId = $associationChangeEvent.association.connection.from.object_id
     $targetType = $associationChangeEvent.association.connection.to.type
     $targetId = $associationChangeEvent.association.connection.to.object_id
     $operation = $associationChangeEvent.association.op
     $timestamp = $associationChangeEvent.timestamp
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 8d51d3202cf2f83388cc2a53de07b8d95e8bdd1a
     # Set operation syntax
     if ($operation -eq "add") {
         $operation = "added to"
@@ -54,7 +65,7 @@ function Get-GroupAssociationChange
         $targetName = (Get-JCGroup -Type System | Where-Object { $_.id -eq $targetId }).name
     }
 
-    if ($targetName -eq $NULL) {
+    if (!$targetName) {
         $targetName = "[DELETED]"
     }
 
@@ -65,6 +76,11 @@ function Get-GroupAssociationChange
         GroupName = $groupName;
         Timestamp = $timestamp
     }
+<<<<<<< HEAD
     #$event = "$($targetType) `"$($targetName)`" $($operation) $($groupType) `"$($groupName)`""
     #$event
+=======
+    #$assocEvent = "$($targetType) `"$($targetName)`" $($operation) $($groupType) `"$($groupName)`""
+    #$assocEvent
+>>>>>>> 8d51d3202cf2f83388cc2a53de07b8d95e8bdd1a
 }

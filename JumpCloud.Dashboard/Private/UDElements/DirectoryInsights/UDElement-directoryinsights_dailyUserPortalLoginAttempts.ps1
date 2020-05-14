@@ -12,7 +12,7 @@ function UDElement-directoryinsights_dailyUserPortalLoginAttempts
         $dateRange += $startDate.ToString("yyyy-MM-dd")
         $startDate = $startDate.AddDays(-1)
     }
-    
+
     $Script:userPortalAuthEvents = Get-JCEvent -Service:('directory') -StartTime:((Get-Date).AddDays(-$eventDays)) -SearchTermAnd @{"event_type" = "user_login_attempt"}
     New-UDElement -Tag "directoryinsights_dailyUserPortalLoginAttempts" -Id "directoryinsights_dailyUserPortalLoginAttempts" -RefreshInterval $refreshInterval -AutoRefresh -Content {
 
