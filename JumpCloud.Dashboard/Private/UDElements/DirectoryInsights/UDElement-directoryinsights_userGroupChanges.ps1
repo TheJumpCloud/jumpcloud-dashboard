@@ -10,7 +10,7 @@ function UDElement-directoryinsights_userGroupChanges
     New-UDElement -Tag "directoryinsights_userGroupChanges" -Id "directoryinsights_userGroupChanges" -RefreshInterval $refreshInterval -AutoRefresh -Content {
         New-UDGrid -Title "User Group Modifications" -Properties @("TargetType", "TargetName", "Action", "GroupName", "Timestamp") -Headers @("Target Type", "Target Name", "Action", "User Group Name", "Timestamp") -Endpoint {
             $userGroupChangeEvents | ForEach-Object {
-                $(Get-GroupAssociationChange -event $_)
+                $(Get-GroupAssociationChange -assocEvent $_)
             } | Out-UDGridData
         }
     }

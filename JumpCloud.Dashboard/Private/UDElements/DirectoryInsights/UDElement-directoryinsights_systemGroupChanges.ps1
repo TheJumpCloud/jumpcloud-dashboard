@@ -10,7 +10,7 @@ function UDElement-directoryinsights_systemGroupChanges
     New-UDElement -Tag "directoryinsights_systemGroupChanges" -Id "directoryinsights_systemGroupChanges" -RefreshInterval $refreshInterval -AutoRefresh -Content {
         New-UDGrid -Title "System Group Modifications" -Properties @("TargetType", "TargetName", "Action", "GroupName", "Timestamp") -Headers @("Target Type", "Target Name", "Action", "System Group Name", "Timestamp") -Endpoint {
             $systemGroupChangeEvents | ForEach-Object {
-                $(Get-GroupAssociationChange -event $_)
+                $(Get-GroupAssociationChange -assocEvent $_)
             } | Out-UDGridData
         }
     }
