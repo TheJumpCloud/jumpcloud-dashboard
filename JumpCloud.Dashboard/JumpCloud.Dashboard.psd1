@@ -110,6 +110,7 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = 'To get started run the command: Start-JCDashboard
+v1.4.1 - Directory Insights paramter update for associations components
 v1.4.0 - New Directory Insights dashboard and Directory Insights components
 v1.3.2 - Add WebDriverWait to dashboard automated tests
 v1.3.1 - Fix for MTP Admins displaying the systems dashboard
