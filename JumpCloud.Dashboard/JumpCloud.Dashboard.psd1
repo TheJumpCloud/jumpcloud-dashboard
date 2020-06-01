@@ -115,7 +115,7 @@ v1.4.1 - Directory Insights paramter update for associations components
 v1.4.0 - New Directory Insights dashboard and Directory Insights components
 v1.3.2 - Add WebDriverWait to dashboard automated tests
 v1.3.1 - Fix for MTP Admins displaying the systems dashboard
-v1.3.0 - New Associations dashboard and Associations components
+v1.3.0 - New Associations dashboard and Associations components'
 
     } # End of PSData hashtable
 
