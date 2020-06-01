@@ -201,7 +201,11 @@ Function Start-JCDashboard
 
         ## Gather org name
         ## Pulled from the global $JCSettings variable popuplated by Connect-JCOnline
-        $OrgName = $JCSettings.SETTINGS.name
+        if ([string]::IsNullOrEmpty($JCSetting.SETTINGS.name)) {
+            $OrgName = "JumpCloud PowerShell"
+        } else {
+            $OrgName = $JCSettings.SETTINGS.name
+        }
 
         ## Call API
         $SettingsURL = "$JCUrlBasePath" + '/api/settings'
