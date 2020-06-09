@@ -2,12 +2,12 @@
 Param(
     [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)][ValidateNotNullOrEmpty()][System.String]$TestOrgAPIKey
 )
-. ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
+. ((Get-Item -Path:($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 # Run Pester tests
 $PesterTestResultPath = $PSScriptRoot + "/Dashboard-TestResults.xml"
 Invoke-Pester -Path $PSScriptRoot -PassThru | ConvertTo-NUnitReport -AsString | Out-File -Path $PesterTestResultPath
-[xml]$PesterResults = Get-Content -Path:($PesterTestResultPath)
+[xml]$PesterResults = Get-Content -Path $PesterTestResultPath
 $FailedTests = $PesterResults.'test-results'.'test-suite'.'results'.'test-suite' | Where-Object { $_.success -eq 'False' }
 If ($FailedTests)
 {
