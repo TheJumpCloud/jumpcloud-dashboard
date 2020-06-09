@@ -4,10 +4,10 @@ BeforeAll {
         $Driver = Start-SeFirefox -Headless
         Start-Sleep -s 20
         $waitTime = 300
+        $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }
 Describe 'Build Tests' {
     Context 'Check Files Exist' {
-        $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
         It 'README.md exists' {
             (Test-Path -Path:($ModuleRootPath + '/README.md') | Should -Be $true)
         }

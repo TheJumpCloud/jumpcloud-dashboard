@@ -5,7 +5,7 @@ Param(
 . ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 # Run Pester tests
-$PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
+$PesterResults = Invoke-Pester ($PSScriptRoot) -PassThru
 $FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
 If ($FailedTests)
 {
