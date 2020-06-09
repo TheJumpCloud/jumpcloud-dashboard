@@ -2,7 +2,7 @@
 Param(
     [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)][ValidateNotNullOrEmpty()][System.String]$TestOrgAPIKey
 )
-. ((Get-Item -Path:($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
+. ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 # Run Pester tests
 $PesterTestResultPath = $PSScriptRoot + "/Dashboard-TestResults.xml"
