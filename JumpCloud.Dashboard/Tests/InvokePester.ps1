@@ -5,15 +5,16 @@ Param(
 . ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 # Run Pester tests
-$PesterResults = Invoke-Pester ($PSScriptRoot) -PassThru
-$FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
+[xml]$PesterResults = Invoke-Pester ($PSScriptRoot) -PassThru | ConvertTo-NUnitReport -AsString
+$FailedTests = $PesterResults.'test-results'.'test-suite'.'results'.'test-suite' | Where-Object { $_.success -eq 'False' }
 If ($FailedTests)
 {
-    Write-Output ('')
-    Write-Output ('##############################################################################################################')
-    Write-Output ('##############################Error Description###############################################################')
-    Write-Output ('##############################################################################################################')
-    Write-Output ('')
-    $FailedTests | ForEach-Object { $_.Name + '; ' + $_.FailureMessage + '; ' }
+    Write-Host ('')
+    Write-Host ('##############################################################################################################')
+    Write-Host ('##############################Error Description###############################################################')
+    Write-Host ('##############################################################################################################')
+    Write-Host ('')
+    $FailedTests | ForEach-Object { $_.InnerText + ';' }
+    Write-Host("##vso[task.logissue type=error;]" + 'Tests Failed: ' + [string]($FailedTests | Measure-Object).Count)
     Write-Error -Message:('Tests Failed: ' + [string]($FailedTests | Measure-Object).Count)
 }
