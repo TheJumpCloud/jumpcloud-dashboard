@@ -6,7 +6,7 @@ Param(
 ###########################################################################
 # Run Pester tests
 $PesterTestResultPath = $PSScriptRoot + "/Dashboard-TestResults.xml"
-Invoke-Pester -Path:($PSScriptRoot) -PassThru -CI | Out-File -FilePath:($PesterTestResultPath)
+Invoke-Pester -Path:($PSScriptRoot) -PassThru | ConvertTo-NUnitReport -AsString | Out-File -FilePath:($PesterTestResultPath)
 [xml]$PesterResults = Get-Content -Path($PesterTestResultPath)
 $FailedTests = $PesterResults.'test-results'.'test-suite'.'results'.'test-suite' | Where-Object { $_.success -eq 'False' }
 If ($FailedTests)
@@ -20,5 +20,5 @@ If ($FailedTests)
     Write-Host("##vso[task.logissue type=error;]" + 'Tests Failed: ' + [string]($FailedTests | Measure-Object).Count)
     Write-Error -Message:('Tests Failed: ' + [string]($FailedTests | Measure-Object).Count)
 }
-Write-Host($PesterResults)
-Write-Host($PesterTestResultPath)
+# Write-Host($PesterResults)
+# Write-Host($PesterTestResultPath)

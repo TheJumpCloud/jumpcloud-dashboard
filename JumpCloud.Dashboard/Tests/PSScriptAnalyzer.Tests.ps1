@@ -15,6 +15,6 @@ BeforeALl{
 }
 Describe -Tag:('PSScriptAnalyzer') 'Running PSScriptAnalyzer' {
     It 'script results'{
-        $ScriptAnalyzerResults::IsNullOrEmpty | Should -Be $null
+        $ScriptAnalyzerResults | Should -Be $null
     }
 }
