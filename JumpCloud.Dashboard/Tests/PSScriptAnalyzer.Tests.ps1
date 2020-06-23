@@ -1,4 +1,4 @@
-BeforeALl{
+BeforeAll{
     $FolderPath_Module = (Get-Item $PSScriptRoot).Parent.FullName
     Write-Host ('[status]Running PSScriptAnalyzer on: ' + $FolderPath_Module)
     $ScriptAnalyzerResults = Invoke-ScriptAnalyzer -Path:($FolderPath_Module) -Recurse -ExcludeRule PSReviewUnusedParameter, PSUseProcessBlockForPipelineCommand, PSAvoidUsingWMICmdlet, PSAvoidUsingPlainTextForPassword, PSAvoidUsingUsernameAndPasswordParams, PSAvoidUsingInvokeExpression, PSUseDeclaredVarsMoreThanAssignments, PSUseSingularNouns, PSAvoidGlobalVars, PSUseShouldProcessForStateChangingFunctions, PSAvoidUsingWriteHost, PSAvoidUsingPositionalParameters, PSUseApprovedVerbs, PSUseToExportFieldsInManifest, PSUseOutputTypeCorrectly, PSAvoidUsingCmdletAliases
