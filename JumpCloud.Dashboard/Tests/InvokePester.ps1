@@ -5,15 +5,22 @@ Param(
 . ((Get-Item -Path($PSScriptRoot)).Parent.Parent.FullName + '/Deploy/Get-Config.ps1')
 ###########################################################################
 # Run Pester tests
-$PesterResults = Invoke-Pester -Script:($PSScriptRoot) -PassThru
-$FailedTests = $PesterResults.TestResult | Where-Object { $_.Passed -eq $false }
-If ($FailedTests)
+$PesterTestResultPath = $PSScriptRoot + "/Dashboard-TestResults.xml"
+If (Test-Path -Path:($PesterTestResultPath)) { Remove-Item -Path:($PesterTestResultPath) -Force }
+$PesterResults = Invoke-Pester -PassThru -Path:($PSScriptRoot)
+$PesterResults | Export-NUnitReport -Path:($PesterTestResultPath)
+If (Test-Path -Path:($PesterTestResultPath))
 {
-    Write-Output ('')
-    Write-Output ('##############################################################################################################')
-    Write-Output ('##############################Error Description###############################################################')
-    Write-Output ('##############################################################################################################')
-    Write-Output ('')
-    $FailedTests | ForEach-Object { $_.Name + '; ' + $_.FailureMessage + '; ' }
-    Write-Error -Message:('Tests Failed: ' + [string]($FailedTests | Measure-Object).Count)
+    [xml]$PesterResults = Get-Content -Path:($PesterTestResultPath)
+    $FailedTests = $PesterResults.'test-results'.'test-suite'.'results'.'test-suite' | Where-Object { $_.success -eq 'False' }
+    If ($FailedTests)
+    {
+        Write-Host ('')
+        Write-Host ('##############################################################################################################')
+        Write-Host ('##############################Error Description###############################################################')
+        Write-Host ('##############################################################################################################')
+        Write-Host ('')
+        $FailedTests | ForEach-Object { $_.InnerText + ';' }
+        Write-Error -Message:('Tests Failed: ' + [string]($FailedTests | Measure-Object).Count)
+    }
 }
