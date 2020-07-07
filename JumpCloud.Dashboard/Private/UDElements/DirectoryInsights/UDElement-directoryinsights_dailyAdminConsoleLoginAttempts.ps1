@@ -9,7 +9,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
     $startDate = (Get-Date)
     $Script:dateRange = @()
     1..$eventDays | ForEach-Object {
-        $dateRange += $startDate.ToString("yyyy-MM-dd")
+        $dateRange += Get-Date -Date $startDate -format d
         $startDate = $startDate.AddDays(-1)
     }
 
@@ -21,7 +21,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
                 $date = $_
                 $successCount = 0
                 $failureCount = 0
-                $adminConsoleAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($date)" } | Foreach-Object {
+                $adminConsoleAuthEvents | Where-Object { (Get-Date -Date $_.timestamp -Format d).ToString() -like "$($date)" } | Foreach-Object {
                     if ($_.success -eq $true) {
                         $successCount += 1
                     } elseif ($_.success -eq $false) {
@@ -47,7 +47,7 @@ function UDElement-directoryinsights_dailyAdminConsoleLoginAttempts
                             New-UDTab -Text $TabName -Content {
                                 $Script:TabDate = $TabName
                                 New-UDGrid -Headers @("Email", "Attempt", "IP Address", "Timestamp") -Properties @("Email", "Attempt", "IPAddress", "Timestamp") -Endpoint {
-                                    $adminConsoleAuthEvents | Where-Object { [datetime]::Parse($_.timestamp).ToString("yyyy-MM-dd") -like "$($TabDate)" } | Foreach-Object {
+                                    $adminConsoleAuthEvents | Where-Object { (Get-Date -Date $_.timestamp -Format d).ToString() -like "$($TabDate)" } | Foreach-Object {
                                         [PSCustomObject]@{
                                             Email = $_.resource.email;
                                             Attempt = $(if ($_.success) { "Success" } elseif (!$_.success) { "Failure" });
