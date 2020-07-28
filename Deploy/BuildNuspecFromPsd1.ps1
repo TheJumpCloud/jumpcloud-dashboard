@@ -1,3 +1,4 @@
+. ($PSScriptRoot + '/' + 'Get-Config.ps1')
 $ManifestPath = "$($moduleRootFolder)/$($ModuleFolderName)/$($ModuleName).psd1"
 $Psd1 = Import-PowerShellDataFile -Path:($ManifestPath)
 $Id = $(Get-Item ($ManifestPath)).BaseName
