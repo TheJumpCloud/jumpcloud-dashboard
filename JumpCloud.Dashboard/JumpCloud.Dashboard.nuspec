@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>JumpCloud.Dashboard</id>
+        <version>1.4.5</version>
+        <authors>JumpCloud Solutions Architect Team</authors>
+        <owners>JumpCloud</owners>
+        <description>PowerShell based dashboard to visualize JumpCloud Directory-as-a-Service data.</description>
+        <releaseNotes>To get started run the command: Start-JCDashboard
+v1.4.4 - Update test framework to Pester v5
+v1.4.3 - Fix for organizations without a name in Organization Settings
+v1.4.1 - Directory Insights paramter update for associations components
+v1.4.0 - New Directory Insights dashboard and Directory Insights components
+v1.3.2 - Add WebDriverWait to dashboard automated tests
+v1.3.1 - Fix for MTP Admins displaying the systems dashboard
+v1.3.0 - New Associations dashboard and Associations components</releaseNotes>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <copyright>(c) JumpCloud. All rights reserved.</copyright>
+        <tags>JumpCloud DaaS Jump Cloud Directory Dashboard PSModule PSIncludes_Function PSFunction_Start-JCDashboard PSCommand_Start-JCDashboard</tags>
+        <licenseUrl>https://github.com/TheJumpCloud/support/blob/master/PowerShell/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/TheJumpCloud/jumpcloud-dashboard</projectUrl>
+        <iconUrl>https://avatars1.githubusercontent.com/u/4927461?s=200&amp;v=4</iconUrl>
+        <dependencies>
+            <dependency id='JumpCloud'/> <dependency id='UniversalDashboard.Community'/> <dependency id='UniversalDashboard.UDunDraw'/>
+        </dependencies>
+    </metadata>
+</package>
