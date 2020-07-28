@@ -1,4 +1,6 @@
 . ($PSScriptRoot + '/' + 'Get-Config.ps1')
+
+# Set Variables for New-NuspecFile
 $ManifestPath = "$($FilePath_psd1)"
 $OutputPath = "$($FolderPath_Module)"
 $Psd1 = Import-PowerShellDataFile -Path:($ManifestPath)
@@ -14,9 +16,9 @@ $LicenseUrl = $Psd1.PrivateData.PSData.LicenseUri
 $ProjectUrl = $Psd1.PrivateData.PSData.ProjectUri
 $IconUrl = $Psd1.PrivateData.PSData.IconUri
 $Dependencies = $Psd1.RequiredModules
-# Write-Host("hello")
 
-
+# Addapted from PowerShell Get
+# https://github.com/PowerShell/PowerShellGetv2/blob/7de99ee0c38611556e5c583ffaca98bb1922a0d4/src/PowerShellGet/private/functions/New-NuspecFile.ps1
 function New-NuspecFile {
     [CmdletBinding()]
     Param(
