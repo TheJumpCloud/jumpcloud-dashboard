@@ -1,5 +1,6 @@
 . ($PSScriptRoot + '/' + 'Get-Config.ps1')
-$ManifestPath = "$($moduleRootFolder)/$($ModuleFolderName)/$($ModuleName).psd1"
+$ManifestPath = "$($FilePath_psd1)"
+$OutputPath = "$($FolderPath_ModuleRootPath)"
 $Psd1 = Import-PowerShellDataFile -Path:($ManifestPath)
 $Id = $(Get-Item ($ManifestPath)).BaseName
 $Version = $Psd1.ModuleVersion
@@ -13,7 +14,7 @@ $LicenseUrl = $Psd1.PrivateData.PSData.LicenseUri
 $ProjectUrl = $Psd1.PrivateData.PSData.ProjectUri
 $IconUrl = $Psd1.PrivateData.PSData.IconUri
 $Dependencies = $Psd1.RequiredModules
-Write-Host("hello")
+# Write-Host("hello")
 
 
 function New-NuspecFile {
@@ -149,4 +150,4 @@ function New-NuspecFile {
 }
 
 
-New-NuspecFile -OutputPath $ModuleFolderPath -Id $Id -Version $Version -Description $Description -Authors $Authors -Owners $Owners -ReleaseNotes $ReleaseNotes -Copyright $Copyright -Tags $Tags -LicenseUrl $LicenseUrl -ProjectUrl $ProjectUrl -IconUrl $IconUrl -Dependencies $Dependencies
+New-NuspecFile -OutputPath $OutputPath -Id $Id -Version $Version -Description $Description -Authors $Authors -Owners $Owners -ReleaseNotes $ReleaseNotes -Copyright $Copyright -Tags $Tags -LicenseUrl $LicenseUrl -ProjectUrl $ProjectUrl -IconUrl $IconUrl -Dependencies $Dependencies
