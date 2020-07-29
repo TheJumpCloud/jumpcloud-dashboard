@@ -2,7 +2,7 @@ Describe "Testing GridView" {
     BeforeAll {
         Get-UDDashboard | Stop-UDDashboard
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_syspolicy,associations_useractivationstatus,directoryinsights_userCreateDelete,directoryinsights_systemCreateDelete,directoryinsights_dailyUserPortalLoginAttempts,directoryinsights_userGroupChanges,directoryinsights_systemGroupChanges,directoryinsights_dailyAdminConsoleLoginAttempts -NoUpdate
-        $Driver = Start-SeChrome -Headless
+        $Driver = Start-SeFirefox -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
         Start-Sleep -s 20
         $waitTime = 300
