@@ -6,7 +6,7 @@ BeforeAll {
     $Driver = Start-SeChrome -Headless
     Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     # Start-Sleep -s 20
-    $waitTime = 300
+    $waitTime = 600
 }
 Describe "Testing JumpCloud Individual Component Dashboard" {
     Context "Verify Dashboard is running" {

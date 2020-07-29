@@ -3,7 +3,7 @@ BeforeAll {
     Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     $Driver = Start-SeChrome -Headless
     Start-Sleep -s 20
-    $waitTime = 300
+    $waitTime = 600
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }
 Describe 'Build Tests' {
