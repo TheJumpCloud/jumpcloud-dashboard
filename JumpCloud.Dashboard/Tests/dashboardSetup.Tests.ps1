@@ -1,9 +1,9 @@
 BeforeAll {
     Get-UDDashboard | Stop-UDDashboard
     Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
-    $Driver = Start-SeChrome -Headless
+    $Driver = Start-SeFirefox -Headless
     Start-Sleep -s 20
-    $waitTime = 200
+    $waitTime = 300
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }
 Describe 'Build Tests' {

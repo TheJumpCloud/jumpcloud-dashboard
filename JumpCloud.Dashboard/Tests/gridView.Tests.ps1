@@ -5,7 +5,7 @@ Describe "Testing GridView" {
         $Driver = Start-SeChrome -Headless
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
         Start-Sleep -s 20
-        $waitTime = 200
+        $waitTime = 300
     }
     Context "Verifying System Dashboard Components" {
         It "Verifies the OS component" {
