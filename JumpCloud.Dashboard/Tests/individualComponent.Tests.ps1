@@ -2,11 +2,11 @@ BeforeAll {
     Get-UDDashboard | Stop-UDDashboard
     # $components = @("system_agentVersion")
     $components = @("system_agentVersion", "system_lastContact", "system_newSystems", "system_os", "system_version", "system_mfaStatus", "user_mfaStatus", "user_newUsers", "user_passwordChanges", "user_passwordExpirations", "user_privilegedUsers", "user_userStates", "associations_gsuite", "associations_ldap", "associations_o365", "associations_radius", "associations_syspolicy", "associations_useractivationstatus", "directoryinsights_userCreateDelete", "directoryinsights_systemCreateDelete", "directoryinsights_dailyUserPortalLoginAttempts", "directoryinsights_userGroupChanges", "directoryinsights_systemGroupChanges", "directoryinsights_dailyAdminConsoleLoginAttempts")
-    $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 100
+    $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 5
     $Driver = Start-SeChrome -Headless
     Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     # Start-Sleep -s 20
-    $waitTime = 600
+    $waitTime = 200
 }
 Describe "Testing JumpCloud Individual Component Dashboard" {
     Context "Verify Dashboard is running" {
