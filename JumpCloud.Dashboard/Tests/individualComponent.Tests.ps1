@@ -47,7 +47,7 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
                     "system_mfaStatus",
                     "system_newSystems",
                     "system_os",
-                    "system_version"
+                    "system_version",
                     "user_mfaStatus",
                     "user_newUsers",
                     "user_passwordChanges",
