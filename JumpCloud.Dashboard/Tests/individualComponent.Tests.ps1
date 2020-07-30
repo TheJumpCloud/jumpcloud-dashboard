@@ -29,7 +29,7 @@ BeforeAll {
     $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 60
     $Driver = Start-SeFirefox -Headless
     Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
-    # Start-Sleep -s 20
+    Start-Sleep -s 20
     $waitTime = 300
 }
 Describe "Testing JumpCloud Individual Component Dashboard" {
