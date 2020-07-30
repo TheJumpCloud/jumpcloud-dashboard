@@ -26,7 +26,7 @@ BeforeAll {
                     "directoryinsights_userCreateDelete",
                     "directoryinsights_userGroupChanges"
     )
-    $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 5
+    $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 60
     $Driver = Start-SeFirefox -Headless
     Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     # Start-Sleep -s 20
@@ -59,7 +59,7 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
                     "associations_o365",
                     "associations_radius",
                     "associations_syspolicy",
-                    "associations_useractivationstatus"
+                    "associations_useractivationstatus",
                     "directoryinsights_dailyAdminConsoleLoginAttempts",
                     "directoryinsights_dailyUserPortalLoginAttempts",
                     "directoryinsights_systemCreateDelete",
