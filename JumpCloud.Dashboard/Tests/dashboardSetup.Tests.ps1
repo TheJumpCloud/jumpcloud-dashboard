@@ -2,7 +2,7 @@ BeforeAll {
     Get-UDDashboard | Stop-UDDashboard
     Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     $Driver = Start-SeChrome -Headless -ImplicitWait 20 -StartURL "http://127.0.0.1:8003/"
-    # Start-Sleep -s 20
+    Start-Sleep -s 20
     $waitTime = 300
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }
