@@ -71,10 +71,9 @@ Describe "Testing JumpCloud Individual Component Dashboard" {
         ) {
             forEach ($item in $tag) {
                 write-host("Testing: " + $item)
+                Enter-SeUrl "http://127.0.0.1:8003/$($item)" -Driver $Driver
                 $Element = Find-SeElement -Driver $Driver -Wait -Timeout $waitTime -TagName $item
-                While ($Element.Displayed -eq $false) {
-                    $Element.Displayed | Should -Be $true
-                }
+                $Element.Displayed | Should -Be $true
             }
         }
     }
