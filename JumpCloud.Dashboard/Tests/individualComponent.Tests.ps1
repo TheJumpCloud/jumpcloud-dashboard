@@ -27,9 +27,9 @@ BeforeAll {
                     "directoryinsights_userGroupChanges"
     )
     $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 60
-    $Driver = Start-SeFirefox -Headless -StartURL "http://127.0.0.1:8003/"
-    Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
+    $Driver = Start-SeFirefox -Headless
     Start-Sleep -s 20
+    Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     $waitTime = 600
 }
 Describe "Testing JumpCloud Individual Component Dashboard" {
