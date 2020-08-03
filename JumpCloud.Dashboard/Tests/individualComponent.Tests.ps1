@@ -29,7 +29,8 @@ BeforeAll {
     $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 60
     # Start-Sleep -s 60
     $Driver = Start-SeFirefox -Headless
-    $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
+    Set-SeDriver -Driver $Driver -PageLoadTimeout ([TimeSpan]::FromSeconds(180))
+    # $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
     Enter-SeUrl "http://127.0.0.1:8003/" -Driver $Driver
     $waitTime = 600
 }

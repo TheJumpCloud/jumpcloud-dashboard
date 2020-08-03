@@ -3,7 +3,8 @@ BeforeAll {
     Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     # Start-Sleep -s 60
     $Driver = Start-SeFirefox -Headless -Verbose
-    $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
+    Set-SeDriver -Driver $Driver -PageLoadTimeout ([TimeSpan]::FromSeconds(180))
+    # $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
     $waitTime = 300
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }

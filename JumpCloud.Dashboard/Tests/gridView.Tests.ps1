@@ -4,7 +4,8 @@ Describe "Testing GridView" {
         Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -Layout gridView -IncludeComponent system_agentVersion,system_lastContact,system_mfaStatus,system_newSystems,system_os,system_version,user_mfaStatus,user_newUsers,user_passwordChanges,user_passwordExpirations,user_privilegedUsers,user_userStates,associations_gsuite,associations_ldap,associations_o365,associations_radius,associations_syspolicy,associations_useractivationstatus,directoryinsights_userCreateDelete,directoryinsights_systemCreateDelete,directoryinsights_dailyUserPortalLoginAttempts,directoryinsights_userGroupChanges,directoryinsights_systemGroupChanges,directoryinsights_dailyAdminConsoleLoginAttempts -NoUpdate
         # Start-Sleep -s 60
         $Driver = Start-SeFirefox -Headless
-        $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
+        Set-SeDriver -Driver $Driver -PageLoadTimeout ([TimeSpan]::FromSeconds(180)) 
+        # $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
         $waitTime = 300
     }
