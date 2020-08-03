@@ -72,7 +72,7 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
         {
             Write-Host ('Installing module: ' + $RequiredModule)
             if ($RequiredModule -eq 'Selenium'){
-                Install-Module -Name:($RequiredModule) -RequiredVersion 3.0.0
+                Install-Module -Name:($RequiredModule) -RequiredVersion 3.0.0 -Force -SkipPublisherCheck
             }
             else{
                 Install-Module -Name:($RequiredModule) -Force -SkipPublisherCheck
