@@ -3,7 +3,7 @@ BeforeAll {
     Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     # Start-Sleep -s 60
     $Driver = Start-SeCHrome -Headless
-    # Set-SeDriver -Driver $Driver -PageLoadTimeout ([TimeSpan]::FromSeconds(180))
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
     $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
     $waitTime = 300
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
