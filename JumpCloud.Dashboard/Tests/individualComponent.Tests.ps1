@@ -27,7 +27,7 @@ BeforeAll {
                     "directoryinsights_userGroupChanges"
     )
     $testDashboard = Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate -Layout singleComponent -IncludeComponent $components -cycleInterval 60
-    # Start-Sleep -s 60
+    Start-Sleep -s 60
     $Driver = Start-SeFirefox -Headless
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
     $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
