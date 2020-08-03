@@ -13,10 +13,10 @@
                 "Systems": [
                     "system_agentVersion",
                     "system_lastContact",
+                    "system_mfaStatus",
                     "system_newSystems",
                     "system_os",
-                    "system_version",
-                    "system_mfaStatus"
+                    "system_version"
                 ],
                 "Users": [
                     "user_mfaStatus",
@@ -27,20 +27,20 @@
                     "user_userStates"
                 ],
                 "Associations": [
-                    "associations_o365",
                     "associations_gsuite",
                     "associations_ldap",
+                    "associations_o365",
                     "associations_radius",
-                    "associations_useractivationstatus",
-                    "associations_syspolicy"
+                    "associations_syspolicy",
+                    "associations_useractivationstatus"
                 ],
                 "DirectoryInsights": [
-                    "directoryinsights_systemCreateDelete",
-                    "directoryinsights_userCreateDelete",
+                    "directoryinsights_dailyAdminConsoleLoginAttempts",
                     "directoryinsights_dailyUserPortalLoginAttempts",
-                    "directoryinsights_userGroupChanges",
+                    "directoryinsights_systemCreateDelete",
                     "directoryinsights_systemGroupChanges",
-                    "directoryinsights_dailyAdminConsoleLoginAttempts"
+                    "directoryinsights_userCreateDelete",
+                    "directoryinsights_userGroupChanges"
                 ]
             }
         },

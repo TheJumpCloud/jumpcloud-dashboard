@@ -71,7 +71,12 @@ If (-not [System.String]::IsNullOrEmpty($RequiredModules))
         If (-not (Get-InstalledModule -Name:($RequiredModule) -ErrorAction:('SilentlyContinue')))
         {
             Write-Host ('Installing module: ' + $RequiredModule)
-            Install-Module -Name:($RequiredModule) -Force -SkipPublisherCheck
+            if ($RequiredModule -eq 'Selenium'){
+                Install-Module -Name:($RequiredModule) -RequiredVersion 3.0.0 -Force -SkipPublisherCheck
+            }
+            else{
+                Install-Module -Name:($RequiredModule) -Force -SkipPublisherCheck
+            }
         }
     }
     ForEach ($RequiredModule In $RequiredModules)
