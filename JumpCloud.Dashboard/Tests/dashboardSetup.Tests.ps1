@@ -2,7 +2,9 @@ BeforeAll {
     Get-UDDashboard | Stop-UDDashboard
     Start-JCDashboard -JumpCloudAPIKey $TestOrgAPIKey -NoUpdate
     Start-Sleep -s 60
-    $Driver = Start-SeFirefox -Headless -Verbose
+    $Driver = Start-SeFirefox -Headless
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+    $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
     $waitTime = 300
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }
