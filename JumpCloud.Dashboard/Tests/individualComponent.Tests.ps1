@@ -1,6 +1,5 @@
 BeforeAll {
     Get-UDDashboard | Stop-UDDashboard
-    # $components = @("system_agentVersion", "system_lastContact", "system_newSystems")
     $components = @("system_agentVersion",
                     "system_lastContact",
                     "system_mfaStatus",
