@@ -5,7 +5,7 @@ BeforeAll {
     $Driver = Start-SeFirefox -Headless
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
     $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
-    $waitTime = 300
+    $waitTime = 600
     $ModuleRootPath = (Get-Item -Path($PSScriptRoot)).Parent.FullName
 }
 Describe 'Build Tests' {

@@ -7,7 +7,7 @@ Describe "Testing GridView" {
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
         $Driver.Manage().Timeouts().Pageload = [TimeSpan]::FromMinutes(3)
         Enter-SeUrl "http://127.0.0.1:8003/Custom" -Driver $Driver
-        $waitTime = 300
+        $waitTime = 600
     }
     Context "Verifying System Dashboard Components" {
         It "Verifies the OS component" {
