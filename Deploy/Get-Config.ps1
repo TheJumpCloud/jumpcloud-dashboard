@@ -3,6 +3,7 @@ $ModuleName = $env:MODULENAME
 $ModuleFolderName = $env:MODULEFOLDERNAME
 $DEPLOYFOLDER = $env:DEPLOYFOLDER
 $RELEASETYPE = $env:RELEASETYPE
+$ScriptRoot = Switch ($env:DEPLOYFOLDER) { $true { $env:DEPLOYFOLDER } Default { $PSScriptRoot } }
 $FolderPath_ModuleRootPath = (Get-Item -Path:($ScriptRoot)).Parent.FullName
 $FilePath_ModuleChangelog = $FolderPath_ModuleRootPath + '/ModuleChangelog.md'
 $GitHubWikiUrl = 'https://github.com/TheJumpCloud/jumpcloud-dashboard/wiki/'
