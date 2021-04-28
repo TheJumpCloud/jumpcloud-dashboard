@@ -137,7 +137,7 @@ Function Start-JCDashboard
     process
     {
         # Setting vars for dynamic params
-
+        Write-Warning -Message "This module has been depreciated, please use your JumpCloud Admin Homepage Portal instead: https://support.jumpcloud.com/support/s/article/JumpCloud-Homepage"
         if ($PSBoundParameters["IncludeComponent"])
         {
             $IncludeComponent = $PSBoundParameters["IncludeComponent"]
