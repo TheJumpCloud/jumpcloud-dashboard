@@ -17,9 +17,9 @@
         <maml:name>Start-JCDashboard</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>JumpCloudApiKey</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
           <dev:type>
             <maml:name>System.String</maml:name>
@@ -29,9 +29,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>LastContactDays</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Include systems that have contacted the JumpCloud directory within this number of days</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
             <maml:name>System.Int32</maml:name>
@@ -41,9 +41,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>EventDays</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Show JumpCloud Directory Insights events that have occurred withing this number of days</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
             <maml:name>System.Int32</maml:name>
@@ -53,9 +53,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>RefreshInterval</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Refresh the components on the dashboard measured in seconds</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
             <maml:name>System.Int32</maml:name>
@@ -65,9 +65,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>Layout</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
           <dev:type>
             <maml:name>System.Object</maml:name>
@@ -77,9 +77,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
           <maml:name>AutoLaunch</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser once started.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Boolean</command:parameterValue>
           <dev:type>
             <maml:name>System.Boolean</maml:name>
@@ -89,9 +89,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
           <maml:name>Port</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Dashboard port to launch on localhost</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
             <maml:name>System.Int32</maml:name>
@@ -101,9 +101,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoUpdate</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Prevent the dashboard module from auto updating</maml:para>
-          </maml:Description>
+          </maml:description>
           <dev:type>
             <maml:name>System.Management.Automation.SwitchParameter</maml:name>
             <maml:uri />
@@ -112,9 +112,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>CycleInterval</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
           <dev:type>
             <maml:name>System.Int32</maml:name>
@@ -124,9 +124,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>ExcludeComponent</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Dashboard Components to exclude</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
           <dev:type>
             <maml:name>System.Array</maml:name>
@@ -136,9 +136,9 @@
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>IncludeComponent</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Dashboard Components to include</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
           <dev:type>
             <maml:name>System.Array</maml:name>
@@ -151,9 +151,9 @@
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>JumpCloudApiKey</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Please enter your JumpCloud API key. This can be found in the JumpCloud admin console within "API Settings" accessible from the drop down icon next to the admin email address in the top right corner of the JumpCloud admin console.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
         <dev:type>
           <maml:name>System.String</maml:name>
@@ -163,9 +163,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>LastContactDays</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Include systems that have contacted the JumpCloud directory within this number of days</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
           <maml:name>System.Int32</maml:name>
@@ -175,9 +175,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>EventDays</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Show JumpCloud Directory Insights events that have occurred withing this number of days</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
           <maml:name>System.Int32</maml:name>
@@ -187,9 +187,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>RefreshInterval</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Refresh the components on the dashboard measured in seconds</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
           <maml:name>System.Int32</maml:name>
@@ -199,9 +199,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>Layout</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify either gridview or singleComponent to display dashboards by component individually. GridView displays components in a single page, singleComponent displays components on individual pages, cycled by the CycleInterval parameter</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Object</command:parameterValue>
         <dev:type>
           <maml:name>System.Object</maml:name>
@@ -211,9 +211,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoUpdate</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Prevent the dashboard module from auto updating</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>System.Management.Automation.SwitchParameter</maml:name>
@@ -223,9 +223,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
         <maml:name>AutoLaunch</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify $true or $false to autolaunch the Dashboard in a browser once started.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Boolean</command:parameterValue>
         <dev:type>
           <maml:name>System.Boolean</maml:name>
@@ -235,9 +235,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
         <maml:name>Port</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Dashboard port to launch on localhost</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
           <maml:name>System.Int32</maml:name>
@@ -247,9 +247,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>CycleInterval</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Cycle between pages on the dashboard measured in seconds</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Int32</command:parameterValue>
         <dev:type>
           <maml:name>System.Int32</maml:name>
@@ -259,9 +259,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>ExcludeComponent</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Dashboard Components to exclude</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
         <dev:type>
           <maml:name>System.Array</maml:name>
@@ -271,9 +271,9 @@
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>IncludeComponent</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Dashboard Components to include</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">System.Array</command:parameterValue>
         <dev:type>
           <maml:name>System.Array</maml:name>
