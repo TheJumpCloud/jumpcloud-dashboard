@@ -1,8 +1,10 @@
 ## JumpCloud Dashboard PowerShell Module
 
-### Description
+### Module Depreciated
 
-**Note** This Module is depreciated and has been replaced by the [JumpCloud Homepage](https://support.jumpcloud.com/support/s/article/JumpCloud-Homepage)
+This Module is depreciated and has been replaced by the [JumpCloud Homepage](https://support.jumpcloud.com/support/s/article/JumpCloud-Homepage)
+
+### Description
 
 This repository contains the code for the JumpCloud.Dashboard PowerShell module. Please feel free to submit PRs or Issues. Additionally, you can contact support@jumpcloud.com to connect with a member of the JumpCloud Success Team.
 
