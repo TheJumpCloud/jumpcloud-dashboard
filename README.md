@@ -1,8 +1,8 @@
 ## JumpCloud Dashboard PowerShell Module
 
-### Module Depreciated
+### Module Deprecated
 
-This Module is depreciated and has been replaced by the [JumpCloud Homepage](https://support.jumpcloud.com/support/s/article/JumpCloud-Homepage)
+This Module is deprecated and has been replaced by the [JumpCloud Homepage](https://support.jumpcloud.com/support/s/article/JumpCloud-Homepage)
 
 ### Description
 
